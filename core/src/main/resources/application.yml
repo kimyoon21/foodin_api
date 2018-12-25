@@ -1,0 +1,5 @@
+logging:
+  level:
+    org.springframework: INFO
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(${PID:- }){magenta}  %clr(---){faint} [%thread, %X{x-request-uid:--}, %X{sessionId:--}] %clr(%logger{35}){cyan} %clr(:){faint} %msg %n"

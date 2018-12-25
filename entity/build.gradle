@@ -1,0 +1,16 @@
+/*
+apply plugin: 'kotlin-jpa'
+
+group rootProject.group
+version rootProject.version
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    compile project(":core")
+    implementation('org.springframework.boot:spring-boot-starter-entity-jpa')
+
+    runtimeOnly('mysql:mysql-connector-java'
+}
+*/
