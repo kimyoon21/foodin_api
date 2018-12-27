@@ -1,21 +1,29 @@
 buildscript {
-    ext {
-        kotlinVersion = '1.2.71'
-        springBootVersion = '2.1.1.RELEASE'
-    }
     repositories {
         mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/plugins-release" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlin_version}")
     }
 }
 
 group = 'app.foodin'
 version = '0.0.1-SNAPSHOT'
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://repo.spring.io/release" }
+        mavenLocal()
+    }
+}
 
 subprojects {
     apply plugin: 'idea'
@@ -37,10 +45,6 @@ subprojects {
             freeCompilerArgs = ["-Xjsr305=strict"]
             jvmTarget = "1.8"
         }
-    }
-
-    repositories {
-        mavenCentral()
     }
 
     dependencies {

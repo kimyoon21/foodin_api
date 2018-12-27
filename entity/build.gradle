@@ -1,5 +1,15 @@
-/*
-apply plugin: 'kotlin-jpa'
+//apply plugin: 'kotlin-jpa'
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        // for Java apt
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+    }
+}
 
 group rootProject.group
 version rootProject.version
@@ -7,10 +17,30 @@ version rootProject.version
 bootJar.enabled = false
 jar.enabled = true
 
+apply plugin: 'kotlin-kapt'
+
 dependencies {
     compile project(":core")
-    implementation('org.springframework.boot:spring-boot-starter-entity-jpa')
 
-    runtimeOnly('mysql:mysql-connector-java'
+    compile('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
+    }
+
+    compile "com.coupang:spring-boot-starter-data-requery:2.0.3"
+//    optional "org.springframework.boot:spring-boot-autoconfigure"
+//    optional "org.springframework.boot:spring-boot-autoconfigure-processor"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile('com.zaxxer:HikariCP:3.1.0')
+
+//    compile('com.coupang:spring-data-requery:2.0.3')
+    compile 'io.requery:requery:1.5.1'
+    annotationProcessor "io.requery:requery-processor:1.5.1"
+    kapt 'io.requery:requery-processor:1.5.1'
+
+    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
+
+    testImplementation("org.springframework.boot:spring-boot-starter-jdbc")
+    testAnnotationProcessor "io.requery:requery-processor"
 }
-*/
