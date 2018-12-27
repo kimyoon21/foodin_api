@@ -1,0 +1,33 @@
+# Spring data source needed for Spring boot to behave
+# Pre Spring Boot v2.0.0.M6 without below Spring Boot defaults to tomcat-jdbc connection pool included
+# in spring-boot-starter-jdbc and as compiled dependency under spring-boot-starter-data-jpa
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mariadb://localhost:4000/foodin
+    username: root
+    password: foodin
+
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 20
+      idle-timeout: 10000 # 10s
+      connection-timeout: 30000 # 30s
+
+  jpa:
+    hibernate:
+      connection.provider_class: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+
+logging:
+  level:
+    org.springframework: INFO
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql.BasicBinder: TRACE
+  console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(${PID:- }){magenta}  %clr(---){faint} [%thread, %X{x-request-uid:--}, %X{sessionId:--}] %clr(%logger{35}){cyan} %clr(:){faint} %msg %n"
