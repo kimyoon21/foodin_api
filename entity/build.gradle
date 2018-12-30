@@ -1,4 +1,5 @@
-//apply plugin: 'kotlin-jpa'
+apply plugin: 'kotlin-jpa'
+
 group rootProject.group
 version rootProject.version
 
@@ -16,7 +17,6 @@ dependencies {
         exclude group: 'org.hibernate', module: 'hibernate-core'
     }
 
-    // Need this in order to get the HikariCPConnectionProvider
     compile('org.hibernate:hibernate-hikaricp:5.2.11.Final') {
         exclude group: 'com.zaxxer', module: 'HikariCP'
         exclude group: 'org.hibernate', module: 'hibernate-core'
