@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @Configuration
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@ComponentScan(basePackages = ["app.foodin.entity"])
-@EntityScan(basePackages = ["app.foodin.entity"])
-@EnableJpaRepositories(basePackages = ["app.foodin.entity"])
+@EntityScan(basePackages = [
+    "app.foodin.entity"
+])
+@EnableJpaRepositories(basePackages = [
+    "app.foodin.entity"
+])
 class TestApplication
