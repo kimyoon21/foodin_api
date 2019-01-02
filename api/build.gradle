@@ -1,9 +1,32 @@
 group rootProject.group
 version rootProject.version
 
+ext {
+    springCloudVersion = 'Greenwich.RC2'
+    swaggerVersion = '2.9.2'
+}
+
+
 dependencies {
     compile project(":core")
+//    compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure')
+//    compile('org.springframework.security:spring-security-oauth2-client')
+//    compile('org.springframework.security:spring-security-jwt:1.0.9.RELEASE')
+//    implementation('org.springframework.boot:spring-boot-starter-security')
+//    implementation('org.springframework.security.oauth:spring-security-oauth2:2.3.4.RELEASE')
 
+    implementation('org.springframework.cloud:spring-cloud-starter-security')
+    implementation('org.springframework.cloud:spring-cloud-starter-oauth2')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-aop')
+
+    // Swagger UI
+    compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+    compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+   
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

@@ -12,6 +12,8 @@ spring:
     user:
       name: user
       password: test
+    oauth2:
+      client:
 #    oauth2:
 #      client:
 #        registration:
@@ -29,26 +31,6 @@ spring:
 #            token-uri: http://localhost:8080/oauth/token
 #            user-info-uri: http://localhost:8080/me
 #            user-name-attribute: name
-
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/foodin?useSSL=false
-    username: root
-    password:
-#    url: jdbc:mysql://carepass-test-db.cd0reodflxjk.ap-northeast-2.rds.amazonaws.com:3306/carepass_test_db?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-#    username: cpuser
-#    password: 1Zpdjvotm:user_db
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming-strategy : org.hibernate.cfg.ImprovedNamingStrategy
-    open-in-view: true
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect : org.hibernate.dialect.MySQL5Dialect
 
 logging:
   level:
