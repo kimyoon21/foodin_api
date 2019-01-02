@@ -13,6 +13,7 @@ spring:
       maximum-pool-size: 20
       idle-timeout: 10000 # 10s
       connection-timeout: 30000 # 30s
+      jdbc-url: jdbc:mariadb://localhost:4000/foodin
 
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
