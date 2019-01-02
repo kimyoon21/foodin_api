@@ -1,6 +1,7 @@
 package app.foodin.entity.user
 
 import app.foodin.entity.TestBase
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,5 +16,13 @@ class UserEntityRepositoryTest : TestBase() {
     fun `simple`() {
         val all = userRepository.findAll()
         println(all)
+    }
+
+    @Test
+    fun `이메일로 검색`() {
+        val jpa = JpaUserRepository(userRepository)
+        val email = "rutesun@gmail.com"
+        val user = jpa.findByEmail(email)
+        Assert.assertEquals(user?.email, email)
     }
 }
