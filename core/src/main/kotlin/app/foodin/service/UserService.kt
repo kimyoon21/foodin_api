@@ -13,4 +13,6 @@ class DefaultUserService(private val userGateway: UserGateway): UserService {
     override fun findByEmail(email: String): User {
         return userGateway.findByEmail(email)!!
     }
+
+
 }

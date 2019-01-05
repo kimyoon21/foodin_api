@@ -15,6 +15,8 @@ data class UserEntity(
     val id: Long,
     var email: String,
     var name: String
+
+
 )
 
 fun UserEntity.toUser(): User {
