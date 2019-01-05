@@ -2,6 +2,7 @@ group rootProject.group
 version rootProject.version
 
 dependencies {
+    compile project(":entity")
     compile project(":core")
 
     implementation('org.springframework.boot:spring-boot-starter-web')

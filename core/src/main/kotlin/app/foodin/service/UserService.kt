@@ -1,6 +1,7 @@
 package app.foodin.service
 
 import app.foodin.domain.User
+import app.foodin.gateway.UserGateway
 import org.springframework.stereotype.Service
 
 interface UserService {
@@ -8,8 +9,8 @@ interface UserService {
 }
 
 @Service
-class DefaultUserService: UserService {
+class DefaultUserService(private val userGateway: UserGateway): UserService {
     override fun findByEmail(email: String): User {
-        return User(email, "송준현")
+        return userGateway.findByEmail(email)!!
     }
 }
