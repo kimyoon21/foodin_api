@@ -1,7 +1,7 @@
-package app.foodin.service
+package app.foodin.core.service
 
-import app.foodin.domain.User
-import app.foodin.gateway.UserGateway
+import app.foodin.core.domain.User
+import app.foodin.core.gateway.UserGateway
 import org.springframework.stereotype.Service
 
 interface UserService {

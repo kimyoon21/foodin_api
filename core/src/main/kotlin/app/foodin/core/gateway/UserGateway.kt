@@ -1,6 +1,6 @@
-package app.foodin.gateway
+package app.foodin.core.gateway
 
-import app.foodin.domain.User
+import app.foodin.core.domain.User
 
 interface UserGateway {
     fun findByEmail(email: String): User?

@@ -1,6 +1,6 @@
 package app.foodin.entity.user
 
-import app.foodin.domain.User
+import app.foodin.core.domain.User
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
