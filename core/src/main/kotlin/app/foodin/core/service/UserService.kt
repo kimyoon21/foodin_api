@@ -9,7 +9,7 @@ interface UserService {
 }
 
 @Service
-class DefaultUserService(private val userGateway: UserGateway): UserService {
+class DefaultUserService(private val userGateway: UserGateway) : UserService {
     override fun findByEmail(email: String): User {
         return userGateway.findByEmail(email)!!
     }
