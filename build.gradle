@@ -23,6 +23,7 @@ allprojects {
         jcenter()
         maven { url "https://repo.spring.io/release" }
         mavenLocal()
+
     }
     apply plugin: 'idea'
     apply plugin: 'kotlin'
