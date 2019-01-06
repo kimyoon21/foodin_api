@@ -51,7 +51,7 @@ class UserController(
     }
 
     fun checkRegisteredUid(snsType: SnsType, uid: String) {
-        userService.findBySnsTypeAndUid(snsType, uid)?.let {
+        userService.findBySnsTypeAndSnsUserId(snsType, uid)?.let {
             throwAlreadyRegistered(listOf(it.snsType.toString()))
         }
     }
@@ -107,17 +107,53 @@ class UserController(
     /***
      * 1. token 에서 access_token , sns_type 등 체크
      * 2. 해당 auth server 에 info 체크
+     * 3. 일치 시 이미 해당 정보 멤버 있는지 확인
+     * 4. 없으면 없다는 response 로 등록 과정 유도
+     * 5. 있으면 로그인 시키고 jwtToken 내려줌
      */
-    @GetMapping(value = "/start")
+    @PostMapping(value = "/start")
     fun checkUserInfoByAccessToken(
             @RequestBody @Valid snsTokenDTO: SnsTokenDTO,
             errors: Errors
     ): ResponseResult {
         // TODO 필드가 null 이거나 맞지 않는 타입일 때 아무런 메시지 없이 400 에러 발생함.
-
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             throw FieldErrorException(errors)
         }
+        // 해당 auth server 에 info 체크
+        if(!checkValidUserInfo(snsTokenDTO)){
+            throw CommonException("인증정보가 일치하지 않습니다.")
+        }
+
+        // 가입되어 있는지 체크
+        val user = userService.findBySnsTypeAndSnsUserId(snsTokenDTO.snsType,snsTokenDTO.snsUserId)
+        user?.let{
+            return ResponseResult("go_to_register")
+        }
+
+        // 로그인 처리
+        userService.loggedIn(user!!)
+
+
+        throw CommonException("데이터가 없습니다.")
+    }
+
+    private fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
+        val resultMap : Map<String,String> = getSnsUserInfo(snsTokenDTO).data as Map<String,String>
+        when(snsTokenDTO.snsType){
+            SnsType.KAKAO -> {
+                val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
+                return snsTokenDTO.snsUserId == kakaoUserId
+            }
+//            SnsType.NAVER ->{}
+//            SnsType.FACEBOOK ->{}
+//            SnsType.EMAIL ->{}
+            else -> return false
+        }
+    }
+
+    private fun getSnsUserInfo(snsTokenDTO: SnsTokenDTO) : ResponseResult {
+
 
         val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDTO.snsType.toString().toLowerCase())
         val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
@@ -135,8 +171,6 @@ class UserController(
         )
         response.body?.let {
             return ResponseResult(it)
-        }
-
-        throw CommonException("데이터가 없습니다.")
+        } ?: throw CommonException("SNS 정보 오류")
     }
 }

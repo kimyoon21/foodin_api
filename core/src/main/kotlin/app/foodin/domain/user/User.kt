@@ -15,6 +15,8 @@ data class User(
 
 ) {
 
+    var id : Long? = null
+    
     var password: String? = null
 
     var snsUserId: String? = null

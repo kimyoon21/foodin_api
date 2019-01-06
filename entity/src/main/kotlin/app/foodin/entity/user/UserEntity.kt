@@ -83,5 +83,24 @@ data class UserEntity(
 }
 
 fun UserEntity.toUser(): User {
-    return User(email = this.email, name = this.name, snsType = this.snsType)
+    return User(email = this.email, name = this.name, snsType = this.snsType).also {
+        it.id = this.id
+        it.snsUserId = this.snsUserId
+        it.password = this.password
+        it.birthFullDay = this.birthFullDay
+        it.birthYear = this.birthYear
+        it.sex = this.sex
+        it.nickName = this.nickName
+        it.authRole = this.authRole
+        it.firstReviewTime = this.firstReviewTime
+        it.phoneNumber = this.phoneNumber
+        it.phoneCountryCode = this.phoneCountryCode
+        it.reviewCount = this.reviewCount
+        it.findCount = this.findCount
+        it.recipeCount = this.recipeCount
+        it.followingCount = this.followingCount
+        it.followerCount = this.followerCount
+        it.agreePolicy = this.agreePolicy
+        it.agreeMarketing = this.agreeMarketing
+    }
 }

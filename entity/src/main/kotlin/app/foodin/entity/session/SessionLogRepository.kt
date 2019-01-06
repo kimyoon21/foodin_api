@@ -1,0 +1,18 @@
+package app.foodin.entity.session
+
+import app.foodin.domain.user.SessionLogGateway
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
+
+@Repository
+interface SessionLogRepository : JpaRepository<SessionLogEntity, Long> {
+}
+
+@Component
+class JpaSessionLogRepository(private val sessionLogRepository: SessionLogRepository) : SessionLogGateway {
+    override fun save(sessionLogEntity: SessionLogEntity) {
+        sessionLogRepository.save(sessionLogEntity)
+    }
+
+}

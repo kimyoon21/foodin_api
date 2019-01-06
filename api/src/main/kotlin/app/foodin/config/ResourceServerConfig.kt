@@ -14,9 +14,9 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
 //        http.headers().frameOptions().disable()
-        http.authorizeRequests().antMatchers("/product/**").authenticated()
-                .anyRequest().permitAll()
-////                .antMatchers("/user","/authorization-code-test").access("#oauth2.hasScope('read')")
-//                .anyRequest().permitAll()
+        http.authorizeRequests()
+//                .antMatchers("/product/**").authenticated()
+//                .antMatchers("/user/start","/user/register").permitAll()
+                .antMatchers("/**").permitAll()
     }
 }
