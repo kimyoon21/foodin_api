@@ -1,14 +1,14 @@
 package app.foodin.controller
 
-import app.foodin.auth.AuthenticationRequest
-import app.foodin.user.SnsType
+import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
-import app.foodin.domain.SnsTokenDTO
-import app.foodin.domain.User
-import app.foodin.service.UserService
+import app.foodin.domain.user.SnsTokenDTO
+import app.foodin.domain.user.User
+import app.foodin.domain.user.UserRegisterDTO
+import app.foodin.domain.user.UserService
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
@@ -51,7 +51,7 @@ class UserController(
     }
 
     fun checkRegisteredUid(snsType: SnsType, uid: String) {
-        userService.findBySnsTypeAndUid(snsType, uid).ifPresent {
+        userService.findBySnsTypeAndUid(snsType, uid)?.let {
             throwAlreadyRegistered(listOf(it.snsType.toString()))
         }
     }
@@ -64,47 +64,42 @@ class UserController(
 
     @PostMapping("/register")
     fun register(
-            @ApiParam(value = "Authentication Request") @RequestBody @Valid authenticationRequest: AuthenticationRequest,
+            @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegisterDTO: UserRegisterDTO,
             @ApiIgnore errors: Errors
     ): ResponseResult {
-        logger.info("authRequest: $authenticationRequest")
+        logger.info("authRequest: $userRegisterDTO")
 
         if(errors.hasErrors()) {
             throw FieldErrorException(errors)
         }
 
 
-        authenticationRequest.email
-                .hasValueOrElseThrow { FieldErrorException(authenticationRequest::email.name, "{ex.need}", "{word.email}") }
+        userRegisterDTO.email
+                .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::email.name, "{ex.need}", "{word.email}") }
                 .let { checkRegisteredEmail(it) }
 
 
-        if(authenticationRequest.snsType != SnsType.EMAIL) {
-            authenticationRequest.uid
-                    .hasValueOrElseThrow { FieldErrorException(authenticationRequest::uid.name, "{ex.need}", "{word.uid}") }
-                    .let { checkRegisteredUid(authenticationRequest.snsType, it) }
+        if(userRegisterDTO.snsType != SnsType.EMAIL) {
+            userRegisterDTO.snsUserId
+                    .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::snsUserId.name, "{ex.need}", "{word.uid}") }
+                    .let { checkRegisteredUid(userRegisterDTO.snsType, it) }
         } else {
-            authenticationRequest.password
-                    .hasValueOrElseThrow { FieldErrorException(authenticationRequest::password.name, "{ex.need}", "{word.password}") }
+            userRegisterDTO.password
+                    .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::password.name, "{ex.need}", "{word.password}") }
                     .let { checkPassword(it) }
         }
 
-        if(!authenticationRequest.agreePolicy) {
-            throw FieldErrorException(authenticationRequest::agreePolicy.name, "{ex.need_to.agree_policy}")
+        if(!userRegisterDTO.agreePolicy) {
+            throw FieldErrorException(userRegisterDTO::agreePolicy.name, "{ex.need_to.agree_policy}")
         }
 
-        authenticationRequest.name
-                .hasValueOrElseThrow { FieldErrorException(authenticationRequest::name.name, "{ex.need}", "{word.name}") }
+        userRegisterDTO.name
+                .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::name.name, "{ex.need}", "{word.name}") }
 
-        return ResponseResult(userService.saveFrom(authenticationRequest))
+        return ResponseResult(userService.saveFrom(userRegisterDTO))
     }
 
-    @RequestMapping(method = [RequestMethod.GET])
-    fun userByEmail(): ResponseEntity<List<User>> {
-        return ResponseEntity.ok(userService.findAll())
-    }
-
-    @RequestMapping(value = "/email", method = [RequestMethod.GET])
+    @GetMapping(value = "/email")
     fun userByEmail(@RequestParam email: String): ResponseEntity<User> {
         return ResponseEntity.ok(userService.findByEmail(email))
     }

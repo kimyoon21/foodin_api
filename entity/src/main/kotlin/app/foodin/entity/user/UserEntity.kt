@@ -1,11 +1,8 @@
 package app.foodin.entity.user
 
-import app.foodin.domain.User
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import app.foodin.common.enums.SnsType
+import app.foodin.domain.user.User
+import javax.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -14,11 +11,13 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     var email: String,
-    var name: String
+    var name: String,
+    @Enumerated(EnumType.STRING)
+    var snsType : SnsType
 
 
 )
 
 fun UserEntity.toUser(): User {
-    return User(email = this.email, name = this.name)
+    return User(email = this.email, name = this.name, snsType = this.snsType)
 }

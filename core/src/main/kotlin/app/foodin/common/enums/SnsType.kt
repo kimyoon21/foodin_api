@@ -1,4 +1,4 @@
-package app.foodin.domain
+package app.foodin.common.enums
 
 enum class SnsType {
 
