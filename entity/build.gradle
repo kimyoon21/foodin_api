@@ -22,7 +22,8 @@ dependencies {
         exclude group: 'org.hibernate', module: 'hibernate-core'
     }
 
-    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
+//    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
+    runtime('mysql:mysql-connector-java')
 
     testImplementation("org.springframework.boot:spring-boot-starter-jdbc")
     testAnnotationProcessor "io.requery:requery-processor"
