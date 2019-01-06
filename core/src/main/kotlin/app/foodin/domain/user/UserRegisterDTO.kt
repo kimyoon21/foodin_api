@@ -2,6 +2,9 @@ package app.foodin.domain.user
 
 import app.foodin.common.enums.Sex
 import app.foodin.common.enums.SnsType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.validation.constraints.Size
 class UserRegisterDTO(
         val email: String,
@@ -10,13 +13,17 @@ class UserRegisterDTO(
 ) {
 
     fun toUser(): User {
-        return User(this.email, this.name, this.snsType).apply {
-            password = this.password
-            snsUserId = this.snsUserId
-            agreePolicy = this.agreePolicy
-            agreeMarketing = this.agreeMarketing
-            birthday = this.birthday
-            sex = this.sex
+        User(this.email, this.name, this.snsType).let{
+
+            it.password = this.password
+            it.snsUserId = this.snsUserId
+            it.agreePolicy = this.agreePolicy
+            it.agreeMarketing = this.agreeMarketing
+            val formatter = DateTimeFormatter.ofPattern("yyMMdd", Locale.KOREAN)
+            it.birthFullDay = LocalDate.parse(birthday, formatter)
+            it.sex = this.sex
+
+            return it
         }
     }
 

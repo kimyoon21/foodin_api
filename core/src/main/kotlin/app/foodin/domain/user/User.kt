@@ -1,17 +1,21 @@
 package app.foodin.domain.user
 
+import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Sex
 import app.foodin.common.enums.SnsType
-import javax.validation.constraints.Size
+import java.sql.Timestamp
+import java.time.LocalDate
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 data class User(
         val email: String,
         val name: String,
         val snsType: SnsType
 
-){
+) {
 
-    var password : String? = null
+    var password: String? = null
 
     var snsUserId: String? = null
 
@@ -19,9 +23,31 @@ data class User(
 
     var agreeMarketing: Boolean = false
 
-    @get:Size(min = 6, max = 6, message = "{validation.size.birthday}")
-    var birthday: String? = null
+    var birthFullDay: LocalDate? = null
 
+    var birthYear: Int? = null
+
+    @Enumerated(EnumType.STRING)
     var sex: Sex? = null
+
+    var nickName: String? = null
+
+    var authRole: AuthRole = AuthRole.USER
+
+    var firstReviewTime: Timestamp? = null
+
+    var phoneNumber: String? = null
+
+    var phoneCountryCode: String? = null
+
+    var reviewCount: Int? = 0
+
+    var findCount: Int? = 0
+
+    var recipeCount: Int? = 0
+
+    var followingCount: Int? = 0
+
+    var followerCount: Int? = 0
 }
 

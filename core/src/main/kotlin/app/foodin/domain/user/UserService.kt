@@ -12,7 +12,7 @@ interface UserService {
 @Service
 class DefaultUserService(private val userGateway: UserGateway) : UserService {
     override fun saveFrom(userRegisterDTO: UserRegisterDTO): User {
-        return userGateway.save(userRegisterDTO.toUser())!!
+        return userGateway.saveFrom(userRegisterDTO.toUser())!!
     }
 
     override fun findByEmail(email: String): User {
