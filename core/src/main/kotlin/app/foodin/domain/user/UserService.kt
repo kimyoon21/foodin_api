@@ -1,7 +1,10 @@
 package app.foodin.domain.user
 
 import app.foodin.common.enums.SnsType
-import app.foodin.entity.session.SessionLogEntity
+import app.foodin.domain.sessionLog.SessionLog
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 interface UserService {
@@ -12,16 +15,21 @@ interface UserService {
 }
 
 @Service
-class DefaultUserService(
+class CustomUserDetailsService(
         private val userGateway: UserGateway,
         private val sessionLogGateway: SessionLogGateway
-) : UserService {
+) : UserService, UserDetailsService{
+    override fun loadUserByUsername(username: String?): UserDetails {
+        return userGateway.findByEmail(username?:"") ?:
+         throw UsernameNotFoundException("User not found")
+    }
+
     override fun loggedIn(user: User) {
 
 
         val jwtToken = "temp"
 
-        sessionLogGateway.save(SessionLogEntity(userId = user.id!!, jwtToken = jwtToken))
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, jwtToken = jwtToken))
     }
 
     override fun saveFrom(userRegisterDTO: UserRegisterDTO): User {

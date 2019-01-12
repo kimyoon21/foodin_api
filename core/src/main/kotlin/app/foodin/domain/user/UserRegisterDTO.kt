@@ -15,7 +15,7 @@ class UserRegisterDTO(
     fun toUser(): User {
         User(this.email, this.name, this.snsType).let{
 
-            it.password = this.password
+            it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
@@ -27,7 +27,7 @@ class UserRegisterDTO(
         }
     }
 
-    var password : String? = null
+    var loginPw : String? = null
 
     var snsUserId: String? = null
 

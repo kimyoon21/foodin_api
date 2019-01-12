@@ -1,13 +1,12 @@
-package app.foodin.entity.session
+package app.foodin.domain.sessionLog
 
-import app.foodin.domain.sessionLog.SessionLog
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
-import javax.persistence.*
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
-@Entity
-@Table(name = "session_log")
-data class SessionLogEntity(
+data class SessionLog(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
@@ -19,8 +18,7 @@ data class SessionLogEntity(
 
 ) {
 
-    constructor(sessionLog: SessionLog) :
-            this(userId = sessionLog.userId, jwtToken = sessionLog.jwtToken)
-}
 
+
+}
 

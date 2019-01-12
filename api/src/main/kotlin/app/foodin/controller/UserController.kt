@@ -84,8 +84,8 @@ class UserController(
                     .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::snsUserId.name, "{ex.need}", "{word.uid}") }
                     .let { checkRegisteredUid(userRegisterDTO.snsType, it) }
         } else {
-            userRegisterDTO.password
-                    .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::password.name, "{ex.need}", "{word.password}") }
+            userRegisterDTO.loginPw
+                    .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::loginPw.name, "{ex.need}", "{word.loginPw}") }
                     .let { checkPassword(it) }
         }
 

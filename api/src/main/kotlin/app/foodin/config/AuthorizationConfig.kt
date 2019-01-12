@@ -2,13 +2,19 @@ package app.foodin.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService
 import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
+import javax.sql.DataSource
+
+
 
 
 /**
@@ -16,7 +22,10 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  */
 @Configuration
 @EnableAuthorizationServer
-class AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
+class AuthorizationConfig (
+        val dataSource : DataSource,
+        val authenticationManager: AuthenticationManager
+): AuthorizationServerConfigurerAdapter() {
 
     private val CLIENT_ID = "foo"
     val CLIENT_SECRET = "{noop}bar"
@@ -29,28 +38,35 @@ class AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
     private val VALID_FOREVER = -1
 
     @Bean
-    fun tokenStore(): TokenStore {
-        return InMemoryTokenStore()
+    fun jdbcTokenStore(): TokenStore {
+        return JdbcTokenStore(dataSource)
     }
     @Throws(Exception::class)
     override fun configure(security: AuthorizationServerSecurityConfigurer) {
 
     }
 
+    @Bean
+    @Primary
+    fun jdbcClientDetailsService(dataSource: DataSource): JdbcClientDetailsService {
+        return JdbcClientDetailsService(dataSource)
+    }
+
+
     @Throws(Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer) {
-        clients
-                .inMemory()
-                .withClient(CLIENT_ID)
-                .secret(CLIENT_SECRET)
-                .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, "client_credentials")
-                .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-                .accessTokenValiditySeconds(VALID_FOREVER)
-                .refreshTokenValiditySeconds(VALID_FOREVER)
+        clients.withClientDetails(jdbcClientDetailsService(dataSource))
+//                .inMemory()
+//                .withClient(CLIENT_ID)
+//                .secret(CLIENT_SECRET)
+//                .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, "client_credentials")
+//                .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+//                .accessTokenValiditySeconds(VALID_FOREVER)
+//                .refreshTokenValiditySeconds(VALID_FOREVER)
     }
 
     @Throws(Exception::class)
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints.tokenStore(tokenStore())
+        endpoints.tokenStore(jdbcTokenStore()).authenticationManager(authenticationManager)
     }
 }

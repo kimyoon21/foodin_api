@@ -2,6 +2,7 @@ package app.foodin.controller
 
 import app.foodin.domain.user.UserService
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
@@ -18,6 +19,9 @@ class ProductController{
 
     @RequestMapping(method = [RequestMethod.GET])
     fun productAll(): ResponseEntity<Product> {
+
+        SecurityContextHolder.getContext().authentication
+
         return ResponseEntity.ok(Product("test"))
     }
 

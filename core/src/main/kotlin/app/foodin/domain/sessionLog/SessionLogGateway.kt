@@ -1,7 +1,7 @@
 package app.foodin.domain.user
 
-import app.foodin.entity.session.SessionLogEntity
+import app.foodin.domain.sessionLog.SessionLog
 
 interface SessionLogGateway {
-    fun save(sessionLogEntity: SessionLogEntity)
+    fun saveFrom(sessionLog: SessionLog)
 }

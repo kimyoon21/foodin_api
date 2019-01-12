@@ -5,7 +5,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -30,5 +30,12 @@ class FoodinApiApplicationTests {
 
         var content = mvcResult.response.contentAsString
         println(content)
+    }
+
+    @Test
+    fun pwEncoding() {
+        val bcr = BCryptPasswordEncoder()
+        val result = bcr.encode("bar")
+        println("암호 === $result")
     }
 }

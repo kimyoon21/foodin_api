@@ -24,12 +24,11 @@ data class UserEntity(
 
     constructor(user: User) : this(null,user.email, user.name, user.snsType) {
         snsUserId = user.snsUserId
-        password = user.password
+        loginPw = user.loginPw
         birthFullDay = user.birthFullDay
         birthYear = user.birthYear
         sex = user.sex
         nickName = user.nickName
-        authRole = user.authRole
         firstReviewTime = user.firstReviewTime
         phoneNumber = user.phoneNumber
         phoneCountryCode = user.phoneCountryCode
@@ -40,12 +39,17 @@ data class UserEntity(
         followerCount = user.followerCount
         agreePolicy = user.agreePolicy
         agreeMarketing = user.agreeMarketing
+        authoritiesStr = user.authoritiesStr
+        enabled = user.enabled
+        credentialsExpired = user.credentialsExpired
+        accountExpired = user.accountExpired
+        accountLocked = user.accountLocked
     }
 
 
     var snsUserId: String? = null
 
-    var password: String? = null
+    var loginPw: String? = null
 
     var birthFullDay: LocalDate? = null
 
@@ -56,8 +60,6 @@ data class UserEntity(
     var sex: Sex? = null
 
     var nickName: String? = null
-
-    var authRole: AuthRole = AuthRole.USER
 
     var firstReviewTime: Timestamp? = null
 
@@ -79,6 +81,15 @@ data class UserEntity(
 
     var agreeMarketing : Boolean = false
 
+    var authoritiesStr: String? = AuthRole.USER.name
+
+    var enabled: Boolean = true
+
+    var credentialsExpired: Boolean = false
+
+    var accountExpired: Boolean = false
+
+    var accountLocked: Boolean = false
 
 }
 
@@ -86,12 +97,11 @@ fun UserEntity.toUser(): User {
     return User(email = this.email, name = this.name, snsType = this.snsType).also {
         it.id = this.id
         it.snsUserId = this.snsUserId
-        it.password = this.password
+        it.loginPw = this.loginPw
         it.birthFullDay = this.birthFullDay
         it.birthYear = this.birthYear
         it.sex = this.sex
         it.nickName = this.nickName
-        it.authRole = this.authRole
         it.firstReviewTime = this.firstReviewTime
         it.phoneNumber = this.phoneNumber
         it.phoneCountryCode = this.phoneCountryCode
@@ -102,5 +112,10 @@ fun UserEntity.toUser(): User {
         it.followerCount = this.followerCount
         it.agreePolicy = this.agreePolicy
         it.agreeMarketing = this.agreeMarketing
+        it.authoritiesStr = this.authoritiesStr
+        it.enabled = this.enabled
+        it.credentialsExpired = this.credentialsExpired
+        it.accountExpired = this.accountExpired
+        it.accountLocked = this.accountLocked
     }
 }
