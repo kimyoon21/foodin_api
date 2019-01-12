@@ -13,7 +13,7 @@ data class SessionLog(
         @CreationTimestamp
         val createTime: Timestamp? = null,
         val userId: Long,
-        val jwtToken: String
+        val token: String
 
 
 ) {

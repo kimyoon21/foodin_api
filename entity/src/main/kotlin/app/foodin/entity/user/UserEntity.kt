@@ -1,7 +1,7 @@
 package app.foodin.entity.user
 
 import app.foodin.common.enums.AuthRole
-import app.foodin.common.enums.Sex
+import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
 import java.sql.Timestamp
@@ -27,7 +27,7 @@ data class UserEntity(
         loginPw = user.loginPw
         birthFullDay = user.birthFullDay
         birthYear = user.birthYear
-        sex = user.sex
+        gender = user.gender
         nickName = user.nickName
         firstReviewTime = user.firstReviewTime
         phoneNumber = user.phoneNumber
@@ -57,7 +57,7 @@ data class UserEntity(
 
     @Enumerated(EnumType.STRING)
 
-    var sex: Sex? = null
+    var gender: Gender? = null
 
     var nickName: String? = null
 
@@ -81,7 +81,7 @@ data class UserEntity(
 
     var agreeMarketing : Boolean = false
 
-    var authoritiesStr: String? = AuthRole.USER.name
+    var authoritiesStr: String? = AuthRole.ROLE_USER.name
 
     var enabled: Boolean = true
 
@@ -100,7 +100,7 @@ fun UserEntity.toUser(): User {
         it.loginPw = this.loginPw
         it.birthFullDay = this.birthFullDay
         it.birthYear = this.birthYear
-        it.sex = this.sex
+        it.gender = this.gender
         it.nickName = this.nickName
         it.firstReviewTime = this.firstReviewTime
         it.phoneNumber = this.phoneNumber

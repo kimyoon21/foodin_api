@@ -1,10 +1,12 @@
 package app.foodin.domain.user
 
 import app.foodin.common.enums.AuthRole
-import app.foodin.common.enums.Sex
+import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.extension.csvToList
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails
+import java.io.Serializable
 import java.sql.Timestamp
 import java.time.LocalDate
 import javax.persistence.EnumType
@@ -15,10 +17,14 @@ class User(
         val name: String,
         val snsType: SnsType
 
-) : UserDetails {
+) : UserDetails , Serializable{
 
     var id : Long? = null
 
+    /****
+     * sns 타입 email 아니면, snsType snsUserId 를 조합해서 생성
+     */
+    @get:JsonIgnore
     var loginPw: String? = null
 
     var snsUserId: String? = null
@@ -32,11 +38,9 @@ class User(
     var birthYear: Int? = null
 
     @Enumerated(EnumType.STRING)
-    var sex: Sex? = null
+    var gender: Gender? = null
 
     var nickName: String? = null
-
-    var authRole: AuthRole = AuthRole.USER
 
     var firstReviewTime: Timestamp? = null
 
@@ -56,7 +60,7 @@ class User(
 
     /*** for UserDetails */
     // auth csv
-    var authoritiesStr: String? = null
+    var authoritiesStr: String? = AuthRole.ROLE_USER.name
 
     var enabled: Boolean = true
 
@@ -67,7 +71,7 @@ class User(
     var accountLocked: Boolean = false
 
     override fun getUsername() = email
-
+    @JsonIgnore
     override fun getPassword() = loginPw
 
     override fun isEnabled() = enabled

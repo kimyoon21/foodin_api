@@ -2,6 +2,6 @@ package app.foodin.common.enums
 
 enum class AuthRole {
 
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 }

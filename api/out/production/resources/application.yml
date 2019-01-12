@@ -4,14 +4,11 @@ spring:
   pid:
     file: spring.pid
   security:
-    user:
-      name: user
-      password: test
     oauth2:
       client:
         registration:
-          my-client:
-            client-name: foodin-api
+          email:
+            client-name: email
             client-id: foodin
             client-secret: foodin1
             client-authentication-method: basic
@@ -35,10 +32,10 @@ spring:
             redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: profile,account_email
         provider:
-          my-client:
-            authorization-uri: http://localhost:8080/oauth/authorize
-            token-uri: http://localhost:8080/oauth/token
-            user-info-uri: http://localhost:8080/me
+          email:
+            authorization-uri: http://localhost:9000/oauth/authorize
+            token-uri: http://localhost:9000/oauth/token
+            user-info-uri: http://localhost:9000/user/me
             user-name-attribute: name
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize

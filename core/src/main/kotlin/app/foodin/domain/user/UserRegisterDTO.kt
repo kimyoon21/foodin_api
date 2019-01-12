@@ -1,10 +1,9 @@
 package app.foodin.domain.user
 
-import app.foodin.common.enums.Sex
+import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.validation.constraints.Size
 class UserRegisterDTO(
         val email: String,
@@ -19,9 +18,10 @@ class UserRegisterDTO(
             it.snsUserId = this.snsUserId
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
-            val formatter = DateTimeFormatter.ofPattern("yyMMdd", Locale.KOREAN)
+            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
             it.birthFullDay = LocalDate.parse(birthday, formatter)
-            it.sex = this.sex
+            it.birthYear = it.birthFullDay?.year
+            it.gender = this.gender
 
             return it
         }
@@ -35,8 +35,8 @@ class UserRegisterDTO(
 
     var agreeMarketing: Boolean = false
 
-    @get:Size(min = 6, max = 6, message = "{validation.size.birthday}")
+    @get:Size(min = 8, max = 8, message = "{validation.size.birthday}")
     var birthday: String? = null
 
-    var sex: Sex? = null
+    var gender: Gender? = null
 }

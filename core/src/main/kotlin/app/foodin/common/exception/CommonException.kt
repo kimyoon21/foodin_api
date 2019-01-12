@@ -5,9 +5,13 @@ open class CommonException(
     val data: Any? = null,
     val msgCode: String,
     val msgArgs: Array<out String>? = null
-) : Exception() {
-
+) : Exception(msgCode) {
     constructor(msgCode: String) : this("INVALID_REQUEST", null, msgCode, null)
+
+    override val message: String?
+        get() = super.message
+
+//    constructor(msgCode: String, msgParam : String) : this(msgCode, null, msgCode, MsgUtil.msg(msgParam))
 }
 
 /***

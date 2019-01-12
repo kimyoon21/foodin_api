@@ -14,13 +14,13 @@ data class SessionLogEntity(
         @CreationTimestamp
         val createTime: Timestamp? = null,
         val userId: Long,
-        val jwtToken: String
+        val token: String
 
 
 ) {
 
     constructor(sessionLog: SessionLog) :
-            this(userId = sessionLog.userId, jwtToken = sessionLog.jwtToken)
+            this(userId = sessionLog.userId, token = sessionLog.token)
 }
 
 

@@ -1,6 +1,6 @@
 package app.foodin.common.enums
 
-enum class Sex {
+enum class Gender {
     MALE,
     FEMALE,
     THIRD

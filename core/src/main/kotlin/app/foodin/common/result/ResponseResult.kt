@@ -3,7 +3,7 @@ package app.foodin.common.result
 import org.springframework.data.domain.Page
 
 open class ResponseResult(
-    var message: String? = null,
+    var message: String? = "succeeded",
     var data: Any? = null
 ) {
 
