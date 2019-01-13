@@ -1,7 +1,7 @@
 package app.foodin.entity.user
 
-import app.foodin.domain.User
-import app.foodin.gateway.UserGateway
+import app.foodin.core.domain.User
+import app.foodin.core.gateway.UserGateway
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
