@@ -6,11 +6,13 @@ import org.springframework.web.context.request.WebRequest
 import javax.servlet.http.HttpServletRequest
 
 class FailureResult(
-    var code: String,
-    var message: String? = null,
-    var data: Any? = null,
-    var ref: Any? = null
-) {
+        var code: String,
+        override var message: String? = null,
+        override var data: Any? = null,
+        var ref: Any? = null
+) : ResponseResult(message,data){
+
+    override val succeeded: Boolean = false
 
     private val logger = LoggerFactory.getLogger(FailureResult::class.java)
 

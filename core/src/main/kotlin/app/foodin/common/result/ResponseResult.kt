@@ -3,9 +3,11 @@ package app.foodin.common.result
 import org.springframework.data.domain.Page
 
 open class ResponseResult(
-    var message: String? = "succeeded",
-    var data: Any? = null
+        open var message: String? = "ok",
+        open var data: Any? = null
 ) {
+
+    open val succeeded : Boolean = true
 
     constructor(successData: Any?) : this(data = successData)
 
