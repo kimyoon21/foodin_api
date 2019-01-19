@@ -11,14 +11,27 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.util.*
-import javax.servlet.http.HttpServletRequest
-
-
 
 
 @ControllerAdvice
 @RestController
 class CustomExceptionHandler : ResponseEntityExceptionHandler() {
+
+//    @ExceptionHandler(Exception::class)
+//    fun handleControllerException(ex: Exception, request: WebRequest): FailureResult {
+//        logger.error(ex.localizedMessage ?: ex.message, ex)
+//
+//        // 공통 처리 후
+//
+//        throw ex
+//    }
+
+    @ExceptionHandler(AccessDeniedException::class)
+    fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): FailureResult {
+        logger.error(ex.localizedMessage, ex)
+
+        return FailureResult(request, "ACCESS_DENIED", ex.localizedMessage!!,null)
+    }
 
     @ExceptionHandler(CommonException::class)
     fun handleCommonException(ex: CommonException, request: WebRequest): FailureResult {
@@ -27,17 +40,10 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         return FailureResult(request, ex, ex.localizedMessage!!)
     }
 
-    @ExceptionHandler(Throwable::class)
-    fun handleControllerException(ex: Throwable, request: HttpServletRequest): FailureResult {
-        logger.error(ex.localizedMessage, ex)
-
-        return FailureResult(request, ex)
-    }
-
     override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         val responseBody = HashMap<String, String>()
         responseBody["path"] = request.contextPath
-        responseBody["message"] = "The URL you have reached is not in service at this time (404)."
+        responseBody["message"] = "뭔 오류여 "
         return ResponseEntity(responseBody, HttpStatus.NOT_FOUND)
     }
 }

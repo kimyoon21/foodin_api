@@ -1,4 +1,4 @@
-package app.foodin.controller
+package app.foodin.api.controller
 
 import app.foodin.domain.user.UserService
 import org.springframework.http.ResponseEntity

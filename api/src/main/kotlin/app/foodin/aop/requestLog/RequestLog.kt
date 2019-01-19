@@ -78,6 +78,14 @@ object RequestLog {
 
     var response: Any? = null
         set(value) {
+            try {
+                if (value is Exception) {
+                    value.initCause(value.cause)
+                }
+            }catch (iae : IllegalArgumentException){
+                // cause == this 무한 중첩 self 참조이므로 막는다 TODO 이거 어찌 처리하지
+                instance().response = (value as Exception).message
+            }
             instance().response = value
         }
 

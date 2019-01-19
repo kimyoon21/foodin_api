@@ -1,7 +1,7 @@
 package app.foodin.core.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
@@ -20,7 +20,7 @@ class BeanConfig : ApplicationContextAware {
 
         private val mapper: ObjectMapper by lazy {
             val mapper = ObjectMapper()
-            val module = SimpleModule()
+            val module = KotlinModule()
             mapper.registerModule(module)
             mapper
         }
