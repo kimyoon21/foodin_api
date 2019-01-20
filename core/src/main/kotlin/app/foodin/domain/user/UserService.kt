@@ -16,6 +16,7 @@ interface UserService {
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
     fun saveFrom(userRegisterDTO: UserRegisterDTO): User
     fun loggedIn(user: User,token:String): UserLoginResultDTO
+    fun findAll() : List<User>
 }
 
 @Service
@@ -23,6 +24,10 @@ class CustomUserDetailsService(
         private val userGateway: UserGateway,
         private val sessionLogGateway: SessionLogGateway
 ) : UserService, UserDetailsService{
+    override fun findAll(): List<User> {
+        return userGateway.findAll()
+    }
+
     override fun loadUserByUsername(username: String?): UserDetails {
         username ?: throw CommonException(EX_NEED)
         val snsType : SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0]?.toUpperCase())

@@ -3,7 +3,6 @@ package kr.co.lendit.proxy
 import app.foodin.aop.ControllerHandler
 import app.foodin.aop.getClientIp
 import app.foodin.aop.requestLog.RequestLog
-import app.foodin.core.annotation.KotlinNoArgsConstructor
 import app.foodin.core.annotation.Loggable
 import app.foodin.servlet.filter.KEY_REQUEST_UID
 import org.slf4j.Logger
@@ -26,7 +25,6 @@ internal object ControllerHandlerFactory {
     }
 }
 
-@KotlinNoArgsConstructor
 internal class DefaultControllerHandler(private val meta: SignatureProcessor) : ControllerHandler {
     override fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog {
         val path = request.requestURI

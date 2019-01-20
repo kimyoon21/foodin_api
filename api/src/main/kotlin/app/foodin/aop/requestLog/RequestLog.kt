@@ -1,6 +1,5 @@
 package app.foodin.aop.requestLog
 
-import app.foodin.core.annotation.KotlinNoArgsConstructor
 import app.foodin.core.config.BeanConfig
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.stereotype.Component
@@ -8,7 +7,6 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 @Component
-@KotlinNoArgsConstructor
 class RequestLogObject {
     var clientIp: String? = null
     var method: String? = null

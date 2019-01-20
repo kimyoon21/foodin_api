@@ -123,6 +123,13 @@ class UserController(
         return ResponseEntity.ok(User("", "", SnsType.EMAIL))
     }
 
+    @GetMapping(value = "")
+    fun getUserList(): ResponseResult {
+        //TODO
+        val list = userService.findAll()
+        return ResponseResult(list = list,total = list.size.toLong(),length = 2,current = 3)
+    }
+
     @PostMapping(value = "/login/email")
     fun emailLogin(
             @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
@@ -254,7 +261,7 @@ class UserController(
                 return ResponseResult(it)
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            logger.error(ex.responseBodyAsString,ex)
+            logger.error(ex.responseBodyAsString, ex)
             throw CommonException("token 및 sns 정보가 정확하지 않습니다.")
         }
     }

@@ -15,7 +15,8 @@ class BeanConfig : ApplicationContextAware {
         context = applicationContext
     }
     companion object {
-        @JvmStatic
+        // 아래 어노테이션은 이 코드를 java 에서사용하기 위한 거니까 우린 없어도 됨 @kimyoon
+//        @JvmStatic
         private lateinit var context: ApplicationContext
 
         private val mapper: ObjectMapper by lazy {

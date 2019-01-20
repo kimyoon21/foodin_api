@@ -7,10 +7,13 @@ open class ResponseResult(
         open var data: Any? = null
 ) {
 
-    open val succeeded : Boolean = true
+    open val succeeded: Boolean = true
 
     constructor(successData: Any?) : this(data = successData)
 
     constructor(page: Page<*>) : this(PagingData(page))
+
+    constructor(list: List<*>, total: Long, length: Int, current: Int) : this(PagingData(list, total, length, current))
+
 
 }

@@ -4,13 +4,12 @@ import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.sql.Timestamp
 import java.time.LocalDate
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
 import javax.persistence.*
+
 
 @Entity
 @Table(name = "user")
@@ -18,7 +17,7 @@ data class UserEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        var email: String,
+        var email: Email,
         var name: String,
         @Enumerated(EnumType.STRING)
         var snsType: SnsType
@@ -26,7 +25,7 @@ data class UserEntity(
 
 ) {
 
-    constructor(user: User) : this(null,user.email, user.name, user.snsType) {
+    constructor(user: User) : this(null, Email(user.email), user.name, user.snsType) {
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birthFullDay = user.birthFullDay
@@ -50,6 +49,13 @@ data class UserEntity(
         accountLocked = user.accountLocked
     }
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    val createdTime: Timestamp? = null
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    val updatedTime: Timestamp? = null
 
     var snsUserId: String? = null
 
@@ -80,9 +86,9 @@ data class UserEntity(
 
     var followerCount: Int? = 0
 
-    var agreePolicy : Boolean = false
+    var agreePolicy: Boolean = false
 
-    var agreeMarketing : Boolean = false
+    var agreeMarketing: Boolean = false
 
     var authoritiesStr: String? = AuthRole.ROLE_USER.name
 
@@ -97,8 +103,9 @@ data class UserEntity(
 }
 
 fun UserEntity.toUser(): User {
-    return User(email = this.email, name = this.name, snsType = this.snsType).also {
+    return User(email = this.email.value, name = this.name, snsType = this.snsType).also {
         it.id = this.id
+        it.createdTime = this.createdTime
         it.snsUserId = this.snsUserId
         it.loginPw = this.loginPw
         it.birthFullDay = this.birthFullDay

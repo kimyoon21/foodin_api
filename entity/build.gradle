@@ -1,4 +1,10 @@
-//apply plugin: 'kotlin-jpa'
+apply plugin: 'kotlin-jpa'
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    annotation "javax.persistence.Entity"
+    annotation "javax.persistence.Embeddable"
+}
 
 group rootProject.group
 version rootProject.version

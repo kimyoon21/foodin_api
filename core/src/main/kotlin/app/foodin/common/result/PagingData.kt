@@ -20,4 +20,13 @@ class PagingData() {
 
     }
 
+    constructor(list : List<*>, total : Long, length:Int = list.size, current:Int = 0) : this() {
+        this.list = list
+        this.total = total
+        this.length = length
+        this.current = current
+
+    }
+
+
 }

@@ -21,6 +21,8 @@ class User(
 
     var id : Long? = null
 
+    var createdTime : Timestamp? = null
+
     /****
      * sns 타입 email 아니면, snsType snsUserId 를 조합해서 생성
      */
