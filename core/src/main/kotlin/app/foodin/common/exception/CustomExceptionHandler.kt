@@ -40,6 +40,13 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         return FailureResult(request, ex, ex.localizedMessage!!)
     }
 
+    @ExceptionHandler(Exception::class)
+    fun handleError(ex: Exception, request: WebRequest): FailureResult {
+        logger.error(ex.localizedMessage, ex)
+
+        return FailureResult(request, ex)
+    }
+
     override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         val responseBody = HashMap<String, String>()
         responseBody["path"] = request.contextPath
