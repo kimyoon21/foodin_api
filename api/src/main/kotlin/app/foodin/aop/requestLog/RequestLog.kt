@@ -61,7 +61,7 @@ object RequestLog {
         return instance().params
     }
 
-    fun calExcuteTime(): Long {
+    fun calExecuteTime(): Long {
         return instance().requestTime?.until(LocalDateTime.now(), ChronoUnit.MILLIS) ?: -1
     }
 
@@ -70,7 +70,7 @@ object RequestLog {
      */
     fun finish(status: Int) {
         val sm = instance()
-        sm.execTime = calExcuteTime()
+        sm.execTime = calExecuteTime()
         sm.status = status
     }
 
