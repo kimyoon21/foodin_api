@@ -5,18 +5,14 @@ import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
-import app.foodin.common.utils.createBasicAuthHeaders
 import app.foodin.core.annotation.Loggable
 import app.foodin.domain.user.*
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory
-import org.springframework.http.*
+import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.RestTemplate
 import springfox.documentation.annotations.ApiIgnore
 import javax.validation.Valid
 
@@ -25,8 +21,8 @@ import javax.validation.Valid
 @RequestMapping("/user")
 @Loggable(result = true, param = true)
 class UserController(
-        private val userService: UserService,
-        private val clientRegistrationRepository: ClientRegistrationRepository
+        private val userService: UserService
+
 ) {
 
     private val logger = LoggerFactory.getLogger(UserController::class.java)
@@ -127,7 +123,7 @@ class UserController(
     fun getUserList(): ResponseResult {
         //TODO
         val list = userService.findAll()
-        return ResponseResult(list = list,total = list.size.toLong(),length = 2,current = 3)
+        return ResponseResult(list = list, total = list.size.toLong(), length = 2, current = 3)
     }
 
     @PostMapping(value = "/login/email")
@@ -136,36 +132,10 @@ class UserController(
             errors: Errors
     ): ResponseResult {
 
-        val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
-        val tokenUri = registration.providerDetails.tokenUri
+        return ResponseResult(userService.emailLogin(emailLoginDTO))
 
-        val restTemplate = RestTemplate()
-        val headers = createBasicAuthHeaders("foo", "bar")
-        headers.contentType = MediaType.APPLICATION_JSON
-        val requestUriParam = "?grant_type=password&client_id=foo&scope=read&username=EMAIL::${emailLoginDTO.email}&password=${emailLoginDTO.loginPw}";
-
-        val entity = HttpEntity(null, headers)
-        try {
-            val response = restTemplate.exchange(
-                    tokenUri + requestUriParam,
-                    HttpMethod.POST,
-                    entity,
-                    Map::class.java
-            )
-
-            response.body?.let {
-                // user 정보 가져오기
-                val user = userService.findByEmail(emailLoginDTO.email) ?: throw CommonException("잘못된 이메일")
-
-                // 로그인 처리
-                val userLoginResultDTO = userService.loggedIn(user, it.get("access_token").toString())
-
-                return ResponseResult(userLoginResultDTO)
-            } ?: throw CommonException("EMAIL 정보 오류")
-        } catch (ex: HttpClientErrorException) {
-            throw CommonException("email 혹은 비밀번호가 잘못되었습니다")
-        }
     }
+
 
     /***
      * 1. token 에서 access_token , sns_type 등 체크
@@ -184,7 +154,7 @@ class UserController(
             throw FieldErrorException(errors)
         }
         // 해당 auth server 에 info 체크
-        if (!checkValidUserInfo(snsTokenDTO)) {
+        if (!userService.checkValidUserInfo(snsTokenDTO)) {
             throw CommonException("인증정보가 일치하지 않습니다.")
         }
 
@@ -193,76 +163,9 @@ class UserController(
                 ?: return ResponseResult("go_to_register")
 
         // 로그인 처리
-        val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
-        val tokenUri = registration.providerDetails.tokenUri
-
-        val restTemplate = RestTemplate()
-        val headers = createBasicAuthHeaders("foo", "bar")
-        headers.contentType = MediaType.APPLICATION_JSON
-        val requestUriParam = "?grant_type=password&client_id=foo&scope=read" +
-                "&username=${snsTokenDTO.snsType}::${snsTokenDTO.snsUserId}&password=pw${snsTokenDTO.snsUserId}";
-
-        val entity = HttpEntity(null, headers)
-        try {
-            val response = restTemplate.exchange(
-                    tokenUri + requestUriParam,
-                    HttpMethod.POST,
-                    entity,
-                    Map::class.java
-            )
-
-            response.body?.let {
-
-                // 로그인 처리
-                val userLoginResultDTO = userService.loggedIn(user, it.get("access_token").toString())
-
-                return ResponseResult(userLoginResultDTO)
-            } ?: throw CommonException("SNS 정보 오류")
-        } catch (ex: HttpClientErrorException) {
-            throw CommonException("token 혹은 userId 가 잘못되었습니다")
-        }
+        return ResponseResult(userService.snsLogin(snsTokenDTO,user))
     }
 
-    private fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
-        val resultMap: Map<String, Object> = getSnsUserInfo(snsTokenDTO).data as Map<String, Object>
-        when (snsTokenDTO.snsType) {
-            SnsType.KAKAO -> {
-                val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
-                return snsTokenDTO.snsUserId == kakaoUserId.toString()
-            }
-//            SnsType.NAVER ->{}
-//            SnsType.FACEBOOK ->{}
-            SnsType.EMAIL -> {
-                throw CommonException("EMAIL 은 /email/login 사용")
-            }
-            else -> return false
-        }
-    }
 
-    private fun getSnsUserInfo(snsTokenDTO: SnsTokenDTO): ResponseResult {
 
-        val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDTO.snsType.toString().toLowerCase())
-        val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
-
-        val restTemplate = RestTemplate()
-
-        val headers = HttpHeaders()
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer ${snsTokenDTO.accessToken}")
-
-        try {
-            val entity = HttpEntity(null, headers)
-            val response = restTemplate.exchange(
-                    userInfoEndpointUri,
-                    HttpMethod.GET,
-                    entity,
-                    Map::class.java
-            )
-            response.body?.let {
-                return ResponseResult(it)
-            } ?: throw CommonException("SNS 정보 오류")
-        } catch (ex: HttpClientErrorException) {
-            logger.error(ex.responseBodyAsString, ex)
-            throw CommonException("token 및 sns 정보가 정확하지 않습니다.")
-        }
-    }
 }
