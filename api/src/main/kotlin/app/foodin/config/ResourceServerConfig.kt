@@ -6,13 +6,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
 
+
 /**
  * Resource Server
  */
 @Configuration
 @EnableResourceServer
 class ResourceServerConfig(
-        val accessDeniedHandler : CustomAccessDeniedHandler
+        val accessDeniedHandler: CustomAccessDeniedHandler
 ) : ResourceServerConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -23,7 +24,7 @@ class ResourceServerConfig(
 //                .antMatchers("/product/**").authenticated()
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
-                .antMatchers("/user/login/**","/user/register").permitAll()
+                .antMatchers("/user/login/**", "/user/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
                 .antMatchers("/**").authenticated()
                 .and()
