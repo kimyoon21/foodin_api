@@ -9,17 +9,19 @@ class UserLoginResultDTO(
         val nickName: String,
         val snsType: SnsType,
         var accessToken: String,
+        var refeshToken: String,
         var expireTime: Timestamp
 
 ) {
 
 
-    constructor(user: User, accessToken: String, expireTime: Timestamp) : this(
+    constructor(user: User, accessToken: String, refeshToken: String, expireTime: Timestamp) : this(
             email = user.email,
             name = user.name,
             nickName = user.nickName?:user.name,
             snsType = user.snsType,
             accessToken = accessToken,
+            refeshToken = refeshToken,
             expireTime = expireTime)
 
 

@@ -13,7 +13,8 @@ data class SessionLog(
         @CreationTimestamp
         val createTime: Timestamp? = null,
         val userId: Long,
-        val token: String
+        val token: String,
+        val expireTime : Timestamp
 
 
 ) {

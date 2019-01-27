@@ -72,6 +72,6 @@ class AuthorizationConfig(
 
     @Throws(Exception::class)
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints.tokenStore(jwtTokenStore()).authenticationManager(authenticationManager)
+        endpoints.tokenStore(jwtTokenStore()).accessTokenConverter(accessTokenConverter()).authenticationManager(authenticationManager)
     }
 }

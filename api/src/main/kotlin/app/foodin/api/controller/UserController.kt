@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
+import java.security.Principal
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 
@@ -114,13 +116,12 @@ class UserController(
     }
 
     @GetMapping(value = "/me")
-    fun getMe(): ResponseEntity<User> {
-        //TODO
-        return ResponseEntity.ok(User("", "", SnsType.EMAIL))
+    fun getMe(principal : Principal, httpServletRequest: HttpServletRequest): ResponseResult {
+        return ResponseResult(userService.findByEmail(principal.name))
     }
 
     @GetMapping(value = "")
-    fun getUserList(): ResponseResult {
+    fun getUserList(principal: Principal): ResponseResult {
         //TODO
         val list = userService.findAll()
         return ResponseResult(list = list, total = list.size.toLong(), length = 2, current = 3)

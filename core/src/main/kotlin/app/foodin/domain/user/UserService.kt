@@ -6,7 +6,6 @@ import app.foodin.common.exception.EX_NEED
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
-import app.foodin.common.utils.getNDayAgo
 import app.foodin.domain.sessionLog.SessionLog
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
@@ -17,19 +16,22 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
 import org.springframework.stereotype.Service
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
+import java.sql.Timestamp
+import java.util.*
 
 interface UserService {
     fun findByEmail(email: String): User?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
     fun saveFrom(userRegisterDTO: UserRegisterDTO): User
-    fun loggedIn(user: User,token:String): UserLoginResultDTO
-    fun findAll() : List<User>
-    fun emailLogin(emailLoginDTO: EmailLoginDTO) : UserLoginResultDTO
-    fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User) : UserLoginResultDTO
-    fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO) : Boolean
+    fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO
+    fun findAll(): List<User>
+    fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
+    fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO
+    fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean
 }
 
 @Service
@@ -37,7 +39,7 @@ class CustomUserDetailsService(
         private val userGateway: UserGateway,
         private val sessionLogGateway: SessionLogGateway,
         private val clientRegistrationRepository: ClientRegistrationRepository
-) : UserService, UserDetailsService{
+) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)
 
@@ -47,18 +49,20 @@ class CustomUserDetailsService(
 
     override fun loadUserByUsername(username: String?): UserDetails {
         username ?: throw CommonException(EX_NEED)
-        val snsType : SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0]?.toUpperCase())
-        val snsUserId = username.replaceFirst(snsType.name+ USERNAME_SEPERATOR, "")
+        val snsType: SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0]?.toUpperCase())
+        val snsUserId = username.replaceFirst(snsType.name + USERNAME_SEPERATOR, "")
 
-        return userGateway.findBySnsTypeAndSnsUserId(snsType,snsUserId) ?:
-         throw UsernameNotFoundException("User not found")
+        return userGateway.findBySnsTypeAndSnsUserId(snsType, snsUserId)
+                ?: throw UsernameNotFoundException("User not found")
     }
 
-    override fun loggedIn(user: User, token : String) : UserLoginResultDTO {
+    override fun loggedIn(user: User, accessToken: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
 
-        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token))
+        val expireTime = Timestamp(expiration.time)
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = accessToken, expireTime = expireTime))
 
-        return UserLoginResultDTO(user,token, getNDayAgo(-5))
+        return UserLoginResultDTO(user, accessToken, refreshToken, expireTime)
+
     }
 
     override fun saveFrom(userRegisterDTO: UserRegisterDTO): User {
@@ -73,7 +77,7 @@ class CustomUserDetailsService(
         return userGateway.findBySnsTypeAndSnsUserId(snsType, uid)
     }
 
-    override fun emailLogin(emailLoginDTO: EmailLoginDTO) : UserLoginResultDTO{
+    override fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO {
         val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
         val tokenUri = registration.providerDetails.tokenUri
 
@@ -88,7 +92,7 @@ class CustomUserDetailsService(
                     tokenUri + requestUriParam,
                     HttpMethod.POST,
                     entity,
-                    Map::class.java
+                    DefaultOAuth2AccessToken::class.java
             )
 
             response.body?.let {
@@ -96,14 +100,14 @@ class CustomUserDetailsService(
                 val user = findByEmail(emailLoginDTO.email) ?: throw CommonException("잘못된 이메일")
 
                 // 로그인 처리
-                return loggedIn(user, it.get("access_token").toString())
+                return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("EMAIL 정보 오류")
         } catch (ex: HttpClientErrorException) {
             throw CommonException("email 혹은 비밀번호가 잘못되었습니다")
         }
     }
 
-    override fun snsLogin(snsTokenDTO: SnsTokenDTO,user: User) : UserLoginResultDTO{
+    override fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO {
         // 로그인 처리
         val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
         val tokenUri = registration.providerDetails.tokenUri
@@ -120,14 +124,13 @@ class CustomUserDetailsService(
                     tokenUri + requestUriParam,
                     HttpMethod.POST,
                     entity,
-                    Map::class.java
+                    DefaultOAuth2AccessToken::class.java
             )
 
             response.body?.let {
 
                 // 로그인 처리
-
-                return loggedIn(user, it.get("access_token").toString())
+                return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
             throw CommonException("token 혹은 userId 가 잘못되었습니다")
