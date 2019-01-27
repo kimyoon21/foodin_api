@@ -1,6 +1,5 @@
 package app.foodin.servlet.filter
 
-import app.foodin.common.utils.MDCUtils
 import app.foodin.servlet.MultiReadableHttpServletRequest
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
@@ -18,7 +17,6 @@ class MultiReadableHttpServletRequestFilter : Filter {
 
         chain.doFilter(multiReadRequest, res)
 
-        MDCUtils.clear()
     }
 
     override fun init(filterConfig: FilterConfig?) {}

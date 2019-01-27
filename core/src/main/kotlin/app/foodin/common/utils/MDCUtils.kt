@@ -22,7 +22,11 @@ object MDCUtils {
     val DEVICE_TYPE = "DEVICE_TYPE"
     val PUSH_TOKEN = "PUSH_TOKEN"
     val AUTH_SKIP_CASE = "AUTH_SKIP_CASE"
+    val USERNAME = "USERNAME"
     val USER_ID = "USER_ID"
+    val USER_LOGIN_ID = "USER_LOGIN_ID"
+    val USER_REAL_NAME = "USER_REAL_NAME"
+    val USER_NICK_NAME = "USER_NICK_NAME"
     val KEY_REQUEST_UID = "x-request-uid"
     val API_ID = "API_ID"
     val SESSION_ID = "SESSION_ID"
@@ -50,6 +54,10 @@ object MDCUtils {
     }
 
     operator fun get(key: String): String {
+        return mdc.get(key)
+    }
+
+    fun getOrEmpty(key: String): String {
         return mdc.get(key) ?: ""
     }
 

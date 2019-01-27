@@ -1,30 +1,27 @@
 package app.foodin.api.controller
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
+
 @RestController
-@RequestMapping("/product")
-class ProductController {
+@RequestMapping("/admin")
+class AdminController{
+
+    private val logger = LoggerFactory.getLogger(AdminController::class.java)
 
     @RequestMapping(method = [RequestMethod.GET])
-    fun productAll(): ResponseEntity<Product> {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    fun productAll(): ResponseEntity<String> {
 
         SecurityContextHolder.getContext().authentication
 
-        return ResponseEntity.ok(Product("test"))
+        return ResponseEntity.ok("admin")
     }
 
-    @PostMapping
-    fun productReg(product: Product): ResponseEntity<Product> {
-        return ResponseEntity.ok(Product("test"))
-    }
-
-    class Product(val name: String) {
-
-    }
 }

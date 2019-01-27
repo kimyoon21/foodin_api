@@ -59,10 +59,9 @@ class RequestControllerProxy {
             controllerHandler.preControllerHandler(log, request, args)
             result = joinPoint.proceed()
         } catch (e: Throwable) {
-            log.info("Error at [${signature.declaringTypeName} : ${signature.name}]", e)
+            log.error("Error at [${signature.declaringTypeName} : ${signature.name}]", e)
             result = e
-            // 에러로그 2중으로 뿌려줌 에러는 exception handler 에서 처리
-//            throw e
+            throw e
         } finally {
             // Status Logging
             controllerHandler.completeControllerHandler(log, request, result)
