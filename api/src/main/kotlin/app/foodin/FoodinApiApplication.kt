@@ -7,7 +7,8 @@ import org.springframework.context.annotation.PropertySources
 
 @SpringBootApplication(scanBasePackages = ["app.foodin"])
 @PropertySources(
-    PropertySource(value = "classpath:entity.properties")
+    PropertySource(value = "classpath:entity.properties"),
+    PropertySource(value = "classpath:entity-\${spring.profiles.active:}.properties", ignoreResourceNotFound = true)
 )
 class FoodinApiApplication
 
