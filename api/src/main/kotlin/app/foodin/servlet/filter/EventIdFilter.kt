@@ -1,17 +1,15 @@
 package app.foodin.servlet.filter
 
+import app.foodin.common.utils.MDCUtils
+import app.foodin.common.utils.MDCUtils.API_ID
+import app.foodin.common.utils.MDCUtils.KEY_REQUEST_UID
 import org.apache.commons.lang3.StringUtils
-import org.slf4j.MDC
 import org.springframework.stereotype.Component
-import java.util.UUID
-import javax.servlet.Filter
-import javax.servlet.FilterChain
-import javax.servlet.FilterConfig
-import javax.servlet.ServletRequest
-import javax.servlet.ServletResponse
+import java.util.*
+import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 
-const val KEY_REQUEST_UID = "x-request-uid"
+
 @Component
 class EventIdFilter : Filter {
     override fun destroy() {}
@@ -22,13 +20,11 @@ class EventIdFilter : Filter {
             eventId = UUID.randomUUID().toString()
         }
 
-        MDC.put("apiId", "$eventId : $path")
-        MDC.put(KEY_REQUEST_UID, eventId)
+        MDCUtils[API_ID] = "$eventId : $path"
+        MDCUtils[KEY_REQUEST_UID] = eventId
 
         chain.doFilter(request, response)
 
-        MDC.remove("apiId")
-        MDC.remove(KEY_REQUEST_UID)
     }
     override fun init(filterConfig: FilterConfig) {}
 }
