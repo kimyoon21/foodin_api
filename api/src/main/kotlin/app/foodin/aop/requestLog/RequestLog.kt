@@ -1,6 +1,5 @@
 package app.foodin.aop.requestLog
 
-import app.foodin.core.annotation.KotlinNoArgsConstructor
 import app.foodin.core.config.BeanConfig
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.stereotype.Component
@@ -8,7 +7,6 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 @Component
-@KotlinNoArgsConstructor
 class RequestLogObject {
     var clientIp: String? = null
     var method: String? = null
@@ -63,7 +61,7 @@ object RequestLog {
         return instance().params
     }
 
-    fun calExcuteTime(): Long {
+    fun calExecuteTime(): Long {
         return instance().requestTime?.until(LocalDateTime.now(), ChronoUnit.MILLIS) ?: -1
     }
 
@@ -72,12 +70,20 @@ object RequestLog {
      */
     fun finish(status: Int) {
         val sm = instance()
-        sm.execTime = calExcuteTime()
+        sm.execTime = calExecuteTime()
         sm.status = status
     }
 
     var response: Any? = null
         set(value) {
+            try {
+                if (value is Exception) {
+                    value.initCause(value.cause)
+                }
+            }catch (iae : IllegalArgumentException){
+                // cause == this 무한 중첩 self 참조이므로 막는다 TODO 이거 어찌 처리하지
+                instance().response = (value as Exception).message
+            }
             instance().response = value
         }
 

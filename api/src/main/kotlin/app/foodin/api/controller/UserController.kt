@@ -6,7 +6,6 @@ import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.createBasicAuthHeaders
-
 import app.foodin.core.annotation.Loggable
 import app.foodin.domain.user.*
 import io.swagger.annotations.ApiParam
@@ -124,7 +123,14 @@ class UserController(
         return ResponseEntity.ok(User("", "", SnsType.EMAIL))
     }
 
-    @PostMapping(value = "/email/login")
+    @GetMapping(value = "")
+    fun getUserList(): ResponseResult {
+        //TODO
+        val list = userService.findAll()
+        return ResponseResult(list = list,total = list.size.toLong(),length = 2,current = 3)
+    }
+
+    @PostMapping(value = "/login/email")
     fun emailLogin(
             @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
             errors: Errors
@@ -168,7 +174,7 @@ class UserController(
      * 4. 없으면 없다는 response 로 등록 과정 유도
      * 5. 있으면 로그인 시키고 jwtToken 내려줌
      */
-    @PostMapping(value = "/sns/login")
+    @PostMapping(value = "/login/sns")
     fun checkUserInfoByAccessToken(
             @RequestBody snsTokenDTO: SnsTokenDTO,
             errors: Errors
@@ -235,23 +241,28 @@ class UserController(
 
     private fun getSnsUserInfo(snsTokenDTO: SnsTokenDTO): ResponseResult {
 
-
         val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDTO.snsType.toString().toLowerCase())
         val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
 
         val restTemplate = RestTemplate()
+
         val headers = HttpHeaders()
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer ${snsTokenDTO.accessToken}")
 
-        val entity = HttpEntity(null, headers)
-        val response = restTemplate.exchange(
-                userInfoEndpointUri,
-                HttpMethod.GET,
-                entity,
-                Map::class.java
-        )
-        response.body?.let {
-            return ResponseResult(it)
-        } ?: throw CommonException("SNS 정보 오류")
+        try {
+            val entity = HttpEntity(null, headers)
+            val response = restTemplate.exchange(
+                    userInfoEndpointUri,
+                    HttpMethod.GET,
+                    entity,
+                    Map::class.java
+            )
+            response.body?.let {
+                return ResponseResult(it)
+            } ?: throw CommonException("SNS 정보 오류")
+        } catch (ex: HttpClientErrorException) {
+            logger.error(ex.responseBodyAsString, ex)
+            throw CommonException("token 및 sns 정보가 정확하지 않습니다.")
+        }
     }
 }

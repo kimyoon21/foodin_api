@@ -28,7 +28,6 @@ allprojects {
     }
     apply plugin: 'idea'
     apply plugin: 'kotlin'
-    apply plugin: "kotlin-noarg"
     apply plugin: "org.jmailen.kotlinter"
 
     compileKotlin {
@@ -57,9 +56,9 @@ subprojects {
     apply plugin: 'kotlin-spring'
     apply plugin: 'io.spring.dependency-management'
 
-    noArg {
-        annotation("app.foodin.core.annotation.KotlinNoArgsConstructor")
-    }
+//    noArg {
+//        annotation("app.foodin.core.annotation.KotlinNoArgsConstructor")
+//    }
 
 
     ext {

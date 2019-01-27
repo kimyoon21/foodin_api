@@ -3,8 +3,8 @@ package kr.co.lendit.proxy
 import app.foodin.aop.ControllerHandler
 import app.foodin.aop.getClientIp
 import app.foodin.aop.requestLog.RequestLog
-import app.foodin.core.annotation.KotlinNoArgsConstructor
 import app.foodin.core.annotation.Loggable
+import app.foodin.core.config.BeanConfig
 import app.foodin.servlet.filter.KEY_REQUEST_UID
 import org.slf4j.Logger
 import org.slf4j.MDC
@@ -26,20 +26,31 @@ internal object ControllerHandlerFactory {
     }
 }
 
-@KotlinNoArgsConstructor
 internal class DefaultControllerHandler(private val meta: SignatureProcessor) : ControllerHandler {
     override fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog {
         val path = request.requestURI
+        val method = request.method
+        var headMapStr =
+                try {
+                    val headerNames = request.headerNames
+                    val headerMap = mutableMapOf<String, String>()
+                    headerNames.toList().map { headerMap.put(it, request.getHeader(it)) }
+                    BeanConfig.getObjectMapper().writeValueAsString(headerMap)
+                } catch (e: Exception) {
+                    "" // 빈스트링
+                }
 
         val clientIp = request.getClientIp()
-
-        RequestLog.start(method = request.method, path = path, eventId = MDC.get(KEY_REQUEST_UID), clientIp = clientIp)
+        logger.info("====== REQUEST START(uri : {} - {}, ip : {} , headers : {} )", method, path, clientIp, headMapStr)
+        RequestLog.start(method = method, path = path, eventId = MDC.get(KEY_REQUEST_UID), clientIp = clientIp)
         return RequestLog
     }
 
     override fun completeControllerHandler(logger: Logger, request: HttpServletRequest, response: Any?): RequestLog {
         var status = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).response?.status
-        logger.info("REQUEST END({}, {} ms)", request.requestURI, RequestLog.calExcuteTime())
+        val path = request.requestURI
+        val method = request.method
+        logger.info("====== REQUEST END(uri : {} - {}, executeTime : {} ms)", method, path, RequestLog.calExecuteTime())
         RequestLog.finish(status ?: 0)
         return RequestLog
     }

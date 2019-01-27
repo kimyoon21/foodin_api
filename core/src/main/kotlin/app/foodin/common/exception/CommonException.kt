@@ -5,7 +5,7 @@ open class CommonException(
     val data: Any? = null,
     val msgCode: String,
     val msgArgs: Array<out String>? = null
-) : Exception(msgCode) {
+) : RuntimeException(msgCode) {
     constructor(msgCode: String) : this("INVALID_REQUEST", null, msgCode, null)
 
     override val message: String?
