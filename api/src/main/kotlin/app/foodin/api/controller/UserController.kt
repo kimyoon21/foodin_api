@@ -60,6 +60,17 @@ class UserController(
         }
     }
 
+    @PutMapping("/{id}")
+    fun update(@ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegisterDTO,
+               @PathVariable("id") userId : Long,
+               @ApiIgnore errors: Errors
+    ): ResponseResult {
+        logger.info("authRequest: $userUpdateDTO")
+
+
+        return ResponseResult()
+    }
+
     @PostMapping("/register")
     fun register(
             @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegisterDTO: UserRegisterDTO,
