@@ -1,6 +1,8 @@
 server:
   port: ${PORT:5000}
 spring:
+  profiles:
+    active: local
   pid:
     file: spring.pid
   security:
@@ -36,7 +38,7 @@ spring:
             authorization-uri: http://localhost:5000/oauth/authorize
             token-uri: http://localhost:5000/oauth/token
             user-info-uri: http://localhost:5000/user/me
-            user-name-attribute: name
+            user-name-attribute: realName
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
             token-uri: https://kauth.kakao.com/oauth/token
@@ -57,7 +59,7 @@ messages:
 
 logging:
   level:
-    org.springframework: INFO
+    org.springframework: DEBUG
     com.zaxxer.hikari.HikariConfig: DEBUG
   pattern:
     # default : %clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
