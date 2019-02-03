@@ -7,12 +7,12 @@ import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
 class UserRegisterDTO(
         val email: String,
-        val name: String,
+        val realName: String,
         val snsType: SnsType
 ) {
 
     fun toUser(): User {
-        User(this.email, this.name, this.snsType).let{
+        User(this.email, this.realName, this.snsType).let{
 
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId

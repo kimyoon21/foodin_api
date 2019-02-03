@@ -5,7 +5,7 @@ import java.sql.Timestamp
 
 class UserLoginResultDTO(
         val email: String,
-        val name: String,
+        val realName: String,
         val nickName: String,
         val snsType: SnsType,
         var accessToken: String,
@@ -17,8 +17,8 @@ class UserLoginResultDTO(
 
     constructor(user: User, accessToken: String, refeshToken: String, expireTime: Timestamp) : this(
             email = user.email,
-            name = user.name,
-            nickName = user.nickName?:user.name,
+            realName = user.realName,
+            nickName = user.nickName?:user.realName,
             snsType = user.snsType,
             accessToken = accessToken,
             refeshToken = refeshToken,

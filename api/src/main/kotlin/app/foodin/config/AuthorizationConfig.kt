@@ -11,10 +11,15 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 import javax.sql.DataSource
+
+
+
+
 
 /**
  * Authorization Server
@@ -23,7 +28,8 @@ import javax.sql.DataSource
 @EnableAuthorizationServer
 class AuthorizationConfig(
         val dataSource: DataSource,
-        val authenticationManager: AuthenticationManager
+        val authenticationManager: AuthenticationManager,
+        val customJwtTokenEnhancer: CustomJwtTokenEnhancer
 ) : AuthorizationServerConfigurerAdapter() {
 
     @Bean
@@ -33,6 +39,7 @@ class AuthorizationConfig(
 //        val keyPair = KeyStoreKeyFactory(ClassPathResource("server.jks"), "passtwo".toCharArray())
 //                .getKeyPair("auth", "passone".toCharArray())
 //        converter.setKeyPair(keyPair)
+
         return converter
     }
 
@@ -72,6 +79,13 @@ class AuthorizationConfig(
 
     @Throws(Exception::class)
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints.tokenStore(jwtTokenStore()).accessTokenConverter(accessTokenConverter()).authenticationManager(authenticationManager)
+        val enhancerChain = TokenEnhancerChain()
+
+        enhancerChain.setTokenEnhancers(listOf(customJwtTokenEnhancer, accessTokenConverter()))
+        endpoints.
+                tokenStore(jwtTokenStore())
+                .tokenEnhancer(enhancerChain)
+//                .accessTokenConverter(accessTokenConverter())
+                .authenticationManager(authenticationManager)
     }
 }
