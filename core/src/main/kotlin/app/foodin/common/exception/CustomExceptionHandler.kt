@@ -5,8 +5,8 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.AccessDeniedException
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
@@ -26,28 +26,28 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(AccessDeniedException::class)
     fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): FailureResult {
-        logger.info(" ****** AccessDeniedException : " +ex.localizedMessage)
-        return FailureResult(request,"AUTH_FAILED", ex.localizedMessage,null)
+        logger.info(" ****** AccessDeniedException : " + ex.localizedMessage)
+        return FailureResult(request, "AUTH_FAILED", ex.localizedMessage, null)
     }
 
     @ExceptionHandler(Exception::class)
     fun handleExceptions(ex: Exception, request: WebRequest): FailureResult {
-        logger.info(" ****** other Exceptions : " +ex.localizedMessage)
+        logger.info(" ****** other Exceptions : " + ex.localizedMessage)
         return FailureResult(request, ex)
     }
 
     override fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
-        logger.info(" ****** HttpMessageNotReadableException : " +ex.localizedMessage)
-        val failureResult = FailureResult(EX_INVALID_REQUEST,"잘못된 입력값이 있습니다",null,null,null)
+        logger.info(" ****** HttpMessageNotReadableException : " + ex.localizedMessage)
+        val failureResult = FailureResult(EX_INVALID_REQUEST, "입력값이 잘못되거나 부족합니다", null, null, null)
         val cause = ex.cause
-        if( cause is MissingKotlinParameterException){
+        if (cause is MissingKotlinParameterException) {
             failureResult.debugMessage = cause.path[0].description
         }
-        return ResponseEntity(failureResult,HttpStatus.BAD_REQUEST)
+        return ResponseEntity(failureResult, HttpStatus.BAD_REQUEST)
     }
 
     override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
-        logger.info(" ****** NoHandlerFoundException : " +ex.localizedMessage)
+        logger.info(" ****** NoHandlerFoundException : " + ex.localizedMessage)
         val responseBody = HashMap<String, String>()
         responseBody["path"] = request.contextPath
         responseBody["message"] = "뭔 오류여 "
