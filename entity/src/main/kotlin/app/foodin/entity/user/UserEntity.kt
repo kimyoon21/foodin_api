@@ -7,7 +7,6 @@ import app.foodin.domain.user.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.sql.Timestamp
-import java.time.LocalDate
 import javax.persistence.*
 
 
@@ -17,22 +16,23 @@ data class UserEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        var email: Email,
-        var name: String,
+        var email: String,
+        var realName: String,
         @Enumerated(EnumType.STRING)
         var snsType: SnsType
 
 
 ) {
 
-    constructor(user: User) : this(null, Email(user.email), user.name, user.snsType) {
+    constructor(user: User) : this(null, user.email, user.realName, user.snsType) {
         snsUserId = user.snsUserId
         loginPw = user.loginPw
-        birthFullDay = user.birthFullDay
-        birthYear = user.birthYear
+        birth = Birth(user.birthFullDay)
         gender = user.gender
         nickName = user.nickName
-        firstReviewTime = user.firstReviewTime
+        firstFoodRegTime = user.firstFoodRegTime
+        firstReviewRegTime = user.firstReviewRegTime
+        firstRecipeRegTime = user.firstRecipeRegTime
         phoneNumber = user.phoneNumber
         phoneCountryCode = user.phoneCountryCode
         reviewCount = user.reviewCount
@@ -61,16 +61,18 @@ data class UserEntity(
 
     var loginPw: String? = null
 
-    var birthFullDay: LocalDate? = null
-
-    var birthYear: Int? = null
+    var birth : Birth? = null
 
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
 
     var nickName: String? = null
 
-    var firstReviewTime: Timestamp? = null
+    var firstFoodRegTime: Timestamp? = null
+
+    var firstReviewRegTime: Timestamp? = null
+
+    var firstRecipeRegTime: Timestamp? = null
 
     var phoneNumber: String? = null
 
@@ -103,16 +105,18 @@ data class UserEntity(
 }
 
 fun UserEntity.toUser(): User {
-    return User(email = this.email.value, name = this.name, snsType = this.snsType).also {
+    return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
         it.id = this.id
         it.createdTime = this.createdTime
         it.snsUserId = this.snsUserId
         it.loginPw = this.loginPw
-        it.birthFullDay = this.birthFullDay
-        it.birthYear = this.birthYear
+        it.birthFullDay = this.birth?.birthFullDay
+        it.birthYear = this.birth?.birthYear
         it.gender = this.gender
         it.nickName = this.nickName
-        it.firstReviewTime = this.firstReviewTime
+        it.firstFoodRegTime = this.firstFoodRegTime
+        it.firstReviewRegTime = this.firstReviewRegTime
+        it.firstRecipeRegTime = this.firstRecipeRegTime
         it.phoneNumber = this.phoneNumber
         it.phoneCountryCode = this.phoneCountryCode
         it.reviewCount = this.reviewCount
