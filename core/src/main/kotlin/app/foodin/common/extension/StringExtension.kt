@@ -10,11 +10,11 @@ import app.foodin.common.exception.CommonException
  *  .let { checkRegisteredEmail(it) }
  * ```
  */
-inline fun String.csvToList(): List<String> {
+fun String.csvToList(): List<String> {
     return this.split(",").map { it.trim() }
 }
 
-inline fun String?.hasValue(): Boolean {
+fun String?.hasValue(): Boolean {
     return this != null && !this.isEmpty()
 }
 
@@ -25,7 +25,7 @@ inline fun String?.hasValue(): Boolean {
  * @param length
  * @return
  */
-inline fun String?.substring(length: Int): String? {
+fun String?.substring(length: Int): String? {
 
     return this?.let {
         if (it.length < length) it else it.substring(0, length)  }
@@ -38,7 +38,7 @@ inline fun String?.substring(length: Int): String? {
  * @param length
  * @return
  */
-inline fun String?.substring(length: Int, endStr: String): String? {
+fun String?.substring(length: Int, endStr: String): String? {
     val END_LENGTH = endStr.length
     if (length <= END_LENGTH) {
         throw CommonException("lengh must be greater than $END_LENGTH")
