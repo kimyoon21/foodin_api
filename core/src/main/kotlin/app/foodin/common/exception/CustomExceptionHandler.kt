@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.security.access.AccessDeniedException
+import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
@@ -34,6 +35,15 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     fun handleExceptions(ex: Exception, request: WebRequest): FailureResult {
         logger.info(" ****** other Exceptions : " + ex.localizedMessage)
         return FailureResult(request, ex)
+    }
+
+    override fun handleBindException(
+            ex: BindException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
+        logger.info(" ****** BindException : " + ex.localizedMessage)
+        val field = ex.bindingResult.fieldError?.field
+        val failureResult = FailureResult(EX_INVALID_REQUEST, "$field 값이 잘못되거나 부족합니다", null, null, null)
+        failureResult.debugMessage = ex.bindingResult.fieldError.toString()
+        return ResponseEntity(failureResult, HttpStatus.BAD_REQUEST)
     }
 
     override fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {

@@ -8,8 +8,7 @@ class FailureResult(
         var code: String,
         override var message: String? = null,
         var debugMessage: String? = null,
-        override var data: Any? = emptyMap<String, String>(),
-        var ref: Any? = null
+        override var data: Any? = emptyMap<String, String>()
 ) : ResponseResult(message, data) {
 
     override var succeeded: Boolean = false
@@ -20,8 +19,7 @@ class FailureResult(
             code,
             message,
             debugMessage,
-            data,
-            request.getDescription(true)
+            data
     )
 
     constructor(request: WebRequest, code: String, debugMessage: String?, data: Any?) : this(
