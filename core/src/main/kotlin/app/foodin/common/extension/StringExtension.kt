@@ -10,8 +10,16 @@ import app.foodin.common.exception.CommonException
  *  .let { checkRegisteredEmail(it) }
  * ```
  */
-fun String.csvToList(): List<String> {
-    return this.split(",").map { it.trim() }
+fun String?.csvToList(): List<String> {
+    return if(this.hasValue()){
+        this!!.split(",").map { it.trim() }.filter { it.hasValue() }
+    }else{
+        listOf()
+    }
+}
+
+fun List<String>.listToCsv(): String {
+    return this.filter { it.trim().hasValue() }.joinToString(",")
 }
 
 fun String?.hasValue(): Boolean {

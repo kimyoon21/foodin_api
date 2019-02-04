@@ -24,31 +24,6 @@ data class UserEntity(
 
 ) {
 
-    constructor(user: User) : this(null, user.email, user.realName, user.snsType) {
-        snsUserId = user.snsUserId
-        loginPw = user.loginPw
-        birth = Birth(user.birthFullDay)
-        gender = user.gender
-        nickName = user.nickName
-        firstFoodRegTime = user.firstFoodRegTime
-        firstReviewRegTime = user.firstReviewRegTime
-        firstRecipeRegTime = user.firstRecipeRegTime
-        phoneNumber = user.phoneNumber
-        phoneCountryCode = user.phoneCountryCode
-        reviewCount = user.reviewCount
-        findCount = user.findCount
-        recipeCount = user.recipeCount
-        followingCount = user.followingCount
-        followerCount = user.followerCount
-        agreePolicy = user.agreePolicy
-        agreeMarketing = user.agreeMarketing
-        authoritiesStr = user.authoritiesStr
-        enabled = user.enabled
-        credentialsExpired = user.credentialsExpired
-        accountExpired = user.accountExpired
-        accountLocked = user.accountLocked
-    }
-
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     val createdTime: Timestamp? = null
@@ -101,6 +76,31 @@ data class UserEntity(
     var accountExpired: Boolean = false
 
     var accountLocked: Boolean = false
+
+    constructor(user: User) : this(null, user.email, user.realName, user.snsType) {
+        snsUserId = user.snsUserId
+        loginPw = user.loginPw
+        birth = Birth(user.birthFullDay)
+        gender = user.gender
+        nickName = user.nickName
+        firstFoodRegTime = user.firstFoodRegTime
+        firstReviewRegTime = user.firstReviewRegTime
+        firstRecipeRegTime = user.firstRecipeRegTime
+        phoneNumber = user.phoneNumber
+        phoneCountryCode = user.phoneCountryCode
+        reviewCount = user.reviewCount
+        findCount = user.findCount
+        recipeCount = user.recipeCount
+        followingCount = user.followingCount
+        followerCount = user.followerCount
+        agreePolicy = user.agreePolicy
+        agreeMarketing = user.agreeMarketing
+        authoritiesStr = user.authoritiesStr
+        enabled = user.enabled
+        credentialsExpired = user.credentialsExpired
+        accountExpired = user.accountExpired
+        accountLocked = user.accountLocked
+    }
 
 }
 

@@ -2,27 +2,28 @@ package app.foodin.api.controller
 
 import app.foodin.common.result.ResponseResult
 import app.foodin.domain.food.Food
+import app.foodin.domain.user.FoodService
+import org.springframework.data.domain.Pageable
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/food")
-class FoodController {
+class FoodController(
+        private val foodService: FoodService
+) {
 
     @GetMapping
-    fun getAll(): ResponseResult {
+    fun getAll(pageable: Pageable): ResponseResult {
 
         SecurityContextHolder.getContext().authentication
 
-        return ResponseResult(Food("음식1",0))
+        return ResponseResult(foodService.findAll(pageable))
     }
 
-    @PostMapping
-    fun register(food: Food): ResponseResult {
-        return ResponseResult(Food("음식1",0))
+    @PostMapping(consumes = ["application/json"])
+    fun register(@RequestBody food: Food): ResponseResult {
+        return ResponseResult(foodService.saveFrom(food))
     }
 
 }

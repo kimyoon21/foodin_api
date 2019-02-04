@@ -12,6 +12,7 @@ class FailureResult(
 ) : ResponseResult(message, data) {
 
     override var succeeded: Boolean = false
+    var ref: String? = null
 
     private val logger = LoggerFactory.getLogger(FailureResult::class.java)
 
@@ -20,14 +21,9 @@ class FailureResult(
             message,
             debugMessage,
             data
-    )
-
-    constructor(request: WebRequest, code: String, debugMessage: String?, data: Any?) : this(
-            code,
-            null,
-            debugMessage,
-            data
-    )
+    ){
+        ref = request.getDescription(true)
+    }
 
     constructor(request: WebRequest, exception: CommonException, debugMessage: String?) : this(
             request,

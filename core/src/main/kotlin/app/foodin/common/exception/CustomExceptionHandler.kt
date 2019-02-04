@@ -28,7 +28,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(AccessDeniedException::class)
     fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): FailureResult {
         logger.info(" ****** AccessDeniedException : " + ex.localizedMessage)
-        return FailureResult(request, "AUTH_FAILED", ex.localizedMessage, null)
+        return FailureResult(request, EX_AUTH_FAILED, "권한이 없습니다", ex.localizedMessage,null)
     }
 
     @ExceptionHandler(Exception::class)
@@ -41,14 +41,14 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
             ex: BindException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         logger.info(" ****** BindException : " + ex.localizedMessage)
         val field = ex.bindingResult.fieldError?.field
-        val failureResult = FailureResult(EX_INVALID_REQUEST, "$field 값이 잘못되거나 부족합니다", null, null, null)
+        val failureResult = FailureResult(request,EX_INVALID_REQUEST, "$field 값이 잘못되거나 부족합니다", null, null)
         failureResult.debugMessage = ex.bindingResult.fieldError.toString()
         return ResponseEntity(failureResult, HttpStatus.BAD_REQUEST)
     }
 
     override fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         logger.info(" ****** HttpMessageNotReadableException : " + ex.localizedMessage)
-        val failureResult = FailureResult(EX_INVALID_REQUEST, "입력값이 잘못되거나 부족합니다", null, null, null)
+        val failureResult = FailureResult(request,EX_INVALID_REQUEST, "입력값이 잘못되거나 부족합니다", null, null)
         val cause = ex.cause
         if (cause is MissingKotlinParameterException) {
             failureResult.debugMessage = cause.path[0].description

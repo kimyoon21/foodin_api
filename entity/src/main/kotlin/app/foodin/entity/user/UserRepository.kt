@@ -23,7 +23,7 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
         return list.map { x -> x.toUser() }.toCollection(LinkedList())
     }
 
-    override fun saveFrom(user: User): User? {
+    override fun saveFrom(user: User): User {
         return userRepository.save(UserEntity(user)).toUser()
     }
 
