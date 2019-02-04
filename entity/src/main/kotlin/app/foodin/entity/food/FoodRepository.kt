@@ -16,7 +16,7 @@ interface FoodRepository : JpaRepository<FoodEntity, Long> {
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGateway {
     override fun saveFrom(food: Food): Food {
-        return foodRepository.save(FoodEntity(food)).toFood()
+        return foodRepository.save(FoodEntity(food)).toFood() 
     }
 
     override fun findAll(pageable: Pageable): List<Food> {
