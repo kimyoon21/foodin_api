@@ -4,9 +4,11 @@ import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
 import app.foodin.core.domain.Status
 import app.foodin.domain.food.Food
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import javax.persistence.*
 
-
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Entity
 @Table(name = "food")
 data class FoodEntity(
