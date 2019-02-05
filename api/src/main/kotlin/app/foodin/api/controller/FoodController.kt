@@ -3,13 +3,10 @@ package app.foodin.api.controller
 import app.foodin.common.result.ResponseResult
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.FoodService
-import app.foodin.entity.common.EntitySpecificationsBuilder
-import app.foodin.entity.common.SearchOperation
+import app.foodin.entity.common.SearchSpec
 import app.foodin.entity.food.FoodEntity
-import com.google.common.base.Joiner
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
-import java.util.regex.Pattern
 
 
 @RestController
@@ -20,24 +17,10 @@ class FoodController(
 
     @GetMapping
     fun getAll(pageable: Pageable,
-               @RequestParam(value = "search") search: String): ResponseResult {
+               searchSpec: SearchSpec<FoodEntity>): ResponseResult {
 
-        val builder = EntitySpecificationsBuilder<FoodEntity>()
-        val operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET)
-        val pattern = Pattern.compile(
-                "(\\w+?)($operationSetExper)(\\p{Punct}?)(\\w+?)(\\p{Punct}?);", Pattern.UNICODE_CHARACTER_CLASS)
-        val matcher = pattern.matcher("$search;")
-        while (matcher.find()) {
-            builder.with(
-                    matcher.group(1),
-                    matcher.group(2),
-                    matcher.group(4),
-                    matcher.group(3),
-                    matcher.group(5))
-        }
 
-        val spec = builder.build()
-        return ResponseResult(foodService.findAll(spec,pageable))
+        return ResponseResult(foodService.findAll(searchSpec.spec,pageable))
     }
 
     @PostMapping(consumes = ["application/json"])
