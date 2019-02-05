@@ -26,7 +26,7 @@ import java.util.*
 interface UserService {
     fun findByEmail(email: String): User?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
-    fun saveFrom(userRegisterDTO: UserRegisterDTO): User
+    fun saveFrom(userRegDTO: UserRegDTO): User
     fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO
     fun findAll(): List<User>
     fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
@@ -65,8 +65,8 @@ class CustomUserDetailsService(
 
     }
 
-    override fun saveFrom(userRegisterDTO: UserRegisterDTO): User {
-        return userGateway.saveFrom(userRegisterDTO.toUser())!!
+    override fun saveFrom(userRegDTO: UserRegDTO): User {
+        return userGateway.saveFrom(userRegDTO.toUser())!!
     }
 
     override fun findByEmail(email: String): User? {

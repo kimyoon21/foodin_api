@@ -4,6 +4,7 @@ apply plugin: 'kotlin-allopen'
 allOpen {
     annotation "javax.persistence.Entity"
     annotation "javax.persistence.Embeddable"
+    annotation "javax.persistence.MappedSuperclass"
 }
 
 group rootProject.group

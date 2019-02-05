@@ -4,9 +4,9 @@ import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.extension.csvToList
+import app.foodin.domain.common.Base
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails
-import java.io.Serializable
 import java.sql.Timestamp
 import java.time.LocalDate
 import javax.persistence.EnumType
@@ -17,11 +17,7 @@ class User(
         val realName: String,
         val snsType: SnsType
 
-) : UserDetails , Serializable{
-
-    var id : Long? = null
-
-    var createdTime : Timestamp? = null
+) : Base(), UserDetails {
 
     /****
      * sns 타입 email 아니면, snsType snsUserId 를 조합해서 생성

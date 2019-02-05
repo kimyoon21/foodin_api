@@ -5,7 +5,7 @@ import app.foodin.common.enums.SnsType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
-class UserRegisterDTO(
+class UserRegDTO(
         val email: String,
         val realName: String,
         val snsType: SnsType

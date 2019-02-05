@@ -4,33 +4,24 @@ import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
+import app.foodin.entity.common.BaseEntity
 import java.sql.Timestamp
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Table
 
 
 @Entity
 @Table(name = "user")
 data class UserEntity(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
         var email: String,
         var realName: String,
         @Enumerated(EnumType.STRING)
         var snsType: SnsType
 
 
-) {
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    val createdTime: Timestamp? = null
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    val updatedTime: Timestamp? = null
+) : BaseEntity() {
 
     var snsUserId: String? = null
 
@@ -77,7 +68,7 @@ data class UserEntity(
 
     var accountLocked: Boolean = false
 
-    constructor(user: User) : this(null, user.email, user.realName, user.snsType) {
+    constructor(user: User) : this( user.email, user.realName, user.snsType) {
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
@@ -108,6 +99,7 @@ fun UserEntity.toUser(): User {
     return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
         it.id = this.id
         it.createdTime = this.createdTime
+        it.updatedTime = this.updatedTime
         it.snsUserId = this.snsUserId
         it.loginPw = this.loginPw
         it.birthFullDay = this.birth?.birthFullDay
