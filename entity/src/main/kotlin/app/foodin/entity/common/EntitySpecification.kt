@@ -22,12 +22,15 @@ class EntitySpecification<T>(
                     criteria.key), criteria.value.toString())
             LESS_THAN -> builder.lessThan(root.get<String>(
                     criteria.key), criteria.value.toString())
-            LIKE -> builder.like(root.get(
-                    criteria.key), criteria.value.toString())
             STARTS_WITH -> builder.like(root.get(criteria.key), criteria.value.toString() + "%")
             ENDS_WITH -> builder.like(root.get(criteria.key), "%" + criteria.value)
             CONTAINS -> builder.like(root.get(
                     criteria.key), "%" + criteria.value + "%")
+            LIKE -> builder.like(root.get(
+                    criteria.key), criteria.value.toString())
+            IS_NULL -> builder.isNull(root.get<Any>(criteria.key))
+            IS_NOT_NULL -> builder.isNotNull(root.get<Any>(criteria.key))
+            else -> null
         }
     }
 }

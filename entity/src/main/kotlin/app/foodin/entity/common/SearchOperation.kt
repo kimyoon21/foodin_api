@@ -1,12 +1,14 @@
 package app.foodin.entity.common
 
 enum class SearchOperation {
-    EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS;
+    EQUALITY, NEGATION, GREATER_THAN, LESS_THAN,
+    LIKE, STARTS_WITH, ENDS_WITH, CONTAINS,
+    NULL_CHECK, IS_NULL, IS_NOT_NULL;
 
 
     companion object {
 
-        val SIMPLE_OPERATION_SET = arrayOf(":", "!", ">", "<", "~")
+        val SIMPLE_OPERATION_SET = arrayOf(":", "!", ">", "<", "~","@")
 
         fun getSimpleOperation(input: Char): SearchOperation? {
             return when (input) {
@@ -15,6 +17,7 @@ enum class SearchOperation {
                 '>' -> GREATER_THAN
                 '<' -> LESS_THAN
                 '~' -> LIKE
+                '@' -> NULL_CHECK
                 else -> null
             }
         }

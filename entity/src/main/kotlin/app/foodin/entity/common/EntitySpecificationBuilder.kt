@@ -1,5 +1,6 @@
 package app.foodin.entity.common
 
+import app.foodin.entity.common.SearchOperation.*
 import org.springframework.data.jpa.domain.Specification
 
 class EntitySpecificationBuilder<T> {
@@ -10,16 +11,22 @@ class EntitySpecificationBuilder<T> {
 
         var op = SearchOperation.getSimpleOperation(operation[0])
         if (op != null) {
-            if (op === SearchOperation.EQUALITY) {
+            if (op === LIKE) {
                 val startWithAsterisk = prefix.contains("*")
                 val endWithAsterisk = suffix.contains("*")
 
                 if (startWithAsterisk && endWithAsterisk) {
-                    op = SearchOperation.CONTAINS
+                    op = CONTAINS
                 } else if (startWithAsterisk) {
-                    op = SearchOperation.ENDS_WITH
+                    op = ENDS_WITH
                 } else if (endWithAsterisk) {
-                    op = SearchOperation.STARTS_WITH
+                    op = STARTS_WITH
+                }
+            }else if (op === NULL_CHECK) {
+                op = if(value == "1"){
+                    IS_NOT_NULL
+                }else {
+                    IS_NULL
                 }
             }
             params.add(SearchCriteria(key, op, value))
