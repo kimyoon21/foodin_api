@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.domain.common
 
 import org.springframework.security.core.GrantedAuthority
 

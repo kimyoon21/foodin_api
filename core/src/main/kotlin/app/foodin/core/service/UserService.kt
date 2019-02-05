@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.core.service
 
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
@@ -6,7 +6,9 @@ import app.foodin.common.exception.EX_NEED
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
+import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
+import app.foodin.domain.user.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

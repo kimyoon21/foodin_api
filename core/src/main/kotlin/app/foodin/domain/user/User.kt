@@ -4,6 +4,7 @@ import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.extension.csvToList
+import app.foodin.domain.common.Authority
 import app.foodin.domain.common.Base
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails

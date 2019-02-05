@@ -6,6 +6,7 @@ import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.annotation.Loggable
+import app.foodin.core.service.UserService
 import app.foodin.domain.user.*
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory

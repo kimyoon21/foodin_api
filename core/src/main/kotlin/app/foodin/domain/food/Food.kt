@@ -1,6 +1,6 @@
 package app.foodin.domain.food
 
-import app.foodin.domain.`interface`.Writable
+import app.foodin.domain.common.`interface`.Writable
 import app.foodin.domain.common.Base
 import app.foodin.domain.common.Status
 
