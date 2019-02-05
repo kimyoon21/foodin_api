@@ -2,11 +2,11 @@ package app.foodin.entity.common
 
 import org.springframework.data.jpa.domain.Specification
 
-class EntitySpecificationsBuilder<T> {
+class EntitySpecificationBuilder<T> {
 
     private val params: MutableList<SearchCriteria> = mutableListOf()
 
-    fun with(key: String, operation: String, value: Any, prefix: String, suffix: String): EntitySpecificationsBuilder<T> {
+    fun with(key: String, operation: String, value: Any, prefix: String, suffix: String): EntitySpecificationBuilder<T> {
 
         var op = SearchOperation.getSimpleOperation(operation[0])
         if (op != null) {

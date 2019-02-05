@@ -10,7 +10,7 @@ class SearchSpec<T>{
 
     var search : String? = null
     set(value) {
-        val builder = EntitySpecificationsBuilder<T>()
+        val builder = EntitySpecificationBuilder<T>()
         val operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET)
         val pattern = Pattern.compile(
                 "(\\w+?)($operationSetExper)(\\p{Punct}?)(\\w+?)(\\p{Punct}?);", Pattern.UNICODE_CHARACTER_CLASS)
