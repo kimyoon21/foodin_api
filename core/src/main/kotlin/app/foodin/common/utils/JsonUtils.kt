@@ -12,7 +12,18 @@ import java.io.InputStream
 
 
 class JsonUtils private constructor() {
-    private val mapper: ObjectMapper = ObjectMapper()
+    private val mapper: ObjectMapper lazy by {
+         val mapper: ObjectMapper = ObjectMapper() 
+         
+         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+         mapper.configure(MapperFeature.AUTO_DETECT_GETTERS, true)
+         mapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, true)
+         mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
+         mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
+         mapper
+    }
 
     init {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
