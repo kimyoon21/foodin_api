@@ -11,7 +11,7 @@ import java.util.*
 
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
-    fun findByEmail(email: Email): UserEntity?
+    fun findByEmail(email: String): UserEntity?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): UserEntity?
 }
 
@@ -32,7 +32,7 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
     }
 
     override fun findByEmail(email: String): User? {
-        return userRepository.findByEmail(Email(email))?.toUser()
+        return userRepository.findByEmail(email)?.toUser()
     }
 
 

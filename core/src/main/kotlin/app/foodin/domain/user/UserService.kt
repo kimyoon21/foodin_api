@@ -166,7 +166,7 @@ class CustomUserDetailsService(
     }
 
     override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
-        val resultMap: Map<String, Object> = getSnsUserInfo(snsTokenDTO).data as Map<String, Object>
+        val resultMap: Map<String, Any> = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
         when (snsTokenDTO.snsType) {
             SnsType.KAKAO -> {
                 val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")

@@ -14,7 +14,7 @@ import javax.persistence.Enumerated
 
 class User(
         val email: String,
-        val name: String,
+        val realName: String,
         val snsType: SnsType
 
 ) : UserDetails , Serializable{
@@ -44,7 +44,11 @@ class User(
 
     var nickName: String? = null
 
-    var firstReviewTime: Timestamp? = null
+    var firstFoodRegTime: Timestamp? = null
+
+    var firstReviewRegTime: Timestamp? = null
+
+    var firstRecipeRegTime: Timestamp? = null
 
     var phoneNumber: String? = null
 

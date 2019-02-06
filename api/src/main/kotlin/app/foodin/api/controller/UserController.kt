@@ -104,8 +104,8 @@ class UserController(
             throw FieldErrorException(userRegisterDTO::agreePolicy.name, "{ex.need_to.agree_policy}")
         }
 
-        userRegisterDTO.name
-                .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::name.name, "{ex.need}", "{word.name}") }
+        userRegisterDTO.realName
+                .hasValueOrElseThrow { FieldErrorException(userRegisterDTO::realName.name, "{ex.need}", "{word.realName}") }
 
         return ResponseResult(userService.saveFrom(userRegisterDTO))
     }
