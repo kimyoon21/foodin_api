@@ -96,15 +96,6 @@ class RequestWrapper private constructor(val request: HttpServletRequest) {
                     }
 
                 }
-            } catch (ee: JsonMappingException) {
-                if (!inputString.isEmpty()) {
-                    try {
-                        return JsonUtils.fromJson(inputString, object : TypeReference<List<Map<String, Any>>>() {})
-                    } catch (e: Exception) {
-                        logger.info("request inputStream read to Array Error => skip : $logStr", e)
-                    }
-
-                }
             } catch (e: Exception) {
                 logger.info("request inputStream read to Map Error => skip : $logStr", e)
             }
