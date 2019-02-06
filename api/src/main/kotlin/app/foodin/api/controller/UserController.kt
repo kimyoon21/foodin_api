@@ -7,7 +7,10 @@ import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
-import app.foodin.domain.user.*
+import app.foodin.domain.user.EmailLoginDTO
+import app.foodin.domain.user.SnsTokenDTO
+import app.foodin.domain.user.User
+import app.foodin.domain.user.UserRegDTO
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -44,7 +47,7 @@ class UserController(
     }
 
     fun checkRegisteredEmail(email: String) {
-        userService.findByEmail(email)?.let { user ->
+        userService.findByEmail(email)?.let {
             throwAlreadyRegistered(listOf()) //TODO
         }
     }
@@ -122,24 +125,24 @@ class UserController(
         return ResponseResult(userService.saveFrom(userRegDTO))
     }
 
-    @GetMapping(value = "/email")
+    @GetMapping(value = ["/email"])
     fun userByEmail(@RequestParam email: String): ResponseEntity<User> {
         return ResponseEntity.ok(userService.findByEmail(email) ?: throw CommonException("잘못된 이메일입니다 "))
     }
 
-    @GetMapping(value = "/me")
+    @GetMapping(value = ["/me"])
     fun getMe(principal : Principal, httpServletRequest: HttpServletRequest): ResponseResult {
         return ResponseResult(userService.findByEmail(principal.name))
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = [""])
     fun getUserList(principal: Principal): ResponseResult {
         //TODO
         val list = userService.findAll()
         return ResponseResult(list = list, total = list.size.toLong(), length = 2, current = 3)
     }
 
-    @PostMapping(value = "/login/email")
+    @PostMapping(value = ["/login/email"])
     fun emailLogin(
             @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
             errors: Errors
@@ -157,7 +160,7 @@ class UserController(
      * 4. 없으면 없다는 response 로 등록 과정 유도
      * 5. 있으면 로그인 시키고 jwtToken 내려줌
      */
-    @PostMapping(value = "/login/sns")
+    @PostMapping(value = ["/login/sns"])
     fun checkUserInfoByAccessToken(
             @RequestBody snsTokenDTO: SnsTokenDTO,
             errors: Errors

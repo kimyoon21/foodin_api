@@ -2,7 +2,7 @@ package app.foodin.entity.food
 
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
-import app.foodin.domain.common.Status
+import app.foodin.common.enums.Status
 import app.foodin.domain.food.Food
 import app.foodin.entity.common.BaseEntity
 import javax.persistence.Entity
@@ -25,7 +25,7 @@ data class FoodEntity(
 
     var tags : String? = null
 
-    var mainPhotoUri : Int = 0
+    var mainPhotoUri : String? = null
 
     var photos : String? = null
 

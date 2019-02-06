@@ -1,4 +1,4 @@
-package app.foodin.entity.common
+package app.foodin.entity.common.search
 
 enum class SearchOperation {
     EQUALITY, NEGATION, GREATER_THAN, LESS_THAN,

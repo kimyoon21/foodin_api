@@ -1,14 +1,15 @@
 package app.foodin.domain.food
 
-import app.foodin.domain.common.`interface`.Writable
-import app.foodin.domain.common.Base
-import app.foodin.domain.common.Status
+import app.foodin.common.enums.Status
+import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.writable.UserWritable
 
 data class Food(
-        val name: String,
-        val categoryId: Long
+        override var id : Long? = null,
+        var name: String,
+        var categoryId: Long
 
-) : Base(), Writable {
+) : BaseDomain(id), UserWritable {
 
     var companyId: Long? = null
 
@@ -18,11 +19,11 @@ data class Food(
 
     var summary: String? = null
 
-    var tagList: List<String> = listOf()
+    var tagList: MutableList<String> = mutableListOf()
 
-    var mainPhotoUri: Int = 0
+    var mainPhotoUri: String? = null
 
-    var photoList: List<String> = listOf()
+    var photoList: MutableList<String> = mutableListOf()
 
     var loveCount: Int = 0
 

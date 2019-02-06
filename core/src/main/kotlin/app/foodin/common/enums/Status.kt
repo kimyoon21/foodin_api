@@ -1,4 +1,4 @@
-package app.foodin.domain.common
+package app.foodin.common.enums
 
 public enum class Status {
     WAIT,

@@ -1,4 +1,4 @@
-package app.foodin.entity.common
+package app.foodin.entity.common.search
 
 import javax.validation.constraints.NotEmpty
 

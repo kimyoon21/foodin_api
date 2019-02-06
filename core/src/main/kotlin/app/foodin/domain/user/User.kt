@@ -5,7 +5,7 @@ import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.extension.csvToList
 import app.foodin.domain.common.Authority
-import app.foodin.domain.common.Base
+import app.foodin.domain.common.BaseDomain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails
 import java.sql.Timestamp
@@ -14,11 +14,12 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 class User(
+        override var id : Long? = null,
         val email: String,
         val realName: String,
         val snsType: SnsType
 
-) : Base(), UserDetails {
+) : BaseDomain(id), UserDetails {
 
     /****
      * sns 타입 email 아니면, snsType snsUserId 를 조합해서 생성

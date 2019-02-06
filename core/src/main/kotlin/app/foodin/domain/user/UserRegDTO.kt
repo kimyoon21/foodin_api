@@ -11,8 +11,22 @@ class UserRegDTO(
         val snsType: SnsType
 ) {
 
+    var loginPw : String? = null
+
+    var snsUserId: String? = null
+
+    var agreePolicy: Boolean = false
+
+    var agreeMarketing: Boolean = false
+
+    @get:Size(min = 8, max = 8, message = "{validation.size.birthday}")
+    var birthday: String? = null
+
+    var gender: Gender? = null
+
+
     fun toUser(): User {
-        User(this.email, this.realName, this.snsType).let{
+        User(null,this.email, this.realName, this.snsType).let{
 
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId
@@ -26,17 +40,4 @@ class UserRegDTO(
             return it
         }
     }
-
-    var loginPw : String? = null
-
-    var snsUserId: String? = null
-
-    var agreePolicy: Boolean = false
-
-    var agreeMarketing: Boolean = false
-
-    @get:Size(min = 8, max = 8, message = "{validation.size.birthday}")
-    var birthday: String? = null
-
-    var gender: Gender? = null
 }

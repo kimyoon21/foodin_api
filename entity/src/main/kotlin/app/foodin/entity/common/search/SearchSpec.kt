@@ -1,4 +1,4 @@
-package app.foodin.entity.common
+package app.foodin.entity.common.search
 
 import org.springframework.data.jpa.domain.Specification
 import java.util.regex.Pattern

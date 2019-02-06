@@ -51,24 +51,24 @@ class CustomUserDetailsService(
 
     override fun loadUserByUsername(username: String?): UserDetails {
         username ?: throw CommonException(EX_NEED)
-        val snsType: SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0]?.toUpperCase())
+        val snsType: SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0].toUpperCase())
         val snsUserId = username.replaceFirst(snsType.name + USERNAME_SEPERATOR, "")
 
         return userGateway.findBySnsTypeAndSnsUserId(snsType, snsUserId)
                 ?: throw UsernameNotFoundException("User not found")
     }
 
-    override fun loggedIn(user: User, accessToken: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
+    override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
 
         val expireTime = Timestamp(expiration.time)
-        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = accessToken, expireTime = expireTime))
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token, expireTime = expireTime))
 
-        return UserLoginResultDTO(user, accessToken, refreshToken, expireTime)
+        return UserLoginResultDTO(user, token, refreshToken, expireTime)
 
     }
 
     override fun saveFrom(userRegDTO: UserRegDTO): User {
-        return userGateway.saveFrom(userRegDTO.toUser())!!
+        return userGateway.saveFrom(userRegDTO.toUser())
     }
 
     override fun findByEmail(email: String): User? {

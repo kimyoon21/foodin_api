@@ -1,8 +1,8 @@
 package app.foodin.entity
 
-import app.foodin.entity.common.EntitySpecification
-import app.foodin.entity.common.SearchCriteria
-import app.foodin.entity.common.SearchOperation
+import app.foodin.entity.common.search.EntitySpecification
+import app.foodin.entity.common.search.SearchCriteria
+import app.foodin.entity.common.search.SearchOperation
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.food.FoodRepository
 import app.foodin.entity.user.UserRepository
