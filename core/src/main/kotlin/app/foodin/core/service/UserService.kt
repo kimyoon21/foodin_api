@@ -105,7 +105,7 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("EMAIL 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("email 혹은 비밀번호가 잘못되었습니다")
+            throw CommonException("email 혹은 비밀번호가 잘못되었습니다",ex)
         }
     }
 
@@ -135,7 +135,7 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("token 혹은 userId 가 잘못되었습니다")
+            throw CommonException("token 혹은 userId 가 잘못되었습니다",ex)
         }
     }
 
@@ -163,23 +163,23 @@ class CustomUserDetailsService(
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
             logger.error(ex.responseBodyAsString, ex)
-            throw CommonException("token 및 sns 정보가 정확하지 않습니다.")
+            throw CommonException("token 및 sns 정보가 정확하지 않습니다.",ex)
         }
     }
 
     override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
         val resultMap: Map<String, Any> = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
-        when (snsTokenDTO.snsType) {
+        return when (snsTokenDTO.snsType) {
             SnsType.KAKAO -> {
                 val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
-                return snsTokenDTO.snsUserId == kakaoUserId.toString()
+                snsTokenDTO.snsUserId == kakaoUserId.toString()
             }
 //            SnsType.NAVER ->{}
 //            SnsType.FACEBOOK ->{}
             SnsType.EMAIL -> {
                 throw CommonException("EMAIL 은 /email/login 사용")
             }
-            else -> return false
+            else -> false
         }
     }
 

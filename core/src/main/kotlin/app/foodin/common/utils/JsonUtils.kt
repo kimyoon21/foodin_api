@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.jetbrains.annotations.Contract
 import java.io.IOException
 import java.io.InputStream
@@ -22,6 +23,8 @@ class JsonUtils private constructor() {
         mapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, true)
         mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
         mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
+        val module = KotlinModule()
+        mapper.registerModule(module)
     }
 
     private object LazyHolder {
@@ -45,7 +48,6 @@ class JsonUtils private constructor() {
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
-
         }
 
         @Throws(JsonProcessingException::class)
@@ -105,18 +107,24 @@ class JsonUtils private constructor() {
             }
 
         }
-
+        fun toPrettyJson(value : Any): String {
+            try {
+                return getMapper().writer().withDefaultPrettyPrinter().writeValueAsString(value)
+            } catch (e: JsonProcessingException) {
+                throw RuntimeException(e)
+            }
+        }
         fun toPrettyJson(json: String?): String {
-            if (json != null) {
+            return if (json != null) {
                 val jsonObject = app.foodin.common.utils.JsonUtils.fromJson(json, Any::class.java)
                 try {
-                    return getMapper().writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
+                    getMapper().writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
                 } catch (e: JsonProcessingException) {
-                    e.printStackTrace()
+                    throw RuntimeException(e)
                 }
-
+            } else {
+                ""
             }
-            return ""
         }
     }
 }
