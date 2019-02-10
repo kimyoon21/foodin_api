@@ -3,7 +3,6 @@ package app.foodin.aop
 import app.foodin.aop.requestLog.RequestLog
 import kr.co.lendit.proxy.ControllerHandlerFactory
 import kr.co.lendit.proxy.SignatureProcessor
-import org.apache.commons.lang3.StringUtils
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -17,22 +16,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import javax.servlet.http.HttpServletRequest
-
-fun HttpServletRequest.getClientIp(): String {
-    fun isInvalidIp(clientIp: String?): Boolean {
-        return StringUtils.isEmpty(clientIp) || StringUtils.equalsIgnoreCase(clientIp, "unknown")
-    }
-
-    var clientIp = this.getHeader("X-Forwarded-For")
-    if (isInvalidIp(clientIp)) {
-        clientIp = this.getHeader("X-Real-IP")
-    }
-
-    if (isInvalidIp(clientIp)) {
-        clientIp = this.remoteAddr
-    }
-    return clientIp.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
-}
 
 internal interface ControllerHandler {
     fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog
@@ -76,7 +59,7 @@ class RequestControllerProxy {
             controllerHandler.preControllerHandler(log, request, args)
             result = joinPoint.proceed()
         } catch (e: Throwable) {
-            log.info("Error at [${signature.declaringTypeName} : ${signature.name}]", e)
+            log.error("Error at [${signature.declaringTypeName} : ${signature.name}]", e)
             result = e
             throw e
         } finally {
