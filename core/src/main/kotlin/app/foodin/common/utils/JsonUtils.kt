@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
-import org.jetbrains.annotations.Contract
 import java.io.IOException
 import java.io.InputStream
 
@@ -23,7 +22,7 @@ object JsonUtils {
         mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
         mapper
     }
-    
+
     fun toJson(any: Any): String {
         try {
             return mapper.writer().writeValueAsString(any)
