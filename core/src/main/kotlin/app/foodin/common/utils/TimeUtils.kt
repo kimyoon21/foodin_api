@@ -114,3 +114,7 @@ fun getNDayAgo(n: Int): Timestamp {
 fun getNHoursAgo(n: Int): Timestamp {
     return Timestamp(System.currentTimeMillis() - n * 1000 * 60 * 60)
 }
+
+fun getNSecAgo(n: Int): Timestamp {
+    return Timestamp(System.currentTimeMillis() - n * 1000)
+}

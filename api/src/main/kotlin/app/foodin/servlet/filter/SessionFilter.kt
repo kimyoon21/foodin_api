@@ -1,13 +1,12 @@
 package app.foodin.servlet.filter
 
-import org.slf4j.MDC
-import javax.servlet.Filter
-import javax.servlet.FilterChain
-import javax.servlet.FilterConfig
-import javax.servlet.ServletRequest
-import javax.servlet.ServletResponse
+import app.foodin.common.utils.MDCUtils
+import app.foodin.common.utils.MDCUtils.SESSION_ID
+import org.springframework.stereotype.Component
+import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 
+@Component
 class SessionFilter : Filter {
 
     override fun init(filterConfig: FilterConfig) {}
@@ -19,11 +18,11 @@ class SessionFilter : Filter {
             "-"
         }
 
-        MDC.put("sessionId", sessionId)
+        MDCUtils.set(SESSION_ID, sessionId)
         try {
             chain.doFilter(request, response)
         } finally {
-            MDC.remove("sessionId")
+            MDCUtils.remove(SESSION_ID)
         }
     }
 

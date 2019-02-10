@@ -14,12 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 
-
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
-class SecurityConfig(
-    private val customUserDetailsService: CustomUserDetailsService
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+class WebSecurityConfig(
+        private val customUserDetailsService: CustomUserDetailsService
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -33,7 +32,6 @@ class SecurityConfig(
     // 인증 처리 방법에 대한 설정
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.authenticationProvider(authenticationProvider())
-//        auth.userDetailsService(customUserDetailsService)
     }
 
     // 로그인 URL 등록
@@ -55,16 +53,16 @@ class SecurityConfig(
 
     override fun configure(web: WebSecurity) {
         web
-            .ignoring()
-            // favicon.ico
-            .antMatchers("/favicon.ico")
-            // Swagger UI 설정
-            .antMatchers(
-                "/v2/api-docs",
-                "/swagger-resources/**",
-                "/swagger-ui.html",
-                "/webjars/**",
-                "/swagger/**"
-            )
+                .ignoring()
+                // favicon.ico
+                .antMatchers("/favicon.ico")
+                // Swagger UI 설정
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger/**"
+                )
     }
 }

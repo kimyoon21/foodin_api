@@ -1,13 +1,15 @@
 package kr.co.lendit.proxy
 
 import app.foodin.aop.ControllerHandler
-import app.foodin.aop.getClientIp
 import app.foodin.aop.requestLog.RequestLog
+import app.foodin.common.utils.MDCUtils
+import app.foodin.common.utils.MDCUtils.HEADER_MAP_MDC
+import app.foodin.common.utils.MDCUtils.KEY_REQUEST_UID
+import app.foodin.common.utils.MDCUtils.REQUEST_IP
+import app.foodin.common.utils.MDCUtils.REQUEST_METHOD_MDC
+import app.foodin.common.utils.MDCUtils.REQUEST_URI_MDC
 import app.foodin.core.annotation.Loggable
-import app.foodin.core.config.BeanConfig
-import app.foodin.servlet.filter.KEY_REQUEST_UID
 import org.slf4j.Logger
-import org.slf4j.MDC
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
@@ -28,28 +30,21 @@ internal object ControllerHandlerFactory {
 
 internal class DefaultControllerHandler(private val meta: SignatureProcessor) : ControllerHandler {
     override fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog {
-        val path = request.requestURI
-        val method = request.method
-        var headMapStr =
-                try {
-                    val headerNames = request.headerNames
-                    val headerMap = mutableMapOf<String, String>()
-                    headerNames.toList().map { headerMap.put(it, request.getHeader(it)) }
-                    BeanConfig.getObjectMapper().writeValueAsString(headerMap)
-                } catch (e: Exception) {
-                    "" // 빈스트링
-                }
 
-        val clientIp = request.getClientIp()
-        logger.info("====== REQUEST START(uri : {} - {}, ip : {} , headers : {} )", method, path, clientIp, headMapStr)
-        RequestLog.start(method = method, path = path, eventId = MDC.get(KEY_REQUEST_UID), clientIp = clientIp)
+        val path = MDCUtils[REQUEST_URI_MDC]
+        val method = MDCUtils[REQUEST_METHOD_MDC]
+
+
+        val clientIp = MDCUtils[REQUEST_IP]
+        logger.info("====== REQUEST START(uri : {} - {}, ip : {} , headers : {} )", method, path, clientIp, MDCUtils[HEADER_MAP_MDC])
+        RequestLog.start(method = method, path = path, eventId = MDCUtils[KEY_REQUEST_UID], clientIp = clientIp)
         return RequestLog
     }
 
     override fun completeControllerHandler(logger: Logger, request: HttpServletRequest, response: Any?): RequestLog {
         var status = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).response?.status
-        val path = request.requestURI
-        val method = request.method
+        val path = MDCUtils[REQUEST_URI_MDC]
+        val method = MDCUtils[REQUEST_METHOD_MDC]
         logger.info("====== REQUEST END(uri : {} - {}, executeTime : {} ms)", method, path, RequestLog.calExecuteTime())
         RequestLog.finish(status ?: 0)
         return RequestLog
@@ -73,6 +68,7 @@ internal class LoggableControllerHandler : ControllerHandler {
     }
 
     override fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog {
+
         val requestLog = handler.preControllerHandler(logger, request, args)
         var loggable: Boolean
         val parameterPairs = meta.parameterPairs
@@ -97,4 +93,5 @@ internal class LoggableControllerHandler : ControllerHandler {
             false -> handler.completeControllerHandler(logger = logger, request = request)
         }
     }
+
 }
