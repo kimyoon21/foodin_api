@@ -7,15 +7,15 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.jetbrains.annotations.Contract
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
 
+object JsonUtils {
+    private val logger = LoggerFactory.getLogger(JsonUtils::class.java)
+    private val mapper: ObjectMapper by lazy {
+        val mapper = ObjectMapper()
 
-class JsonUtils private constructor() {
-    private val mapper: ObjectMapper = ObjectMapper()
-
-    init {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -27,105 +27,77 @@ class JsonUtils private constructor() {
         mapper.registerModule(module)
     }
 
-    private object LazyHolder {
-        val INSTANCE = app.foodin.common.utils.JsonUtils()
+    fun toJson(any: Any): String {
+        try {
+            return mapper.writer().writeValueAsString(any)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 
-    companion object {
+    @Throws(JsonProcessingException::class)
+    fun toJsonWithException(any: Any): String {
+        return mapper.writer().writeValueAsString(any)
+    }
 
-        val instance: app.foodin.common.utils.JsonUtils
-            @Contract(pure = true)
-            get() = LazyHolder.INSTANCE
-
-        @Contract(pure = true)
-        private fun getMapper(): ObjectMapper {
-            return instance.mapper
-        }
-
-        fun toJson(any: Any): String {
-            try {
-                return getMapper().writer().writeValueAsString(any)
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-        }
-
-        @Throws(JsonProcessingException::class)
-        fun toJsonWithException(any: Any): String {
-            return getMapper().writer().writeValueAsString(any)
-        }
-
-        fun <T> fromJson(jsonStr: String, cls: Class<T>): T {
-            try {
-                // use reader to increase multi thread performance
-                return getMapper().readerFor(cls).readValue(jsonStr)
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-
-        }
-
-        @Throws(IOException::class)
-        fun <T> fromJsonWithException(jsonStr: String, cls: Class<T>): T {
+    fun <T> fromJson(jsonStr: String, cls: Class<T>): T {
+        try {
             // use reader to increase multi thread performance
-            return getMapper().readerFor(cls).readValue(jsonStr)
+            return mapper.readerFor(cls).readValue(jsonStr)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
+    }
 
-        fun <T> fromJson(stream: InputStream, cls: Class<T>): T {
-            try {
-                return getMapper().readerFor(cls).readValue(stream)
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
+    @Throws(IOException::class)
+    fun <T> fromJsonWithException(jsonStr: String, cls: Class<T>): T {
+        // use reader to increase multi thread performance
+        return mapper.readerFor(cls).readValue(jsonStr)
+    }
 
+    fun <T> fromJson(stream: InputStream, cls: Class<T>): T {
+        try {
+            return mapper.readerFor(cls).readValue(stream)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
+    }
 
-        fun <T> fromJson(jsonStr: String, typeReference: TypeReference<T>): T {
-            try {
-                return getMapper().readerFor(typeReference).readValue(jsonStr)
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-
+    fun <T> fromJson(jsonStr: String, typeReference: TypeReference<T>): T {
+        try {
+            return mapper.readerFor(typeReference).readValue(jsonStr)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
+    }
 
-        @Throws(Exception::class)
-        fun fromJson(json: String): JsonNode {
-            try {
-                return getMapper().readTree(json)
-            } catch (e: IOException) {
-                throw RuntimeException(e.message, e)
-            }
-
+    @Throws(Exception::class)
+    fun fromJson(json: String): JsonNode {
+        try {
+            return mapper.readTree(json)
+        } catch (e: IOException) {
+            throw RuntimeException(e.message, e)
         }
+    }
 
-        fun <T : Collection<*>> fromJson(jsonStr: String, collectionType: CollectionType): T {
-            try {
-                return getMapper().readerFor(collectionType).readValue(jsonStr)
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-
+    fun <T : Collection<*>> fromJson(jsonStr: String, collectionType: CollectionType): T {
+        try {
+            return mapper.readerFor(collectionType).readValue(jsonStr)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
-        fun toPrettyJson(value : Any): String {
+    }
+
+    fun toPrettyJson(json: String?): String {
+        if (json != null) {
+            val jsonObject = app.foodin.common.utils.JsonUtils.fromJson(json, Any::class.java)
             try {
-                return getMapper().writer().withDefaultPrettyPrinter().writeValueAsString(value)
+                return mapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
             } catch (e: JsonProcessingException) {
-                throw RuntimeException(e)
+                logger.error(" error in JsonUtils: pretty json",e)
             }
         }
-        fun toPrettyJson(json: String?): String {
-            return if (json != null) {
-                val jsonObject = app.foodin.common.utils.JsonUtils.fromJson(json, Any::class.java)
-                try {
-                    getMapper().writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
-                } catch (e: JsonProcessingException) {
-                    throw RuntimeException(e)
-                }
-            } else {
-                ""
-            }
-        }
+        return ""
     }
 }
 
