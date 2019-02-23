@@ -22,7 +22,7 @@ inline fun <X : Throwable> String?.hasValueOrElseThrow(supplier: () -> X): Strin
         throw supplier()
 }
 
-inline fun <X : Throwable> List<Object>?.hasValueOrElseThrow(supplier: () -> X): List<Object> {
+inline fun <X : Throwable> List<Any>?.hasValueOrElseThrow(supplier: () -> X): List<Any> {
     return if(this != null && !this.isEmpty())
         this
     else

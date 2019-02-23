@@ -5,6 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
     classes = [TestApplication::class],
-    properties = ["classpath:entity.properties"]
+    properties = ["classpath:entity-local.properties"]
 )
 open class TestBase

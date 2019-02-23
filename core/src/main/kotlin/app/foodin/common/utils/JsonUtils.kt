@@ -6,10 +6,13 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
 
 object JsonUtils {
+    private val logger = LoggerFactory.getLogger(JsonUtils::class.java)
     private val mapper: ObjectMapper by lazy {
         val mapper = ObjectMapper()
 
@@ -20,7 +23,8 @@ object JsonUtils {
         mapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, true)
         mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
         mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
-        mapper
+        val module = KotlinModule()
+        mapper.registerModule(module)
     }
 
     fun toJson(any: Any): String {
@@ -90,7 +94,7 @@ object JsonUtils {
             try {
                 return mapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
             } catch (e: JsonProcessingException) {
-                e.printStackTrace()
+                logger.error(" error in JsonUtils: pretty json",e)
             }
         }
         return ""

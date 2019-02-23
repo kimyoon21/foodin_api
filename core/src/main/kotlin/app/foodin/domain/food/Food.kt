@@ -1,48 +1,43 @@
 package app.foodin.domain.food
 
-import app.foodin.core.domain.Status
-import app.foodin.domain.`interface`.Writable
-import java.io.Serializable
-import java.sql.Timestamp
+import app.foodin.common.enums.Status
+import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.writable.UserWritable
 
 data class Food(
-        val name: String,
-        val categoryId: Long
+        override var id : Long? = null,
+        var name: String,
+        var categoryId: Long
 
+) : BaseDomain(id), UserWritable {
 
-) : Writable, Serializable {
+    var companyId: Long? = null
 
-    var id: Long? = null
+    var minPrice: Int = 0
 
-    var createdTime: Timestamp? = null
+    var maxPrice: Int = 0
 
-    var companyId : Long? = null
+    var summary: String? = null
 
-    var minPrice : Int = 0
+    var tagList: MutableList<String> = mutableListOf()
 
-    var maxPrice : Int = 0
+    var mainPhotoUri: String? = null
 
-    var summary : String? = null
+    var photoList: MutableList<String> = mutableListOf()
 
-    var tagList : List<String> = listOf()
+    var loveCount: Int = 0
 
-    var mainPhotoUri : Int = 0
+    var ratingCount: Int = 0
 
-    var photoList : List<String> = listOf()
+    var reviewCount: Int = 0
 
-    var loveCount : Int = 0
+    var recipeCount: Int = 0
 
-    var ratingCount : Int = 0
+    var rating: Float? = null
 
-    var reviewCount : Int = 0
+    var firstWriterId: Long? = null
 
-    var recipeCount : Int = 0
-
-    var rating : Float? = null
-
-    var firstWriterId : Long? = null
-
-    var status : Status? = null
+    var status: Status? = null
 
 }
 

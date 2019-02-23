@@ -2,20 +2,18 @@ package app.foodin.entity.food
 
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
-import app.foodin.core.domain.Status
+import app.foodin.common.enums.Status
 import app.foodin.domain.food.Food
-import javax.persistence.*
-
+import app.foodin.entity.common.BaseEntity
+import javax.persistence.Entity
+import javax.persistence.Table
 
 @Entity
 @Table(name = "food")
 data class FoodEntity(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
         var name: String,
         var categoryId: Long
-) {
+) : BaseEntity(){
 
     var companyId : Long? = null
 
@@ -27,7 +25,7 @@ data class FoodEntity(
 
     var tags : String? = null
 
-    var mainPhotoUri : Int = 0
+    var mainPhotoUri : String? = null
 
     var photos : String? = null
 
@@ -45,7 +43,7 @@ data class FoodEntity(
 
     var status : Status? = null
 
-    constructor(food: Food) : this(null, food.name, food.categoryId) {
+    constructor(food: Food) : this(food.name, food.categoryId) {
 
         companyId = food.companyId
         categoryId = food.categoryId
@@ -69,6 +67,8 @@ data class FoodEntity(
 fun FoodEntity.toFood(): Food {
     return Food(name = this.name, categoryId = this.categoryId).also {
         it.id = this.id
+        it.createdTime = this.createdTime
+        it.updatedTime = this.updatedTime
         it.companyId = this.companyId
         it.minPrice = this.minPrice
         it.maxPrice = this.maxPrice
