@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.WebRequest
@@ -21,6 +22,7 @@ import java.util.*
 class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(CommonException::class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     fun handleCommonException(ex: CommonException, request: WebRequest): FailureResult {
         logger.info(" ****** CommonException : " + ex.localizedMessage)
         val cause = ex.cause
@@ -34,12 +36,14 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(AccessDeniedException::class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): FailureResult {
         logger.info(" ****** AccessDeniedException : " + ex.localizedMessage)
         return FailureResult(request, EX_AUTH_FAILED, "권한이 없습니다", ex.localizedMessage,null)
     }
 
     @ExceptionHandler(Exception::class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     fun handleExceptions(ex: Exception, request: WebRequest): FailureResult {
         logger.info(" ****** other Exceptions : " + ex.localizedMessage)
         return FailureResult(request, ex)
