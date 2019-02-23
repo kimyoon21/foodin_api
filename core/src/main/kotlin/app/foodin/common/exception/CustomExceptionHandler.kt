@@ -10,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
@@ -22,7 +23,14 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(CommonException::class)
     fun handleCommonException(ex: CommonException, request: WebRequest): FailureResult {
         logger.info(" ****** CommonException : " + ex.localizedMessage)
-        return FailureResult(request, ex, ex.cause?.message)
+        val cause = ex.cause
+        // http 오류는 해당 바디에 오류내용이 있을 때가 많으므로 그걸 넣어준다
+        val debugMessage = if (cause is HttpClientErrorException){
+            cause.responseBodyAsString
+        }else{
+            cause?.message
+        }
+        return FailureResult(request, ex, debugMessage)
     }
 
     @ExceptionHandler(AccessDeniedException::class)

@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.core.service
 
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
@@ -6,7 +6,9 @@ import app.foodin.common.exception.EX_NEED
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
+import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
+import app.foodin.domain.user.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -26,7 +28,7 @@ import java.util.*
 interface UserService {
     fun findByEmail(email: String): User?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
-    fun saveFrom(userRegisterDTO: UserRegisterDTO): User
+    fun saveFrom(userRegDTO: UserRegDTO): User
     fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO
     fun findAll(): List<User>
     fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
@@ -49,24 +51,24 @@ class CustomUserDetailsService(
 
     override fun loadUserByUsername(username: String?): UserDetails {
         username ?: throw CommonException(EX_NEED)
-        val snsType: SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0]?.toUpperCase())
+        val snsType: SnsType = SnsType.valueOf(username.split(USERNAME_SEPERATOR)[0].toUpperCase())
         val snsUserId = username.replaceFirst(snsType.name + USERNAME_SEPERATOR, "")
 
         return userGateway.findBySnsTypeAndSnsUserId(snsType, snsUserId)
                 ?: throw UsernameNotFoundException("User not found")
     }
 
-    override fun loggedIn(user: User, accessToken: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
+    override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
 
         val expireTime = Timestamp(expiration.time)
-        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = accessToken, expireTime = expireTime))
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token, expireTime = expireTime))
 
-        return UserLoginResultDTO(user, accessToken, refreshToken, expireTime)
+        return UserLoginResultDTO(user, token, refreshToken, expireTime)
 
     }
 
-    override fun saveFrom(userRegisterDTO: UserRegisterDTO): User {
-        return userGateway.saveFrom(userRegisterDTO.toUser())!!
+    override fun saveFrom(userRegDTO: UserRegDTO): User {
+        return userGateway.saveFrom(userRegDTO.toUser())
     }
 
     override fun findByEmail(email: String): User? {
@@ -103,7 +105,7 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("EMAIL 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("email 혹은 비밀번호가 잘못되었습니다")
+            throw CommonException("email 혹은 비밀번호가 잘못되었습니다",ex)
         }
     }
 
@@ -133,7 +135,7 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("token 혹은 userId 가 잘못되었습니다")
+            throw CommonException("token 혹은 userId 가 잘못되었습니다",ex)
         }
     }
 
@@ -161,23 +163,23 @@ class CustomUserDetailsService(
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
             logger.error(ex.responseBodyAsString, ex)
-            throw CommonException("token 및 sns 정보가 정확하지 않습니다.")
+            throw CommonException("token 및 sns 정보가 정확하지 않습니다.",ex)
         }
     }
 
     override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
         val resultMap: Map<String, Any> = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
-        when (snsTokenDTO.snsType) {
+        return when (snsTokenDTO.snsType) {
             SnsType.KAKAO -> {
                 val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
-                return snsTokenDTO.snsUserId == kakaoUserId.toString()
+                snsTokenDTO.snsUserId == kakaoUserId.toString()
             }
 //            SnsType.NAVER ->{}
 //            SnsType.FACEBOOK ->{}
             SnsType.EMAIL -> {
                 throw CommonException("EMAIL 은 /email/login 사용")
             }
-            else -> return false
+            else -> false
         }
     }
 

@@ -1,6 +1,6 @@
 package app.foodin.aop.requestLog
 
-import app.foodin.core.config.BeanConfig
+import app.foodin.common.utils.JsonUtils
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -26,7 +26,7 @@ class RequestLogObject {
     }
 
     fun toJson(): String {
-        return BeanConfig.getObjectMapper().writeValueAsString(this)
+        return JsonUtils.toJson(this)
     }
 }
 
@@ -77,14 +77,18 @@ object RequestLog {
     var response: Any? = null
         set(value) {
             try {
-                if (value is Exception) {
-                    value.initCause(value.cause)
-                }
-            }catch (iae : IllegalArgumentException){
                 // cause == this 무한 중첩 self 참조이므로 막는다 TODO 이거 어찌 처리하지
-                instance().response = (value as Exception).message
+                if (value is Exception && value.cause != null) {
+                    if (value == value.cause) {
+                        value.initCause(null)
+                    } else if (value.cause == value.cause?.cause) {
+                        value.cause?.initCause(null)
+                    }
+                }
+            } catch (e: Exception) {
+                field = (value as Exception).message
             }
-            instance().response = value
+            field = value
         }
 
     fun close() {

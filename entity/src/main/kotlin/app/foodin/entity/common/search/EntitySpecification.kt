@@ -1,6 +1,6 @@
-package app.foodin.entity.common
+package app.foodin.entity.common.search
 
-import app.foodin.entity.common.SearchOperation.*
+import app.foodin.entity.common.search.SearchOperation.*
 import org.springframework.data.jpa.domain.Specification
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
