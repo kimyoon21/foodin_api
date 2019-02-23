@@ -28,7 +28,7 @@ interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExec
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGateway {
     override fun findById(id: Long): Food? {
-        return foodRepository.findById(id).orElse(null)?.toFood()
+        return foodRepository.findById(id).orElse(null)?.toDomain()
     }
 
     override fun findByName(name: String): Food? {
@@ -36,14 +36,14 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGatewa
     }
 
     override fun saveFrom(t: Food): Food {
-        return foodRepository.saveAndFlush(FoodEntity(t)).toFood()
+        return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
     }
 
     override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
         @Suppress("UNCHECKED_CAST")
         spec as (Specification<FoodEntity>)
 
-        return foodRepository.findAll(spec,pageable).map(FoodEntity::toFood)
+        return foodRepository.findAll(spec,pageable).map(FoodEntity::toDomain)
     }
 
 }

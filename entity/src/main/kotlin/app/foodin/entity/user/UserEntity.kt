@@ -21,7 +21,8 @@ data class UserEntity(
         var snsType: SnsType
 
 
-) : BaseEntity() {
+) : BaseEntity<User>() {
+
 
     var snsUserId: String? = null
 
@@ -93,35 +94,35 @@ data class UserEntity(
         accountLocked = user.accountLocked
     }
 
-}
-
-fun UserEntity.toUser(): User {
-    return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
-        it.id = this.id
-        it.createdTime = this.createdTime
-        it.updatedTime = this.updatedTime
-        it.snsUserId = this.snsUserId
-        it.loginPw = this.loginPw
-        it.birthFullDay = this.birth?.birthFullDay
-        it.birthYear = this.birth?.birthYear
-        it.gender = this.gender
-        it.nickName = this.nickName
-        it.firstFoodRegTime = this.firstFoodRegTime
-        it.firstReviewRegTime = this.firstReviewRegTime
-        it.firstRecipeRegTime = this.firstRecipeRegTime
-        it.phoneNumber = this.phoneNumber
-        it.phoneCountryCode = this.phoneCountryCode
-        it.reviewCount = this.reviewCount
-        it.findCount = this.findCount
-        it.recipeCount = this.recipeCount
-        it.followingCount = this.followingCount
-        it.followerCount = this.followerCount
-        it.agreePolicy = this.agreePolicy
-        it.agreeMarketing = this.agreeMarketing
-        it.authoritiesStr = this.authoritiesStr
-        it.enabled = this.enabled
-        it.credentialsExpired = this.credentialsExpired
-        it.accountExpired = this.accountExpired
-        it.accountLocked = this.accountLocked
+    override fun toDomain(): User {
+        return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
+            it.id = this.id
+            it.createdTime = this.createdTime
+            it.updatedTime = this.updatedTime
+            it.snsUserId = this.snsUserId
+            it.loginPw = this.loginPw
+            it.birthFullDay = this.birth?.birthFullDay
+            it.birthYear = this.birth?.birthYear
+            it.gender = this.gender
+            it.nickName = this.nickName
+            it.firstFoodRegTime = this.firstFoodRegTime
+            it.firstReviewRegTime = this.firstReviewRegTime
+            it.firstRecipeRegTime = this.firstRecipeRegTime
+            it.phoneNumber = this.phoneNumber
+            it.phoneCountryCode = this.phoneCountryCode
+            it.reviewCount = this.reviewCount
+            it.findCount = this.findCount
+            it.recipeCount = this.recipeCount
+            it.followingCount = this.followingCount
+            it.followerCount = this.followerCount
+            it.agreePolicy = this.agreePolicy
+            it.agreeMarketing = this.agreeMarketing
+            it.authoritiesStr = this.authoritiesStr
+            it.enabled = this.enabled
+            it.credentialsExpired = this.credentialsExpired
+            it.accountExpired = this.accountExpired
+            it.accountLocked = this.accountLocked
+        }
     }
+
 }

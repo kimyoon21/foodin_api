@@ -1,19 +1,22 @@
-package app.foodin.entity.food
+package app.foodin.entity.foodCategory
 
 import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
 import app.foodin.domain.food.Food
+import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.food.FoodEntity
 import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
 @Table(name = "food")
-data class FoodEntity(
+data class FoodCategoryEntity(
         var name: String,
         var categoryId: Long
-) : BaseEntity<Food>(){
+) : BaseEntity<FoodCategory>(){
+
 
     var companyId : Long? = null
 
@@ -62,26 +65,8 @@ data class FoodEntity(
         status = food.status
     }
 
-    override fun toDomain(): Food {
-        return Food(name = this.name, categoryId = this.categoryId).also {
-            it.id = this.id
-            it.createdTime = this.createdTime
-            it.updatedTime = this.updatedTime
-            it.companyId = this.companyId
-            it.minPrice = this.minPrice
-            it.maxPrice = this.maxPrice
-            it.summary = this.summary
-            it.tagList = this.tags.csvToList()
-            it.mainPhotoUri = this.mainPhotoUri
-            it.photoList = this.photos.csvToList()
-            it.loveCount = this.loveCount
-            it.ratingCount = this.ratingCount
-            it.reviewCount = this.reviewCount
-            it.recipeCount = this.recipeCount
-            it.rating = this.rating
-            it.firstWriterId = this.firstWriterId
-            it.status = this.status
-        }
+    override fun toDomain(): FoodCategory {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
