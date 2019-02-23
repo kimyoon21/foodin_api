@@ -5,7 +5,7 @@ import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 
 open class SignatureProcessor {
-    val parameterPairs: List<Pair<String, out Parameter>>
+    val parameterPairs: List<Pair<String, Parameter>>
     private val signature: MethodSignature
 
     private val method: Method

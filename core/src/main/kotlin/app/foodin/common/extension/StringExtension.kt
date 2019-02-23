@@ -10,11 +10,19 @@ import app.foodin.common.exception.CommonException
  *  .let { checkRegisteredEmail(it) }
  * ```
  */
-inline fun String.csvToList(): List<String> {
-    return this.split(",").map { it.trim() }
+fun String?.csvToList(): MutableList<String> {
+    return if(this.hasValue()){
+        this!!.split(",").map { it.trim() }.filter { it.hasValue() }.toMutableList()
+    }else{
+        mutableListOf()
+    }
 }
 
-inline fun String?.hasValue(): Boolean {
+fun MutableList<String>.listToCsv(): String {
+    return this.filter { it.trim().hasValue() }.joinToString(",")
+}
+
+fun String?.hasValue(): Boolean {
     return this != null && !this.isEmpty()
 }
 
@@ -25,7 +33,7 @@ inline fun String?.hasValue(): Boolean {
  * @param length
  * @return
  */
-inline fun String?.substring(length: Int): String? {
+fun String?.substring(length: Int): String? {
 
     return this?.let {
         if (it.length < length) it else it.substring(0, length)  }
@@ -38,7 +46,7 @@ inline fun String?.substring(length: Int): String? {
  * @param length
  * @return
  */
-inline fun String?.substring(length: Int, endStr: String): String? {
+fun String?.substring(length: Int, endStr: String): String? {
     val END_LENGTH = endStr.length
     if (length <= END_LENGTH) {
         throw CommonException("lengh must be greater than $END_LENGTH")
@@ -51,7 +59,7 @@ inline fun String?.substring(length: Int, endStr: String): String? {
         } else {
             val sub = s.substring( length - END_LENGTH)
             return if (sub!!.length == length - END_LENGTH) {
-                sub!! + endStr
+                sub + endStr
             } else {
                 sub
             }

@@ -4,6 +4,7 @@ apply plugin: 'kotlin-allopen'
 allOpen {
     annotation "javax.persistence.Entity"
     annotation "javax.persistence.Embeddable"
+    annotation "javax.persistence.MappedSuperclass"
 }
 
 group rootProject.group
@@ -19,18 +20,18 @@ dependencies {
 //        exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
 //    }
 
-    compile('com.zaxxer:HikariCP:2.5.1') {
-        exclude group: 'org.hibernate', module: 'hibernate-core'
-    }
-
-    compile('org.hibernate:hibernate-hikaricp:5.2.11.Final') {
-        exclude group: 'com.zaxxer', module: 'HikariCP'
-        exclude group: 'org.hibernate', module: 'hibernate-core'
-    }
+//    compile('com.zaxxer:HikariCP:2.5.1') {
+//        exclude group: 'org.hibernate', module: 'hibernate-core'
+//    }
+//
+//    compile('org.hibernate:hibernate-hikaricp:5.2.11.Final') {
+//        exclude group: 'com.zaxxer', module: 'HikariCP'
+//        exclude group: 'org.hibernate', module: 'hibernate-core'
+//    }
 
 //    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
     runtime('mysql:mysql-connector-java')
-
+    testImplementation('org.springframework.boot:spring-boot-starter-data-jpa')
     testImplementation("org.springframework.boot:spring-boot-starter-jdbc")
     testAnnotationProcessor "io.requery:requery-processor"
 }

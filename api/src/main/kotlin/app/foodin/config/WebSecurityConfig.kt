@@ -1,6 +1,6 @@
 package app.foodin.config
 
-import app.foodin.domain.user.CustomUserDetailsService
+import app.foodin.core.service.CustomUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager

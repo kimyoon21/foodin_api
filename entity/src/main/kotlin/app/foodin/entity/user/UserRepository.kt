@@ -2,7 +2,7 @@ package app.foodin.entity.user
 
 import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
-import app.foodin.domain.user.UserGateway
+import app.foodin.core.gateway.UserGateway
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -23,7 +23,7 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
         return list.map { x -> x.toUser() }.toCollection(LinkedList())
     }
 
-    override fun saveFrom(user: User): User? {
+    override fun saveFrom(user: User): User {
         return userRepository.save(UserEntity(user)).toUser()
     }
 

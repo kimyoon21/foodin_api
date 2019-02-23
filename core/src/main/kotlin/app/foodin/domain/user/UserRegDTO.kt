@@ -5,27 +5,11 @@ import app.foodin.common.enums.SnsType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
-class UserRegisterDTO(
+class UserRegDTO(
         val email: String,
         val realName: String,
         val snsType: SnsType
 ) {
-
-    fun toUser(): User {
-        User(this.email, this.realName, this.snsType).let{
-
-            it.loginPw = this.loginPw
-            it.snsUserId = this.snsUserId
-            it.agreePolicy = this.agreePolicy
-            it.agreeMarketing = this.agreeMarketing
-            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-            it.birthFullDay = LocalDate.parse(birthday, formatter)
-            it.birthYear = it.birthFullDay?.year
-            it.gender = this.gender
-
-            return it
-        }
-    }
 
     var loginPw : String? = null
 
@@ -39,4 +23,21 @@ class UserRegisterDTO(
     var birthday: String? = null
 
     var gender: Gender? = null
+
+
+    fun toUser(): User {
+        User(null,this.email, this.realName, this.snsType).let{
+
+            it.loginPw = this.loginPw
+            it.snsUserId = this.snsUserId
+            it.agreePolicy = this.agreePolicy
+            it.agreeMarketing = this.agreeMarketing
+            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+            it.birthFullDay = LocalDate.parse(birthday, formatter)
+            it.birthYear = it.birthFullDay?.year
+            it.gender = this.gender
+
+            return it
+        }
+    }
 }

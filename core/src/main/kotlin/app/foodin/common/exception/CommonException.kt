@@ -8,6 +8,10 @@ open class CommonException(
 ) : RuntimeException(msgCode) {
     constructor(msgCode: String) : this("INVALID_REQUEST", null, msgCode, null)
 
+    constructor(msgCode: String, ex : Throwable) : this(msgCode){
+        super.initCause(ex)
+    }
+
     override val message: String?
         get() = super.message
 

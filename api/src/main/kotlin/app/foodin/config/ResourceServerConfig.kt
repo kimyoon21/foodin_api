@@ -24,6 +24,7 @@ class ResourceServerConfig(
 //                .antMatchers("/product/**").authenticated()
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
+                .antMatchers("/food/**").permitAll() //TODO 임시로
                 .antMatchers("/user/login/**", "/user/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
                 .antMatchers("/**").authenticated()

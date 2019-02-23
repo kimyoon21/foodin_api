@@ -60,8 +60,8 @@ class RequestWrapper private constructor(val request: HttpServletRequest) {
                         logStr = inputString
                         if (inputString.trim().isNullOrEmpty()) {
                             return convertedParameterMap
-                        } else if (inputString.length > 100) {
-                            logStr = inputString.substring(0, 100)
+                        } else if (inputString.length > 200) {
+                            logStr = inputString.substring(0, 200)
                         }
                         logger.info("HTTP request inputStream read to String : $logStr ... ")
                         convertedParameterMap = JsonUtils.fromJson(
