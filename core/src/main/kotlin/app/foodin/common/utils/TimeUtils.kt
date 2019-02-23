@@ -64,7 +64,7 @@ fun strToTimestamp(timeStr: String): Timestamp {
 
 fun strToTimestamp(timeStr: String, format: String): Timestamp {
     val sdf = SimpleDateFormat(format)
-    var result: Timestamp? = null
+    var result: Timestamp?
     try {
         val date = sdf.parse(timeStr)
         result = Timestamp(date.time)

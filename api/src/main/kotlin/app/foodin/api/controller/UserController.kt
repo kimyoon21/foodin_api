@@ -101,7 +101,7 @@ class UserController(
 
                         checkRegisteredUid(userRegDTO.snsType, it)
                         // sns 인경우 비번 세팅
-                        userRegDTO.loginPw = BCryptPasswordEncoder().encode("pw${userRegDTO.snsUserId}")
+                        userRegDTO.loginPw = BCryptPasswordEncoder().encode("${userRegDTO.snsUserId}")
                     }
         } else {
             userRegDTO.loginPw

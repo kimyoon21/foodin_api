@@ -59,7 +59,7 @@ fun String?.substring(length: Int, endStr: String): String? {
         } else {
             val sub = s.substring( length - END_LENGTH)
             return if (sub!!.length == length - END_LENGTH) {
-                sub!! + endStr
+                sub + endStr
             } else {
                 sub
             }
