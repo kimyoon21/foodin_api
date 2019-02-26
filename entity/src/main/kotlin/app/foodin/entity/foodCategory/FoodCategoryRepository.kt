@@ -1,32 +1,28 @@
 package app.foodin.entity.foodCategory
 
 import app.foodin.core.gateway.FoodCategoryGateway
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import app.foodin.domain.foodCategory.FoodCategory
+import app.foodin.entity.common.BaseRepository
+import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 
 @Repository
-interface FoodCategoryRepository : JpaRepository<FoodCategoryEntity, Long>, JpaSpecificationExecutor<FoodCategoryEntity> {
-
+interface FoodCategoryRepository : BaseRepositoryInterface<FoodCategoryEntity> {
+    fun findByFilterName(filterName: String): FoodCategoryEntity?
 }
 
+
 @Component
-class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategoryRepository) : FoodCategoryGateway {
-//    override fun findById(id: Long): Food? {
-//        return foodCategoryRepository.findById(id).orElse(null)?.toDomain()
-//    }
-//
-//    override fun saveFrom(t: Food): Food {
-//        return foodCategoryRepository.saveAndFlush(FoodEntity(t)).toDomain()
-//    }
-//
-//    override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
-//        @Suppress("UNCHECKED_CAST")
-//        spec as (Specification<FoodEntity>)
-//
-//        return foodCategoryRepository.findAll(spec,pageable).map(FoodEntity::toFood)
-//    }
+class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategoryRepository)
+    : BaseRepository<FoodCategory,FoodCategoryEntity>(foodCategoryRepository), FoodCategoryGateway {
+    override fun findByFilterName(filterName: String): FoodCategory? {
+        return foodCategoryRepository.findByFilterName(filterName)?.toDomain()
+    }
+
+    override fun saveFrom(t: FoodCategory): FoodCategory {
+        return foodCategoryRepository.saveAndFlush(FoodCategoryEntity(t)).toDomain()
+    }
 
 }
