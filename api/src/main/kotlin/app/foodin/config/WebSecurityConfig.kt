@@ -62,7 +62,8 @@ class WebSecurityConfig(
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/webjars/**",
-                        "/swagger/**"
+                        "/swagger/**",
+                        "/food.html"
                 )
     }
 }

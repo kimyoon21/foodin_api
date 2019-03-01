@@ -23,6 +23,7 @@ class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
+                .apiInfo(apiEndPointsInfo())
     }
 
     private fun apiEndPointsInfo(): ApiInfo {
