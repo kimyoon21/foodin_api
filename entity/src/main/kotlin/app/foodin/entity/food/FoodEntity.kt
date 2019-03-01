@@ -14,20 +14,26 @@ data class FoodEntity(
         var name: String,
         var categoryId: Long
 ) : BaseEntity<Food>(){
-
+    /** 판매처 너무 많고 부정확해서 일단은 그냥 이름사용 */
     var companyId : Long? = null
 
-    var minPrice : Int = 0
+    var companyName : String? = null
+    /** 판매처 이름 CSV **/
+    var sellerNames : String? = null
+    // TODO 다대다 연결
+//    var sellers : Set<SellerEntity>? = setOf()
 
-    var maxPrice : Int = 0
+    var minPrice : Int? = 0
+
+    var maxPrice : Int? = 0
 
     var summary : String? = null
 
     var tags : String? = null
 
-    var mainPhotoUri : String? = null
+    var mainImageUri : String? = null
 
-    var photos : String? = null
+    var imagesUri : String? = null
 
     var loveCount : Int = 0
 
@@ -46,13 +52,15 @@ data class FoodEntity(
     constructor(food: Food) : this(food.name, food.categoryId) {
 
         companyId = food.companyId
+        companyName = food.companyName
         categoryId = food.categoryId
+        sellerNames = food.sellerNameList.listToCsv()
         minPrice = food.minPrice
         maxPrice = food.maxPrice
         summary = food.summary
         tags = food.tagList.listToCsv()
-        mainPhotoUri = food.mainPhotoUri
-        photos = food.photoList.listToCsv()
+        mainImageUri = food.mainImageUri
+        imagesUri = food.imageUriList.listToCsv()
         loveCount = food.loveCount
         ratingCount = food.ratingCount
         reviewCount = food.reviewCount
@@ -68,12 +76,14 @@ data class FoodEntity(
             it.createdTime = this.createdTime
             it.updatedTime = this.updatedTime
             it.companyId = this.companyId
+            it.companyName = this.companyName
+            it.sellerNameList = this.sellerNames.csvToList()
             it.minPrice = this.minPrice
             it.maxPrice = this.maxPrice
             it.summary = this.summary
             it.tagList = this.tags.csvToList()
-            it.mainPhotoUri = this.mainPhotoUri
-            it.photoList = this.photos.csvToList()
+            it.mainImageUri = this.mainImageUri
+            it.imageUriList = this.imagesUri.csvToList()
             it.loveCount = this.loveCount
             it.ratingCount = this.ratingCount
             it.reviewCount = this.reviewCount

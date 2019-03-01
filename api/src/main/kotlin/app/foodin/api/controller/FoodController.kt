@@ -17,10 +17,10 @@ class FoodController(
 
     @GetMapping
     fun getAll(pageable: Pageable,
-               searchSpec: SearchSpec<FoodEntity>): ResponseResult {
+               searchSpec: SearchSpec<FoodEntity>?): ResponseResult {
 
 
-        return ResponseResult(foodService.findAll(searchSpec.spec,pageable))
+        return ResponseResult(foodService.findAll(searchSpec?.spec,pageable))
     }
 
     @GetMapping(value = ["/name"])

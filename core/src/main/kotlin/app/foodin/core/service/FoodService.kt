@@ -32,20 +32,20 @@ class FoodService(
         food.let {
 
             it.companyId = foodRegRequest.companyId
-            if (it.minPrice > foodRegRequest.price) {
+            if (it.minPrice == null || it.minPrice!! > foodRegRequest.price) {
                 it.minPrice = foodRegRequest.price
             }
-            if (it.maxPrice < foodRegRequest.price) {
+            if (it.maxPrice == null || it.maxPrice!! < foodRegRequest.price) {
                 it.maxPrice = foodRegRequest.price
             }
             if(foodRegRequest.summary?.length ?: 0 > it.summary?.length ?: 0){
                 it.summary = foodRegRequest.summary
             }
-            if (it.mainPhotoUri == null) {
-                it.mainPhotoUri = foodRegRequest.mainPhotoUri
+            if (it.mainImageUri == null) {
+                it.mainImageUri = foodRegRequest.mainPhotoUri
             }
             it.tagList.addAll(foodRegRequest.tagList)
-            it.photoList.addAll(foodRegRequest.photoList)
+            it.imageUriList.addAll(foodRegRequest.photoList)
 
             return it
         }

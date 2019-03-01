@@ -39,11 +39,15 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGatewa
         return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
-        @Suppress("UNCHECKED_CAST")
-        spec as (Specification<FoodEntity>)
+        var specification : Specification<FoodEntity>? = null
+        if(spec != null) {
+            specification = spec as (Specification<FoodEntity>)
+        }
+        return foodRepository.findAll(specification,pageable).map(FoodEntity::toDomain)
 
-        return foodRepository.findAll(spec,pageable).map(FoodEntity::toDomain)
+
     }
 
 }

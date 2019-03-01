@@ -13,17 +13,21 @@ data class Food(
 
     var companyId: Long? = null
 
-    var minPrice: Int = 0
+    var companyName: String? = null
 
-    var maxPrice: Int = 0
+    var sellerNameList : MutableList<String> = mutableListOf()
+
+    var minPrice: Int? = 0
+
+    var maxPrice: Int? = 0
 
     var summary: String? = null
 
     var tagList: MutableList<String> = mutableListOf()
 
-    var mainPhotoUri: String? = null
+    var mainImageUri: String? = null
 
-    var photoList: MutableList<String> = mutableListOf()
+    var imageUriList: MutableList<String> = mutableListOf()
 
     var loveCount: Int = 0
 

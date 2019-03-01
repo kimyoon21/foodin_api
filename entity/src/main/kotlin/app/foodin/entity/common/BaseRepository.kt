@@ -11,11 +11,13 @@ abstract class BaseRepository<T:BaseDomain,E:BaseEntity<T>>(private val baseJpaR
         return baseJpaRepository.findById(id).orElse(null)?.toDomain()
     }
 
+    @Suppress("UNCHECKED_CAST")
     open fun findAll(spec: Specification<*>?, pageable: Pageable): Page<T> {
-        @Suppress("UNCHECKED_CAST")
-        spec as (Specification<E>)
+        var specification : Specification<E>? = null
+        if(spec != null)
+            specification = spec as (Specification<E>)
 
-        return baseJpaRepository.findAll(spec, pageable).map { e -> e.toDomain() }
+        return baseJpaRepository.findAll(specification, pageable).map { e -> e.toDomain() }
     }
 
 }
