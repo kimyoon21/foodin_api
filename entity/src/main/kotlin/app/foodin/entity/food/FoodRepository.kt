@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
-
 @Repository
 interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExecutor<FoodEntity> {
     /***
@@ -28,7 +27,7 @@ interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExec
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGateway {
     override fun findById(id: Long): Food? {
-        return foodRepository.findById(id).orElse(null)?.toFood()
+        return foodRepository.findById(id).orElse(null)?.toDomain()
     }
 
     override fun findByName(name: String): Food? {
@@ -36,14 +35,15 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGatewa
     }
 
     override fun saveFrom(t: Food): Food {
-        return foodRepository.saveAndFlush(FoodEntity(t)).toFood()
+        return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
-        @Suppress("UNCHECKED_CAST")
-        spec as (Specification<FoodEntity>)
-
-        return foodRepository.findAll(spec,pageable).map(FoodEntity::toFood)
+        var specification: Specification<FoodEntity>? = null
+        if (spec != null) {
+            specification = spec as (Specification<FoodEntity>)
+        }
+        return foodRepository.findAll(specification, pageable).map(FoodEntity::toDomain)
     }
-
 }

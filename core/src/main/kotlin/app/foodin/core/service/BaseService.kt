@@ -8,14 +8,13 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 
-
-open class BaseService<T: BaseDomain>(
-        private val gateway: BaseGateway<T>
-)  {
+open class BaseService<T : BaseDomain>(
+    private val gateway: BaseGateway<T>
+) {
     fun findAll(spec: Specification<*>?, pageable: Pageable): Page<T> {
         return gateway.findAll(spec, pageable)
     }
-    fun findById(id : Long): T {
+    fun findById(id: Long): T {
         return gateway.findById(id) ?: throw CommonException(EX_NOT_EXISTS)
     }
     fun saveFrom(t: T): T {

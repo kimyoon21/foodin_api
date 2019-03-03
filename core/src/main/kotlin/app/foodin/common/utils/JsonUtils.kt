@@ -94,10 +94,9 @@ object JsonUtils {
             try {
                 return mapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
             } catch (e: JsonProcessingException) {
-                logger.error(" error in JsonUtils: pretty json",e)
+                logger.error(" error in JsonUtils: pretty json", e)
             }
         }
         return ""
     }
 }
-

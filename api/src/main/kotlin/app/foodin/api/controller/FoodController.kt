@@ -8,31 +8,29 @@ import app.foodin.entity.food.FoodEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
-
 @RestController
 @RequestMapping("/food")
 class FoodController(
-        private val foodService: FoodService
+    private val foodService: FoodService
 ) {
 
     @GetMapping
-    fun getAll(pageable: Pageable,
-               searchSpec: SearchSpec<FoodEntity>): ResponseResult {
+    fun getAll(
+        pageable: Pageable,
+        searchSpec: SearchSpec<FoodEntity>?
+    ): ResponseResult {
 
-
-        return ResponseResult(foodService.findAll(searchSpec.spec,pageable))
+        return ResponseResult(foodService.findAll(searchSpec?.spec, pageable))
     }
 
     @GetMapping(value = ["/name"])
-    fun getName(@RequestParam name : String): ResponseResult {
-
+    fun getName(@RequestParam name: String): ResponseResult {
 
         return ResponseResult(foodService.findByName(name))
     }
 
     @GetMapping(value = ["/{id}"])
-    fun getOne(@PathVariable id : Long): ResponseResult {
-
+    fun getOne(@PathVariable id: Long): ResponseResult {
 
         return ResponseResult(foodService.findById(id))
     }
@@ -41,5 +39,4 @@ class FoodController(
     fun register(@RequestBody food: Food): ResponseResult {
         return ResponseResult(foodService.saveFrom(food))
     }
-
 }

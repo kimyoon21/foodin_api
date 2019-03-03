@@ -22,10 +22,10 @@ class EntitySpecificationBuilder<T> {
                 } else if (endWithAsterisk) {
                     op = STARTS_WITH
                 }
-            }else if (op === NULL_CHECK) {
-                op = if(value == "1"){
+            } else if (op === NULL_CHECK) {
+                op = if (value == "1") {
                     IS_NOT_NULL
-                }else {
+                } else {
                     IS_NULL
                 }
             }

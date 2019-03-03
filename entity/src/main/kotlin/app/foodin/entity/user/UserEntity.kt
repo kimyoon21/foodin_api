@@ -11,23 +11,21 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.Table
 
-
 @Entity
 @Table(name = "user")
 data class UserEntity(
-        var email: String,
-        var realName: String,
-        @Enumerated(EnumType.STRING)
-        var snsType: SnsType
+    var email: String,
+    var realName: String,
+    @Enumerated(EnumType.STRING)
+    var snsType: SnsType
 
-
-) : BaseEntity() {
+) : BaseEntity<User>() {
 
     var snsUserId: String? = null
 
     var loginPw: String? = null
 
-    var birth : Birth? = null
+    var birth: Birth? = null
 
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
@@ -68,7 +66,7 @@ data class UserEntity(
 
     var accountLocked: Boolean = false
 
-    constructor(user: User) : this( user.email, user.realName, user.snsType) {
+    constructor(user: User) : this(user.email, user.realName, user.snsType) {
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
@@ -93,35 +91,34 @@ data class UserEntity(
         accountLocked = user.accountLocked
     }
 
-}
-
-fun UserEntity.toUser(): User {
-    return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
-        it.id = this.id
-        it.createdTime = this.createdTime
-        it.updatedTime = this.updatedTime
-        it.snsUserId = this.snsUserId
-        it.loginPw = this.loginPw
-        it.birthFullDay = this.birth?.birthFullDay
-        it.birthYear = this.birth?.birthYear
-        it.gender = this.gender
-        it.nickName = this.nickName
-        it.firstFoodRegTime = this.firstFoodRegTime
-        it.firstReviewRegTime = this.firstReviewRegTime
-        it.firstRecipeRegTime = this.firstRecipeRegTime
-        it.phoneNumber = this.phoneNumber
-        it.phoneCountryCode = this.phoneCountryCode
-        it.reviewCount = this.reviewCount
-        it.findCount = this.findCount
-        it.recipeCount = this.recipeCount
-        it.followingCount = this.followingCount
-        it.followerCount = this.followerCount
-        it.agreePolicy = this.agreePolicy
-        it.agreeMarketing = this.agreeMarketing
-        it.authoritiesStr = this.authoritiesStr
-        it.enabled = this.enabled
-        it.credentialsExpired = this.credentialsExpired
-        it.accountExpired = this.accountExpired
-        it.accountLocked = this.accountLocked
+    override fun toDomain(): User {
+        return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
+            it.id = this.id
+            it.createdTime = this.createdTime
+            it.updatedTime = this.updatedTime
+            it.snsUserId = this.snsUserId
+            it.loginPw = this.loginPw
+            it.birthFullDay = this.birth?.birthFullDay
+            it.birthYear = this.birth?.birthYear
+            it.gender = this.gender
+            it.nickName = this.nickName
+            it.firstFoodRegTime = this.firstFoodRegTime
+            it.firstReviewRegTime = this.firstReviewRegTime
+            it.firstRecipeRegTime = this.firstRecipeRegTime
+            it.phoneNumber = this.phoneNumber
+            it.phoneCountryCode = this.phoneCountryCode
+            it.reviewCount = this.reviewCount
+            it.findCount = this.findCount
+            it.recipeCount = this.recipeCount
+            it.followingCount = this.followingCount
+            it.followerCount = this.followerCount
+            it.agreePolicy = this.agreePolicy
+            it.agreeMarketing = this.agreeMarketing
+            it.authoritiesStr = this.authoritiesStr
+            it.enabled = this.enabled
+            it.credentialsExpired = this.credentialsExpired
+            it.accountExpired = this.accountExpired
+            it.accountLocked = this.accountLocked
+        }
     }
 }

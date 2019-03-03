@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.context.request.WebRequest
 
 class FailureResult(
-        var code: String,
-        override var message: String? = null,
-        var debugMessage: String? = null,
-        override var data: Any? = emptyMap<String, String>()
+    var code: String,
+    override var message: String? = null,
+    var debugMessage: String? = null,
+    override var data: Any? = emptyMap<String, String>()
 ) : ResponseResult(message, data) {
 
     override var succeeded: Boolean = false
@@ -21,7 +21,7 @@ class FailureResult(
             message,
             debugMessage,
             data
-    ){
+    ) {
         ref = request.getDescription(true)
     }
 

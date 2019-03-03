@@ -5,25 +5,29 @@ import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.writable.UserWritable
 
 data class Food(
-        override var id : Long? = null,
-        var name: String,
-        var categoryId: Long
+    override var id: Long? = null,
+    var name: String,
+    var categoryId: Long
 
 ) : BaseDomain(id), UserWritable {
 
     var companyId: Long? = null
 
-    var minPrice: Int = 0
+    var companyName: String? = null
 
-    var maxPrice: Int = 0
+    var sellerNameList: MutableList<String> = mutableListOf()
+
+    var minPrice: Int? = 0
+
+    var maxPrice: Int? = 0
 
     var summary: String? = null
 
     var tagList: MutableList<String> = mutableListOf()
 
-    var mainPhotoUri: String? = null
+    var mainImageUri: String? = null
 
-    var photoList: MutableList<String> = mutableListOf()
+    var imageUriList: MutableList<String> = mutableListOf()
 
     var loveCount: Int = 0
 
@@ -38,6 +42,4 @@ data class Food(
     var firstWriterId: Long? = null
 
     var status: Status? = null
-
 }
-

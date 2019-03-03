@@ -3,11 +3,11 @@ package app.foodin.entity.common.search
 import org.springframework.data.jpa.domain.Specification
 import java.util.regex.Pattern
 
-class SearchSpec<T>{
+class SearchSpec<T> {
 
-    var spec : Specification<T>? = null
+    var spec: Specification<T>? = null
 
-    var search : String? = null
+    var search: String? = null
     set(value) {
         val builder = EntitySpecificationBuilder<T>()
         val operationSetExper = SearchOperation.SIMPLE_OPERATION_SET.joinToString("|")
@@ -25,6 +25,4 @@ class SearchSpec<T>{
 
         spec = builder.build()
     }
-
-
 }

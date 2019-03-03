@@ -13,12 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig(
-        private val customUserDetailsService: CustomUserDetailsService
+    private val customUserDetailsService: CustomUserDetailsService
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -47,7 +46,7 @@ class WebSecurityConfig(
     fun authenticationProvider(): DaoAuthenticationProvider {
         val authenticationProvider = DaoAuthenticationProvider()
         authenticationProvider.setUserDetailsService(customUserDetailsService)
-        authenticationProvider.setPasswordEncoder(passwordEncoder()) //패스워드를 암호활 경우 사용한다
+        authenticationProvider.setPasswordEncoder(passwordEncoder()) // 패스워드를 암호활 경우 사용한다
         return authenticationProvider
     }
 
@@ -62,7 +61,8 @@ class WebSecurityConfig(
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/webjars/**",
-                        "/swagger/**"
+                        "/swagger/**",
+                        "/food.html"
                 )
     }
 }

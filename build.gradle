@@ -16,7 +16,7 @@ buildscript {
 
 
 group = 'app.foodin'
-version = '0.0.1-SNAPSHOT'
+version = '0.3.7-SNAPSHOT'
 
 allprojects {
     repositories {

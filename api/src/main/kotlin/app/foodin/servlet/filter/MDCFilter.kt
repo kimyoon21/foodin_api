@@ -17,10 +17,9 @@ class MDCFilter : Filter {
 
         try {
             chain.doFilter(request, response)
-        }finally {
+        } finally {
             MDCUtils.clear()
         }
-
     }
 
     override fun init(filterConfig: FilterConfig?) {}

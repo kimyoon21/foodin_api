@@ -22,12 +22,11 @@ import java.security.Principal
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
-
 @RestController
 @RequestMapping("/user")
 @Loggable(result = true, param = true)
 class UserController(
-        private val userService: UserService
+    private val userService: UserService
 
 ) {
 
@@ -48,7 +47,7 @@ class UserController(
 
     fun checkRegisteredEmail(email: String) {
         userService.findByEmail(email)?.let {
-            throwAlreadyRegistered(listOf()) //TODO
+            throwAlreadyRegistered(listOf()) // TODO
         }
     }
 
@@ -65,20 +64,20 @@ class UserController(
     }
 
     @PutMapping("/{id}")
-    fun update(@ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
-               @PathVariable("id") userId : Long,
-               @ApiIgnore errors: Errors
+    fun update(
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
+        @PathVariable("id") userId: Long,
+        @ApiIgnore errors: Errors
     ): ResponseResult {
         logger.info("authRequest: $userUpdateDTO")
-
 
         return ResponseResult()
     }
 
     @PostMapping("/register")
     fun register(
-            @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegDTO: UserRegDTO,
-            @ApiIgnore errors: Errors
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegDTO: UserRegDTO,
+        @ApiIgnore errors: Errors
     ): ResponseResult {
         logger.info("authRequest: $userRegDTO")
 
@@ -86,13 +85,11 @@ class UserController(
             throw FieldErrorException(errors)
         }
 
-
         userRegDTO.email
                 .hasValueOrElseThrow { FieldErrorException(userRegDTO::email.name, "{ex.need}", "{word.email}") }
                 .let {
                     checkRegisteredEmail(it)
                 }
-
 
         if (userRegDTO.snsType != SnsType.EMAIL) {
             userRegDTO.snsUserId
@@ -131,27 +128,25 @@ class UserController(
     }
 
     @GetMapping(value = ["/me"])
-    fun getMe(principal : Principal, httpServletRequest: HttpServletRequest): ResponseResult {
+    fun getMe(principal: Principal, httpServletRequest: HttpServletRequest): ResponseResult {
         return ResponseResult(userService.findByEmail(principal.name))
     }
 
     @GetMapping(value = [""])
     fun getUserList(principal: Principal): ResponseResult {
-        //TODO
+        // TODO
         val list = userService.findAll()
         return ResponseResult(list = list, total = list.size.toLong(), length = 2, current = 3)
     }
 
     @PostMapping(value = ["/login/email"])
     fun emailLogin(
-            @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
-            errors: Errors
+        @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
+        errors: Errors
     ): ResponseResult {
 
         return ResponseResult(userService.emailLogin(emailLoginDTO))
-
     }
-
 
     /***
      * 1. token 에서 access_token , sns_type 등 체크
@@ -162,8 +157,8 @@ class UserController(
      */
     @PostMapping(value = ["/login/sns"])
     fun checkUserInfoByAccessToken(
-            @RequestBody snsTokenDTO: SnsTokenDTO,
-            errors: Errors
+        @RequestBody snsTokenDTO: SnsTokenDTO,
+        errors: Errors
     ): ResponseResult {
         // TODO 필드가 null 이거나 맞지 않는 타입일 때 아무런 메시지 없이 400 에러 발생함.
         if (errors.hasErrors()) {
@@ -179,9 +174,6 @@ class UserController(
                 ?: return ResponseResult("go_to_register")
 
         // 로그인 처리
-        return ResponseResult(userService.snsLogin(snsTokenDTO,user))
+        return ResponseResult(userService.snsLogin(snsTokenDTO, user))
     }
-
-
-
 }
