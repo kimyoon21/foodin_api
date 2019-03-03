@@ -5,7 +5,7 @@ import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.writable.UserWritable
 
 data class Food(
-        override var id : Long? = null,
+        override var id : Long = 0,
         var name: String,
         var categoryId: Long
 

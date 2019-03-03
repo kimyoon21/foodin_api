@@ -1,7 +1,9 @@
 package app.foodin.entity.food
 
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodDto
 import app.foodin.domain.user.FoodGateway
+import app.foodin.entity.common.toDomainList
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
@@ -22,18 +24,29 @@ interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExec
      * 흠 편하긴 한데, 명시적으로 DTO 화 하는게 아니라서, Entity 필드 이름이 바뀌면 값을 못읽게 되는 side effect
      *
      */
-    fun findByName(name: String): Food?
+    fun findByName(name:String): FoodEntity?
+//    fun findAll(name:String): Page<FoodDto>
+
 }
 
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGateway {
+    override fun findNameAll(spec: Specification<*>?, pageable: Pageable): Page<FoodDto>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun findById(id: Long): Food? {
         return foodRepository.findById(id).orElse(null)?.toDomain()
     }
 
     override fun findByName(name: String): Food? {
-        return foodRepository.findByName(name)
+        return foodRepository.findByName(name)?.toDomain()
     }
+
+//    override fun findNameAll(name: String): Page<FoodDto>? {
+//
+////        return foodRepository.findAll(where(),pageable)
+//    }
 
     override fun saveFrom(t: Food): Food {
         return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
@@ -45,9 +58,7 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGatewa
         if(spec != null) {
             specification = spec as (Specification<FoodEntity>)
         }
-        return foodRepository.findAll(specification,pageable).map(FoodEntity::toDomain)
-
-
+        return foodRepository.findAll(specification,pageable).toDomainList()
     }
 
 }

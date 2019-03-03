@@ -17,8 +17,11 @@ abstract class BaseRepository<T:BaseDomain,E:BaseEntity<T>>(private val baseJpaR
         if(spec != null)
             specification = spec as (Specification<E>)
 
-        return baseJpaRepository.findAll(specification, pageable).map { e -> e.toDomain() }
+        return baseJpaRepository.findAll(specification, pageable).toDomainList()
     }
 
 }
 
+fun <D,E:BaseEntity<D>> Page<E>.toDomainList() : Page<D> {
+    return this.map { e -> e.toDomain() }
+}

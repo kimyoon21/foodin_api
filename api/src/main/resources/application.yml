@@ -61,6 +61,8 @@ logging:
   level:
     org.springframework: INFO
     com.zaxxer.hikari.HikariConfig: DEBUG
+    logging.level.org.hibernate.SQL: DEBUG
+    logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   pattern:
     console : "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%16.16t]){faint} %clr(%-40.40logger{39}){cyan} %clr([%3.3L]){blue} %clr(:){faint} %m%n"
 #    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(${PID:- }){magenta}  %clr(---){faint} [%thread, %X{x-request-uid:--}, %X{sessionId:--}] %clr(%logger{35}){cyan} %clr(:){faint} %msg %n"

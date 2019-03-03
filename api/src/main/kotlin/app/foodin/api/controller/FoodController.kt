@@ -24,10 +24,18 @@ class FoodController(
     }
 
     @GetMapping(value = ["/name"])
-    fun getName(@RequestParam name : String): ResponseResult {
+    fun getName(pageable: Pageable,
+                searchSpec: SearchSpec<FoodEntity>?): ResponseResult {
 
 
-        return ResponseResult(foodService.findByName(name))
+        return ResponseResult(foodService.findNameAll(searchSpec?.spec,pageable))
+    }
+
+    @GetMapping(value = ["/categoryFilterName"])
+    fun getByCategoryFilterName(@RequestParam categoryFilterName : String): ResponseResult {
+
+
+        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName))
     }
 
     @GetMapping(value = ["/{id}"])

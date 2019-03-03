@@ -95,7 +95,6 @@ subprojects {
         implementation('commons-io:commons-io:2.6')
         implementation('org.apache.commons:commons-lang3:3.7')
         runtime('mysql:mysql-connector-java')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('com.h2database:h2')
     }
 

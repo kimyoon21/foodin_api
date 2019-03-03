@@ -26,7 +26,7 @@ class UserRegDTO(
 
 
     fun toUser(): User {
-        User(null,this.email, this.realName, this.snsType).let{
+        User(0,this.email, this.realName, this.snsType).let{
 
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId

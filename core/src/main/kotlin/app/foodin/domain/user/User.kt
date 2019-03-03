@@ -14,7 +14,7 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 class User(
-        override var id : Long? = null,
+        override var id : Long = 0,
         val email: String,
         val realName: String,
         val snsType: SnsType

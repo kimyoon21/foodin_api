@@ -1,20 +1,26 @@
 package app.foodin.domain.user
 
+import app.foodin.core.gateway.FoodCategoryGateway
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodDto
 import app.foodin.domain.food.FoodRegRequest
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 
 @Service
 class FoodService(
-        private val foodGateway: FoodGateway
+        private val foodGateway: FoodGateway,
+        private val foodCategoryGateway: FoodCategoryGateway
 ) : BaseService<Food>(foodGateway), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 
-    fun findByName(name: String) : Food? {
-        return foodGateway.findByName(name)
+    fun findNameAll(specification: Specification<*>?,pageable: Pageable) : Page<FoodDto>? {
+        return foodGateway.findNameAll(spec = specification, pageable = pageable)
     }
 
     fun makeNewFoodOrMergeByFoodRegRequest(foodRegRequest: FoodRegRequest) {
@@ -49,6 +55,14 @@ class FoodService(
 
             return it
         }
+    }
+
+    fun findByCategoryFilterName(categoryFilterName: String): String? {
+        var foodCategoryPage = foodCategoryGateway.findByFilterName(categoryFilterName)
+        val categoryIds = foodCategoryPage.map { e -> e.id }
+
+//        foodGateway.findBy
+        return null
     }
 
 }
