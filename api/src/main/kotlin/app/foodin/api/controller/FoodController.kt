@@ -31,10 +31,10 @@ class FoodController(
         return ResponseResult(foodService.findNameAll(filter, pageable))
     }
 
-    @GetMapping(value = ["/categoryFilterName"])
-    fun getByCategoryFilterName(@RequestParam categoryFilterName: String): ResponseResult {
+    @GetMapping(value = ["/categoryFilter"])
+    fun getByCategoryFilterName(categoryFilterName: String, pageable: Pageable): ResponseResult {
 
-        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName))
+        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName,pageable))
     }
 
     @GetMapping(value = ["/{id}"])

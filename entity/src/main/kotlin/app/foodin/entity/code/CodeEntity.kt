@@ -15,12 +15,14 @@ data class CodeEntity(
 ) : BaseEntity<Code>() {
     var imageUri: String? = null
     var infoJson: String? = null
+    var seq: Int = 999
 
     constructor(code: Code) : this(code.code,
             code.codeName,
             code.codeType) {
         this.imageUri = code.imageUri
         this.infoJson = code.infoJson
+        this.seq = code.seq
     }
 
     override fun toDomain(): Code {
@@ -32,6 +34,7 @@ data class CodeEntity(
             it.updatedTime = this.updatedTime
             it.imageUri = this.imageUri
             it.infoJson = this.infoJson
+            it.seq = this.seq
         }
     }
 }
