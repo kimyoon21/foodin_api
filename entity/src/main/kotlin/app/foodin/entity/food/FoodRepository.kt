@@ -2,19 +2,17 @@ package app.foodin.entity.food
 
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodDto
+import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.user.FoodGateway
-import app.foodin.entity.common.toDomainList
+import app.foodin.entity.common.BaseRepository
+import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.jpa.domain.Specification
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
-
 @Repository
-interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExecutor<FoodEntity> {
+interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
     /***
      * repository 의 메소드의 결과값을 FoodEntity 가 아닌 Food 로 실수로 세팅했는데
      * Food 의 기본생성자 값들로만 컬럼을 필터해서 적용된다. 뭐지?
@@ -24,41 +22,27 @@ interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExec
      * 흠 편하긴 한데, 명시적으로 DTO 화 하는게 아니라서, Entity 필드 이름이 바뀌면 값을 못읽게 되는 side effect
      *
      */
-    fun findByName(name:String): FoodEntity?
+    fun findByName(name: String): FoodEntity?
 //    fun findAll(name:String): Page<FoodDto>
-
 }
 
 @Component
-class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGateway {
-    override fun findNameAll(spec: Specification<*>?, pageable: Pageable): Page<FoodDto>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class JpaFoodRepository(private val foodRepository: FoodRepository) :
+        BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
+
+    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodDto>? {
+        return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 
-    override fun findById(id: Long): Food? {
-        return foodRepository.findById(id).orElse(null)?.toDomain()
+    override fun findAllByFilter(filter: FoodFilter, pageable: Pageable): Page<Food> {
+        return findAll(FoodFilterQuery(filter), pageable)
     }
 
     override fun findByName(name: String): Food? {
         return foodRepository.findByName(name)?.toDomain()
     }
 
-//    override fun findNameAll(name: String): Page<FoodDto>? {
-//
-////        return foodRepository.findAll(where(),pageable)
-//    }
-
     override fun saveFrom(t: Food): Food {
         return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
     }
-
-    @Suppress("UNCHECKED_CAST")
-    override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
-        var specification : Specification<FoodEntity>? = null
-        if(spec != null) {
-            specification = spec as (Specification<FoodEntity>)
-        }
-        return foodRepository.findAll(specification,pageable).toDomainList()
-    }
-
 }

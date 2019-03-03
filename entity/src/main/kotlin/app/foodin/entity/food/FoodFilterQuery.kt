@@ -1,28 +1,24 @@
 package app.foodin.entity.food
 
+import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodFilter
 import app.foodin.entity.common.*
 import org.springframework.data.jpa.domain.Specification
 
-/**
- * A TV show query DTO - typically used at the service layer.
- */
-data class FoodFilter(
-        val name: String? = null,
-        val categoryIdList: List<Long> = listOf(),
-        val tag: String? = null,
-        val sellerNameList: List<String> = listOf()
-){
-    fun toSpecification(): Specification<FoodEntity> = and(
-            hasName(name),
-            hasTag(tag),
-            hasCategoryIdIn(categoryIdList),
-            hasSellerNameIn(sellerNameList)
+data class FoodFilterQuery(
+    val filter: FoodFilter
+) : BaseFilterQuery<Food, FoodEntity> {
+
+    override fun toSpecification(): Specification<FoodEntity> = and(
+            hasName(filter.name),
+            hasTag(filter.tag),
+            hasCategoryIdIn(filter.categoryIdList),
+            hasSellerNameIn(filter.sellerNameList)
     )
 }
 
-
 fun hasName(name: String?): Specification<FoodEntity>? = name?.let {
-    FoodEntity::name.equal(it)
+    FoodEntity::name.like("%$name%")
 }
 
 fun hasCategoryIdIn(categoryIdList: List<Long>?): Specification<FoodEntity>? = categoryIdList?.let {

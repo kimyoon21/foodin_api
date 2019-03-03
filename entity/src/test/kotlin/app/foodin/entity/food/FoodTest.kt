@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.transaction.annotation.Transactional
 
 @RunWith(SpringJUnit4ClassRunner::class)
-@SpringBootTest(classes = [FoodTest::class],properties = ["classpath:entity.properties"])
+@SpringBootTest(classes = [FoodTest::class], properties = ["classpath:entity.properties"])
 @SpringBootApplication
 @Transactional
 class FoodTest {
@@ -108,7 +108,6 @@ class FoodTest {
         val foods = foodRepo.findAll(FoodEntity::id.lt(haribo.id))
         assertThat(foods, containsInAnyOrder(bebero, melona))
     }
-    
 
     @Test
     fun `Get food by name between`() {
@@ -149,7 +148,7 @@ class FoodTest {
     @Test
     fun `Get a food by name notLike`() {
         val foods = foodRepo.findAll(FoodEntity::name.notLike("%로%"))
-        assertThat(foods, not(containsInAnyOrder( bebero)))
+        assertThat(foods, not(containsInAnyOrder(bebero)))
     }
 
 //    @Test
@@ -193,8 +192,7 @@ class FoodTest {
     fun `Find foods by inlined query`() {
         val foods = foodRepo.findAll(and(
                 hasSellerNameIn(listOf("CU")),
-                hasTag("메론"))
-        , Pageable.unpaged()
+                hasTag("메론")), Pageable.unpaged()
         )
 
         assertThat(foods, allOf(iterableWithSize(2), hasItem(melona)))
@@ -213,7 +211,6 @@ class FoodTest {
                         )
                 ), Pageable.unpaged()
         )
-        assertThat(foods, containsInAnyOrder(bebero,haribo, melona))
+        assertThat(foods, containsInAnyOrder(bebero, haribo, melona))
     }
-
 }

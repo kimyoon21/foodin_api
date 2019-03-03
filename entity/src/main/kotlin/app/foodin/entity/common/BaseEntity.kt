@@ -7,7 +7,7 @@ import java.sql.Timestamp
 import javax.persistence.*
 
 @MappedSuperclass
-abstract class BaseEntity<D:BaseDomain> {
+abstract class BaseEntity<D : BaseDomain> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
@@ -20,7 +20,5 @@ abstract class BaseEntity<D:BaseDomain> {
     @Column(nullable = false)
     lateinit var updatedTime: Timestamp
 
-
     abstract fun toDomain(): D
 }
-

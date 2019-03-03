@@ -1,5 +1,6 @@
 package app.foodin.domain.food
 
-interface FoodDto{
-        var name: String
-}
+data class FoodDto(
+    var name: String,
+    val summary: String
+)
