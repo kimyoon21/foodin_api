@@ -19,6 +19,7 @@ object JsonUtils {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
         mapper.configure(MapperFeature.AUTO_DETECT_GETTERS, true)
         mapper.configure(MapperFeature.AUTO_DETECT_IS_GETTERS, true)
         mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
@@ -94,10 +95,9 @@ object JsonUtils {
             try {
                 return mapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonObject)
             } catch (e: JsonProcessingException) {
-                logger.error(" error in JsonUtils: pretty json",e)
+                logger.error(" error in JsonUtils: pretty json", e)
             }
         }
         return ""
     }
 }
-

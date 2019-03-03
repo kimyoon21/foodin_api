@@ -11,24 +11,21 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.Table
 
-
 @Entity
 @Table(name = "user")
 data class UserEntity(
-        var email: String,
-        var realName: String,
-        @Enumerated(EnumType.STRING)
-        var snsType: SnsType
-
+    var email: String,
+    var realName: String,
+    @Enumerated(EnumType.STRING)
+    var snsType: SnsType
 
 ) : BaseEntity<User>() {
-
 
     var snsUserId: String? = null
 
     var loginPw: String? = null
 
-    var birth : Birth? = null
+    var birth: Birth? = null
 
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
@@ -69,7 +66,7 @@ data class UserEntity(
 
     var accountLocked: Boolean = false
 
-    constructor(user: User) : this( user.email, user.realName, user.snsType) {
+    constructor(user: User) : this(user.email, user.realName, user.snsType) {
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
@@ -124,5 +121,4 @@ data class UserEntity(
             it.accountLocked = this.accountLocked
         }
     }
-
 }

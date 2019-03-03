@@ -8,12 +8,12 @@ import javax.persistence.Table
 @Entity
 @Table(name = "food_category")
 data class FoodCategoryEntity(
-        var groupName: String,
-        var filterName: String,
-        var detailName: String
-) : BaseEntity<FoodCategory>(){
+    var groupName: String,
+    var filterName: String,
+    var detailName: String
+) : BaseEntity<FoodCategory>() {
 
-    val foodCount : Int = 0
+    val foodCount: Int = 0
 
     constructor(foodCategory: FoodCategory) : this(foodCategory.groupName,
             foodCategory.filterName,
@@ -29,5 +29,4 @@ data class FoodCategoryEntity(
             it.foodCount = this.foodCount
         }
     }
-
 }

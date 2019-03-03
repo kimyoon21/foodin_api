@@ -16,7 +16,6 @@ class MultiReadableHttpServletRequestFilter : Filter {
         val multiReadRequest = MultiReadableHttpServletRequest(req as HttpServletRequest)
 
         chain.doFilter(multiReadRequest, res)
-
     }
 
     override fun init(filterConfig: FilterConfig?) {}

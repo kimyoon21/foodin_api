@@ -7,13 +7,11 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SessionLogRepository : JpaRepository<SessionLogEntity, Long> {
-}
+interface SessionLogRepository : JpaRepository<SessionLogEntity, Long>
 
 @Component
 class JpaSessionLogRepository(private val sessionLogRepository: SessionLogRepository) : SessionLogGateway {
     override fun saveFrom(sessionLog: SessionLog) {
         sessionLogRepository.save(SessionLogEntity(sessionLog))
     }
-
 }

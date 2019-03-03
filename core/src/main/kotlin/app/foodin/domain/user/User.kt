@@ -14,10 +14,10 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 class User(
-        override var id : Long = 0,
-        val email: String,
-        val realName: String,
-        val snsType: SnsType
+    override var id: Long = 0,
+    val email: String,
+    val realName: String,
+    val snsType: SnsType
 
 ) : BaseDomain(id), UserDetails {
 
@@ -88,4 +88,3 @@ class User(
 
     override fun getAuthorities() = authoritiesStr?.csvToList()?.map { Authority(it) } ?: mutableListOf()
 }
-

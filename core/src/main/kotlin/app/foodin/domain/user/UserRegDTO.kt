@@ -6,12 +6,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
 class UserRegDTO(
-        val email: String,
-        val realName: String,
-        val snsType: SnsType
+    val email: String,
+    val realName: String,
+    val snsType: SnsType
 ) {
 
-    var loginPw : String? = null
+    var loginPw: String? = null
 
     var snsUserId: String? = null
 
@@ -24,9 +24,8 @@ class UserRegDTO(
 
     var gender: Gender? = null
 
-
     fun toUser(): User {
-        User(0,this.email, this.realName, this.snsType).let{
+        User(0, this.email, this.realName, this.snsType).let {
 
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId

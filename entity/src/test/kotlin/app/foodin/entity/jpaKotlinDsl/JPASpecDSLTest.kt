@@ -64,10 +64,10 @@ class JPASpecificationDSLTest {
      * A TV show query DTO - typically used at the service layer.
      */
     data class TvShowQuery(
-            val name: String? = null,
-            val availableOnNetflix: Boolean? = null,
-            val keywords: List<String> = listOf(),
-            val releaseDates: List<String> = listOf()
+        val name: String? = null,
+        val availableOnNetflix: Boolean? = null,
+        val keywords: List<String> = listOf(),
+        val releaseDates: List<String> = listOf()
     )
 
     /**
@@ -321,5 +321,4 @@ class JPASpecificationDSLTest {
         )
         assertThat(shows, containsInAnyOrder(betterCallSaul, hemlockGrove))
     }
-
 }

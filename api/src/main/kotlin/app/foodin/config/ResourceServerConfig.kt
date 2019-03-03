@@ -10,14 +10,13 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
-
 /**
  * Resource Server
  */
 @Configuration
 @EnableResourceServer
 class ResourceServerConfig(
-        val accessDeniedHandler: CustomAccessDeniedHandler
+    val accessDeniedHandler: CustomAccessDeniedHandler
 ) : ResourceServerConfigurerAdapter() {
 
     @Bean
@@ -37,12 +36,11 @@ class ResourceServerConfig(
 
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
-                .antMatchers("/food/**").permitAll() //TODO 임시로
+                .antMatchers("/food/**").permitAll() // TODO 임시로
                 .antMatchers("/user/login/**", "/user/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
                 .antMatchers("/**").authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-
     }
 }

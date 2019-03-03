@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 import java.util.*
 
-
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findByEmail(email: String): UserEntity?
@@ -34,6 +33,4 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
     override fun findByEmail(email: String): User? {
         return userRepository.findByEmail(email)?.toDomain()
     }
-
-
 }
