@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
-
 @Repository
 interface FoodRepository : JpaRepository<FoodEntity, Long>, JpaSpecificationExecutor<FoodEntity> {
     /***
@@ -41,13 +40,10 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) : FoodGatewa
 
     @Suppress("UNCHECKED_CAST")
     override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<Food> {
-        var specification : Specification<FoodEntity>? = null
-        if(spec != null) {
+        var specification: Specification<FoodEntity>? = null
+        if (spec != null) {
             specification = spec as (Specification<FoodEntity>)
         }
-        return foodRepository.findAll(specification,pageable).map(FoodEntity::toDomain)
-
-
+        return foodRepository.findAll(specification, pageable).map(FoodEntity::toDomain)
     }
-
 }

@@ -4,7 +4,6 @@ import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Embeddable
 
-
 @Embeddable
 class Birth {
 

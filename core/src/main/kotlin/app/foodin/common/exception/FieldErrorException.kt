@@ -42,10 +42,10 @@ class FieldErrorException : CommonException {
             fieldError.defaultMessage ?: ""
         )
 
-        constructor(field: String,
-                    message: String,
-                    args: Array<out String>
+        constructor(
+            field: String,
+            message: String,
+            args: Array<out String>
         ) : this("", field, message, args)
     }
-
 }

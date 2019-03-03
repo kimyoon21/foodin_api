@@ -8,18 +8,18 @@ import javax.persistence.Table
 @Entity
 @Table(name = "seller")
 data class SellerEntity(
-        var name: String
-) : BaseEntity<Seller>(){
+    var name: String
+) : BaseEntity<Seller>() {
 
-    var foodCount : Int = 0
+    var foodCount: Int = 0
 
-    var spotCount : Int = 0
+    var spotCount: Int = 0
 
-    var nameKr : String? = null
+    var nameKr: String? = null
 
-    var profileImageUri : String? = null
+    var profileImageUri: String? = null
 
-    var keywords : String? = null
+    var keywords: String? = null
 
     constructor(seller: Seller) : this(seller.name)
 
@@ -33,5 +33,4 @@ data class SellerEntity(
             it.profileImageUri = this.profileImageUri
         }
     }
-
 }

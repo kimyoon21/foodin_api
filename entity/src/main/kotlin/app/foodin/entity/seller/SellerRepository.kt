@@ -7,16 +7,14 @@ import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
-
 @Repository
 interface SellerRepository : BaseRepositoryInterface<SellerEntity> {
     fun findByName(filterName: String): SellerEntity?
 }
 
-
 @Component
 class JpaSellerRepository(private val sellerRepository: SellerRepository)
-    : BaseRepository<Seller,SellerEntity>(sellerRepository), SellerGateway {
+    : BaseRepository<Seller, SellerEntity>(sellerRepository), SellerGateway {
 
     override fun findByName(filterName: String): Seller? {
         return sellerRepository.findByName(filterName)?.toDomain()
@@ -25,5 +23,4 @@ class JpaSellerRepository(private val sellerRepository: SellerRepository)
     override fun saveFrom(t: Seller): Seller {
         return sellerRepository.saveAndFlush(SellerEntity(t)).toDomain()
     }
-
 }

@@ -1,5 +1,3 @@
 package app.foodin.domain.writable
 
-interface UserWritable {
-
-}
+interface UserWritable

@@ -38,9 +38,9 @@ interface UserService {
 
 @Service
 class CustomUserDetailsService(
-        private val userGateway: UserGateway,
-        private val sessionLogGateway: SessionLogGateway,
-        private val clientRegistrationRepository: ClientRegistrationRepository
+    private val userGateway: UserGateway,
+    private val sessionLogGateway: SessionLogGateway,
+    private val clientRegistrationRepository: ClientRegistrationRepository
 ) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)
@@ -64,7 +64,6 @@ class CustomUserDetailsService(
         sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token, expireTime = expireTime))
 
         return UserLoginResultDTO(user, token, refreshToken, expireTime)
-
     }
 
     override fun saveFrom(userRegDTO: UserRegDTO): User {
@@ -86,7 +85,7 @@ class CustomUserDetailsService(
         val restTemplate = RestTemplate()
         val headers = createBasicAuthHeaders("foo", "bar")
         headers.contentType = MediaType.APPLICATION_JSON
-        val requestUriParam = "?grant_type=password&client_id=foo&scope=read&username=EMAIL::${emailLoginDTO.email}&password=${emailLoginDTO.loginPw}";
+        val requestUriParam = "?grant_type=password&client_id=foo&scope=read&username=EMAIL::${emailLoginDTO.email}&password=${emailLoginDTO.loginPw}"
 
         val entity = HttpEntity(null, headers)
         try {
@@ -105,7 +104,7 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("EMAIL 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("email 혹은 비밀번호가 잘못되었습니다",ex)
+            throw CommonException("email 혹은 비밀번호가 잘못되었습니다", ex)
         }
     }
 
@@ -135,10 +134,9 @@ class CustomUserDetailsService(
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
-            throw CommonException("token 혹은 userId 가 잘못되었습니다",ex)
+            throw CommonException("token 혹은 userId 가 잘못되었습니다", ex)
         }
     }
-
 
     private fun getSnsUserInfo(snsTokenDTO: SnsTokenDTO): ResponseResult {
 
@@ -163,7 +161,7 @@ class CustomUserDetailsService(
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
             logger.error(ex.responseBodyAsString, ex)
-            throw CommonException("token 및 sns 정보가 정확하지 않습니다.",ex)
+            throw CommonException("token 및 sns 정보가 정확하지 않습니다.", ex)
         }
     }
 
@@ -182,5 +180,4 @@ class CustomUserDetailsService(
             else -> false
         }
     }
-
 }

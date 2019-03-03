@@ -10,17 +10,18 @@ import java.util.*
 
 @Component
 class CustomJwtTokenEnhancer : TokenEnhancer {
-    override fun enhance(accessToken: OAuth2AccessToken?,
-                         authentication: OAuth2Authentication): OAuth2AccessToken {
+    override fun enhance(
+        accessToken: OAuth2AccessToken?,
+        authentication: OAuth2Authentication
+    ): OAuth2AccessToken {
         val additionalInfo = HashMap<String, Any>()
-        val user : User = authentication.principal as User
+        val user: User = authentication.principal as User
         additionalInfo["user_id"] = user.id ?: 0
         additionalInfo["user_real_name"] = user.realName
-        if(user.nickName != null) {
+        if (user.nickName != null) {
             additionalInfo["user_nick_name"] = user.nickName!!
         }
         (accessToken as DefaultOAuth2AccessToken).additionalInformation = additionalInfo
         return accessToken
     }
-
 }

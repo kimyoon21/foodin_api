@@ -11,43 +11,43 @@ import javax.persistence.Table
 @Entity
 @Table(name = "food")
 data class FoodEntity(
-        var name: String,
-        var categoryId: Long
-) : BaseEntity<Food>(){
+    var name: String,
+    var categoryId: Long
+) : BaseEntity<Food>() {
     /** 판매처 너무 많고 부정확해서 일단은 그냥 이름사용 */
-    var companyId : Long? = null
+    var companyId: Long? = null
 
-    var companyName : String? = null
+    var companyName: String? = null
     /** 판매처 이름 CSV **/
-    var sellerNames : String? = null
+    var sellerNames: String? = null
     // TODO 다대다 연결
 //    var sellers : Set<SellerEntity>? = setOf()
 
-    var minPrice : Int? = 0
+    var minPrice: Int? = 0
 
-    var maxPrice : Int? = 0
+    var maxPrice: Int? = 0
 
-    var summary : String? = null
+    var summary: String? = null
 
-    var tags : String? = null
+    var tags: String? = null
 
-    var mainImageUri : String? = null
+    var mainImageUri: String? = null
 
-    var imagesUri : String? = null
+    var imagesUri: String? = null
 
-    var loveCount : Int = 0
+    var loveCount: Int = 0
 
-    var ratingCount : Int = 0
+    var ratingCount: Int = 0
 
-    var reviewCount : Int = 0
+    var reviewCount: Int = 0
 
-    var recipeCount : Int = 0
+    var recipeCount: Int = 0
 
-    var rating : Float? = null
+    var rating: Float? = null
 
-    var firstWriterId : Long? = null
+    var firstWriterId: Long? = null
 
-    var status : Status? = null
+    var status: Status? = null
 
     constructor(food: Food) : this(food.name, food.categoryId) {
 
@@ -93,5 +93,4 @@ data class FoodEntity(
             it.status = this.status
         }
     }
-
 }

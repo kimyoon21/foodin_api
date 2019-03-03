@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import javax.servlet.ServletRequest
 
-
 object MDCUtils {
 
     private val mdc = MDC.getMDCAdapter()
@@ -46,7 +45,6 @@ object MDCUtils {
         } catch (e: Exception) {
             logger.error("error in toJson or put", e)
         }
-
     }
 
     fun has(key: String): Boolean {
@@ -107,5 +105,4 @@ object MDCUtils {
     fun remove(key: String) {
         MDC.remove(key)
     }
-
 }

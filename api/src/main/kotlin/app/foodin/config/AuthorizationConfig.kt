@@ -17,19 +17,15 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 import javax.sql.DataSource
 
-
-
-
-
 /**
  * Authorization Server
  */
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationConfig(
-        val dataSource: DataSource,
-        val authenticationManager: AuthenticationManager,
-        val customJwtTokenEnhancer: CustomJwtTokenEnhancer
+    val dataSource: DataSource,
+    val authenticationManager: AuthenticationManager,
+    val customJwtTokenEnhancer: CustomJwtTokenEnhancer
 ) : AuthorizationServerConfigurerAdapter() {
 
     @Bean
@@ -71,7 +67,6 @@ class AuthorizationConfig(
         return JdbcClientDetailsService(dataSource)
     }
 
-
     @Throws(Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer) {
         clients.withClientDetails(jdbcClientDetailsService(dataSource))
@@ -82,8 +77,8 @@ class AuthorizationConfig(
         val enhancerChain = TokenEnhancerChain()
 
         enhancerChain.setTokenEnhancers(listOf(customJwtTokenEnhancer, accessTokenConverter()))
-        endpoints.
-                tokenStore(jwtTokenStore())
+        endpoints
+                .tokenStore(jwtTokenStore())
                 .tokenEnhancer(enhancerChain)
 //                .accessTokenConverter(accessTokenConverter())
                 .authenticationManager(authenticationManager)

@@ -6,38 +6,37 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 /****
  * 그주의 시작 월요일
  * @param t
  * @return
  */
-////fun getMondayOfTheWeek(t: Timestamp): Timestamp {
-////    val now = LocalDate.of()
-////    val monday = now.withDayOfWeek(DateTimeConstants.MONDAY)
-////    return Timestamp(monday.toDateTimeAtStartOfDay().getMillis())
-////
-//}
+// //fun getMondayOfTheWeek(t: Timestamp): Timestamp {
+// //    val now = LocalDate.of()
+// //    val monday = now.withDayOfWeek(DateTimeConstants.MONDAY)
+// //    return Timestamp(monday.toDateTimeAtStartOfDay().getMillis())
+// //
+// }
 
 /****
  * 그날의 종료시간 추출
  * @param t
  * @return
  */
-//fun getEndOfDay(t: Timestamp): Timestamp {
+// fun getEndOfDay(t: Timestamp): Timestamp {
 //    var dateTime = LocalDateTime(t)
 //    dateTime = dateTime.millisOfDay().withMaximumValue()
 //    return Timestamp(dateTime.toDateTime().getMillis())
-//}
+// }
 //
-//fun getNextBusinessDay(): Timestamp {
+// fun getNextBusinessDay(): Timestamp {
 //    var next = LocalDateTime.now()
 //    next = next.plusDays(1)
 //    while (next.getDayOfWeek() === DateTimeConstants.SATURDAY || next.getDayOfWeek() === DateTimeConstants.SUNDAY) {
 //        next = next.plusDays(1)
 //    }
 //    return Timestamp(next.millisOfDay().withMinimumValue().toDateTime().getMillis())
-//}
+// }
 
 /**
  * 매번 반복되고 매번 import 가 필요한 DB 저장용 Timestamp 현재 시각 가져오기
@@ -48,7 +47,6 @@ fun now(): Timestamp {
     return Timestamp(Date().time)
 }
 
-
 /**
  * @param timeStr
  * @return
@@ -56,7 +54,7 @@ fun now(): Timestamp {
  * @작성일 : 2016. 5. 29.
  * @작성자 : kimyoon
  * @설명 : 지정된 포맷을 이용해서 스트링 값을 timestamp 로 변환해준다. format 없을기 기본값은 yyyyMMddHHmmss (Constants.DEFAULT_DATE_FORMAT)
- * @변경이력 :
+ * @변경이력: 
  */
 fun strToTimestamp(timeStr: String): Timestamp {
     return strToTimestamp(timeStr, DEFAULT_DATE_FORMAT)
@@ -87,7 +85,6 @@ fun timestampToStr(ts: Timestamp, format: String): String {
     val date = Date(ts.time)
     return sdf.format(date)
 }
-
 
 /***
  * 몇달전 timestamp 값 얻기. 음수를 넣으면 몇달 후 값

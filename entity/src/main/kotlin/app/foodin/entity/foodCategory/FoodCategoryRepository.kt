@@ -7,16 +7,14 @@ import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
-
 @Repository
 interface FoodCategoryRepository : BaseRepositoryInterface<FoodCategoryEntity> {
     fun findByFilterName(filterName: String): FoodCategoryEntity?
 }
 
-
 @Component
 class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategoryRepository)
-    : BaseRepository<FoodCategory,FoodCategoryEntity>(foodCategoryRepository), FoodCategoryGateway {
+    : BaseRepository<FoodCategory, FoodCategoryEntity>(foodCategoryRepository), FoodCategoryGateway {
     override fun findByFilterName(filterName: String): FoodCategory? {
         return foodCategoryRepository.findByFilterName(filterName)?.toDomain()
     }
@@ -24,5 +22,4 @@ class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategory
     override fun saveFrom(t: FoodCategory): FoodCategory {
         return foodCategoryRepository.saveAndFlush(FoodCategoryEntity(t)).toDomain()
     }
-
 }
