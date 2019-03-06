@@ -10,6 +10,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+
 /**
  * Resource Server
  */
@@ -33,7 +34,7 @@ class ResourceServerConfig(
                 .authorizeRequests()
                 // 순서가 상관있다. 위에 한 룰부터 적용되어서 전체허용을 위에 해두면 아래것들은 무시됨
 //                .antMatchers("/product/**").authenticated()
-
+                .antMatchers("/food.html").permitAll()
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
                 .antMatchers("/food/**").permitAll() // TODO 임시로
