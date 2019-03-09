@@ -1,20 +1,26 @@
 package app.foodin.domain.user
 
+import app.foodin.core.gateway.FoodCategoryGateway
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodDto
+import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodRegRequest
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class FoodService(
-    private val foodGateway: FoodGateway
-) : BaseService<Food>(foodGateway), UserWritableInterface {
+    private val foodGateway: FoodGateway,
+    private val foodCategoryGateway: FoodCategoryGateway
+) : BaseService<Food, FoodFilter>(foodGateway), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 
-    fun findByName(name: String): Food? {
-        return foodGateway.findByName(name)
+    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodDto>? {
+        return foodGateway.findNameAll(filter = filter, pageable = pageable)
     }
 
     fun makeNewFoodOrMergeByFoodRegRequest(foodRegRequest: FoodRegRequest) {
@@ -49,5 +55,12 @@ class FoodService(
 
             return it
         }
+    }
+
+    fun findByCategoryFilterName(categoryFilterName: String, pageable: Pageable): Page<Food>? {
+        var foodCategoryPage = foodCategoryGateway.findByFilterName(categoryFilterName).content
+        val categoryIdList : List<Long> = foodCategoryPage.map { e-> e.id }
+
+        return foodGateway.findAllByFilter(FoodFilter(categoryIdList = categoryIdList),pageable)
     }
 }

@@ -4,7 +4,9 @@ import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodDto
 import app.foodin.entity.common.BaseEntity
+import org.modelmapper.ModelMapper
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -92,5 +94,9 @@ data class FoodEntity(
             it.firstWriterId = this.firstWriterId
             it.status = this.status
         }
+    }
+
+    fun toDto(): FoodDto {
+        return ModelMapper().map(this, FoodDto::class.java)
     }
 }

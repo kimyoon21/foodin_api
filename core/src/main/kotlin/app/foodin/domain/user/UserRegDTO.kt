@@ -3,8 +3,6 @@ package app.foodin.domain.user
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.utils.DateHelper
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
 
 class UserRegDTO(
@@ -27,7 +25,7 @@ class UserRegDTO(
     var gender: Gender? = null
 
     fun toUser(): User {
-        User(null, this.email, this.realName, this.snsType).let {
+        User(0, this.email, this.realName, this.snsType).let {
 
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId

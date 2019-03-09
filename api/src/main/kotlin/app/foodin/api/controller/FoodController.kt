@@ -2,9 +2,8 @@ package app.foodin.api.controller
 
 import app.foodin.common.result.ResponseResult
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.user.FoodService
-import app.foodin.entity.common.search.SearchSpec
-import app.foodin.entity.food.FoodEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -17,16 +16,25 @@ class FoodController(
     @GetMapping
     fun getAll(
         pageable: Pageable,
-        searchSpec: SearchSpec<FoodEntity>?
+        filter: FoodFilter
     ): ResponseResult {
 
-        return ResponseResult(foodService.findAll(searchSpec?.spec, pageable))
+        return ResponseResult(foodService.findAll(filter, pageable))
     }
 
     @GetMapping(value = ["/name"])
-    fun getName(@RequestParam name: String): ResponseResult {
+    fun getName(
+        pageable: Pageable,
+        filter: FoodFilter
+    ): ResponseResult {
 
-        return ResponseResult(foodService.findByName(name))
+        return ResponseResult(foodService.findNameAll(filter, pageable))
+    }
+
+    @GetMapping(value = ["/categoryFilter"])
+    fun getByCategoryFilterName(categoryFilterName: String, pageable: Pageable): ResponseResult {
+
+        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName,pageable))
     }
 
     @GetMapping(value = ["/{id}"])

@@ -10,7 +10,6 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
-
 /**
  * Resource Server
  */
@@ -40,7 +39,7 @@ class ResourceServerConfig(
                 .antMatchers("/food/**").permitAll() // TODO 임시로
                 .antMatchers("/user/login/**", "/user/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
-                .antMatchers("/**").authenticated()
+//                .antMatchers("/**").authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
     }

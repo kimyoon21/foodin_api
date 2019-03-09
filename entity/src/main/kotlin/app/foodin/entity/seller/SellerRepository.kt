@@ -1,6 +1,7 @@
 package app.foodin.entity.seller
 
 import app.foodin.core.gateway.SellerGateway
+import app.foodin.domain.BaseFilter
 import app.foodin.domain.seller.Seller
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
@@ -14,7 +15,7 @@ interface SellerRepository : BaseRepositoryInterface<SellerEntity> {
 
 @Component
 class JpaSellerRepository(private val sellerRepository: SellerRepository)
-    : BaseRepository<Seller, SellerEntity>(sellerRepository), SellerGateway {
+    : BaseRepository<Seller, SellerEntity, BaseFilter>(sellerRepository), SellerGateway {
 
     override fun findByName(filterName: String): Seller? {
         return sellerRepository.findByName(filterName)?.toDomain()
