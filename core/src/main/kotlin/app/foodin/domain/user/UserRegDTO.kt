@@ -2,9 +2,11 @@ package app.foodin.domain.user
 
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
+import app.foodin.common.utils.DateHelper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.validation.constraints.Size
+
 class UserRegDTO(
     val email: String,
     val realName: String,
@@ -31,8 +33,7 @@ class UserRegDTO(
             it.snsUserId = this.snsUserId
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
-            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-            it.birthFullDay = LocalDate.parse(birthday, formatter)
+            it.birthFullDay = birthday?.let { day -> DateHelper.parse(day) }
             it.birthYear = it.birthFullDay?.year
             it.gender = this.gender
 
