@@ -8,7 +8,7 @@ open class CommonException(
 ) : RuntimeException(msgCode) {
     constructor(msgCode: String) : this("INVALID_REQUEST", null, msgCode, null)
 
-    constructor(msgCode: String, ex : Throwable) : this(msgCode){
+    constructor(msgCode: String, ex: Throwable) : this(msgCode) {
         super.initCause(ex)
     }
 
@@ -72,4 +72,3 @@ val EX_NEED = "{ex.need}"
 
 /** 해당 기능에 대한 권한이 없습니다.  */
 val EX_AUTH_FAILED = "{ex.auth_failed}"
-

@@ -11,9 +11,9 @@ import app.foodin.common.exception.CommonException
  * ```
  */
 fun String?.csvToList(): MutableList<String> {
-    return if(this.hasValue()){
+    return if (this.hasValue()) {
         this!!.split(",").map { it.trim() }.filter { it.hasValue() }.toMutableList()
-    }else{
+    } else {
         mutableListOf()
     }
 }
@@ -36,7 +36,7 @@ fun String?.hasValue(): Boolean {
 fun String?.substring(length: Int): String? {
 
     return this?.let {
-        if (it.length < length) it else it.substring(0, length)  }
+        if (it.length < length) it else it.substring(0, length) }
 }
 
 /**
@@ -57,7 +57,7 @@ fun String?.substring(length: Int, endStr: String): String? {
         if (this.length <= length) {
             return s
         } else {
-            val sub = s.substring( length - END_LENGTH)
+            val sub = s.substring(length - END_LENGTH)
             return if (sub!!.length == length - END_LENGTH) {
                 sub + endStr
             } else {
@@ -67,5 +67,4 @@ fun String?.substring(length: Int, endStr: String): String? {
     } else {
         return this
     }
-
 }

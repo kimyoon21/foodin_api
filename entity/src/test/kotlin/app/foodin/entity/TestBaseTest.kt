@@ -18,8 +18,7 @@ import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import javax.transaction.Transactional
 
-
-//@RunWith(SpringRunner::class)
+// @RunWith(SpringRunner::class)
 @RunWith(SpringJUnit4ClassRunner::class)
 @Transactional
 @Rollback
@@ -47,6 +46,6 @@ class TestBaseTest : TestBase() {
                 SearchCriteria("maxPrice", SearchOperation.LESS_THAN, 1500))
         val results = foodRepository.findAll(Specification.where(spec).and(spec1))
 
-        assertEquals(1,results.size)
+        assertEquals(1, results.size)
     }
 }

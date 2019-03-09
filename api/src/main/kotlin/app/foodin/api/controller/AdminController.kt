@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/admin")
-class AdminController{
+class AdminController {
 
     private val logger = LoggerFactory.getLogger(AdminController::class.java)
 
@@ -23,5 +22,4 @@ class AdminController{
 
         return ResponseEntity.ok("admin")
     }
-
 }

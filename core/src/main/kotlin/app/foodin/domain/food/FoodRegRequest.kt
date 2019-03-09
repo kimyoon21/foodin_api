@@ -5,8 +5,8 @@ import app.foodin.domain.user.User
 import java.io.Serializable
 
 data class FoodRegRequest(
-        val name: String,
-        val categoryId: Long
+    val name: String,
+    val categoryId: Long
 
 ) : Serializable {
 
@@ -24,7 +24,5 @@ data class FoodRegRequest(
 
     var status: Status = Status.WAIT
 
-    var user : User? = null
-
+    var user: User? = null
 }
-

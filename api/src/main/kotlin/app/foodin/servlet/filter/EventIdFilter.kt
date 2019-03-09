@@ -9,7 +9,6 @@ import java.util.*
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 
-
 @Component
 class EventIdFilter : Filter {
     override fun destroy() {}
@@ -24,7 +23,6 @@ class EventIdFilter : Filter {
         MDCUtils[KEY_REQUEST_UID] = eventId
 
         chain.doFilter(request, response)
-
     }
     override fun init(filterConfig: FilterConfig) {}
 }

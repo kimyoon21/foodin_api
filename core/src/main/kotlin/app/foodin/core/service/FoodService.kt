@@ -57,11 +57,10 @@ class FoodService(
         }
     }
 
-    fun findByCategoryFilterName(categoryFilterName: String): String? {
-        var foodCategoryPage = foodCategoryGateway.findByFilterName(categoryFilterName)
-        val categoryIds = foodCategoryPage.map { e -> e.id }
+    fun findByCategoryFilterName(categoryFilterName: String, pageable: Pageable): Page<Food>? {
+        var foodCategoryPage = foodCategoryGateway.findByFilterName(categoryFilterName).content
+        val categoryIdList : List<Long> = foodCategoryPage.map { e-> e.id }
 
-//        foodGateway.findBy
-        return null
+        return foodGateway.findAllByFilter(FoodFilter(categoryIdList = categoryIdList),pageable)
     }
 }

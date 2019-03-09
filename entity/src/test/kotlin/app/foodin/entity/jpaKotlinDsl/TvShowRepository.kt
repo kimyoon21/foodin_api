@@ -18,23 +18,24 @@ interface TvShowRepository : JpaRepository<TvShow, Int>, JpaSpecificationExecuto
 
 @Entity
 data class TvShow(
-        @Id
-        @GeneratedValue
-        val id: Int = 0,
-        val name: String = "",
-        val synopsis: String = "",
-        val availableOnNetflix: Boolean = false,
-        val releaseDate: String? = null,
-        @OneToMany(cascade = kotlin.arrayOf(javax.persistence.CascadeType.ALL))
-        val starRatings: Set<StarRating> = emptySet())
+    @Id
+    @GeneratedValue
+    val id: Int = 0,
+    val name: String = "",
+    val synopsis: String = "",
+    val availableOnNetflix: Boolean = false,
+    val releaseDate: String? = null,
+    @OneToMany(cascade = kotlin.arrayOf(javax.persistence.CascadeType.ALL))
+    val starRatings: Set<StarRating> = emptySet()
+)
 
 @Entity
 data class StarRating(
-        @Id
-        @GeneratedValue
-        val id: Int = 0,
-        val stars: Int = 0)
-
+    @Id
+    @GeneratedValue
+    val id: Int = 0,
+    val stars: Int = 0
+)
 
 // Convenience functions (using the DSL) that make assembling queries more readable and allows for dynamic queries.
 // Note: these functions return null for a null input. This means that when included in

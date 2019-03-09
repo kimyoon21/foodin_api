@@ -7,13 +7,15 @@ import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-
 class EntitySpecification<T>(
-        private val criteria: SearchCriteria
+    private val criteria: SearchCriteria
 ) : Specification<T> {
 
     override fun toPredicate(
-            root: Root<T>, query: CriteriaQuery<*>, builder: CriteriaBuilder): Predicate? {
+        root: Root<T>,
+        query: CriteriaQuery<*>,
+        builder: CriteriaBuilder
+    ): Predicate? {
 
         return when (criteria.operation) {
             EQUALITY -> builder.equal(root.get<Any>(criteria.key), criteria.value)

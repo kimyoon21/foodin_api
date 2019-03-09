@@ -7,7 +7,6 @@ import javax.servlet.ServletInputStream
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
 
-
 class MultiReadableHttpServletRequest(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private var cachedBytes: ByteArrayOutputStream? = null
