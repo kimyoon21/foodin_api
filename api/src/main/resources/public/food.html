@@ -24,7 +24,8 @@
           html +=
             `<td><div>
             <img src = "${item.mainImageUri}" width="200px" /><br/>
-            [${item.companyName}]${item.name} <br/>
+            ${item.companyName}]${item.name} <br/>
+            태그 (${item.tagList.join(")(")}) <br/>
             ${item.sellerNameList[0]} : ${item.minPrice}원 ~ ${item.maxPrice}원
            </div></td>`
           if(n%4==3){
