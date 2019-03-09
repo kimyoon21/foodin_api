@@ -7,7 +7,7 @@ spring:
     file: spring.pid
   jackson:
     deserialization:
-      accept-empty-string-as-null-object: true
+#      accept-empty-string-as-null-object: true  TODO 작동시켜줘..
   security:
     oauth2:
       client:

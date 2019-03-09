@@ -15,7 +15,7 @@ data class CodeEntity(
 ) : BaseEntity<Code>() {
     var imageUri: String? = null
     var infoJson: String? = null
-    var seq: Int = 999
+    var seq: Int = Integer.MAX_VALUE
 
     constructor(code: Code) : this(code.code,
             code.codeName,
