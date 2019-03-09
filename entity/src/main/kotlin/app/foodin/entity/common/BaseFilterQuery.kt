@@ -7,6 +7,13 @@ import kotlin.reflect.KProperty1
 
 interface BaseFilterQuery<D : BaseDomain, E : BaseEntity<D>> {
 
+    /****
+     * 자유검색 : query 를 이용해 여러 필드에 or 검색
+     */
+    fun querysToSpecification(vararg specs: Specification<E>?): Specification<E> {
+        return or(specs.toList())
+    }
+
     fun toSpecification(): Specification<E>
 }
 

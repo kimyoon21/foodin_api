@@ -6,7 +6,7 @@ import app.foodin.domain.food.FoodFilter
 import app.foodin.entity.common.*
 import org.springframework.data.jpa.domain.Specification
 
-data class FoodFilterQuery(
+class FoodFilterQuery(
     val filter: FoodFilter
 ) : BaseFilterQuery<Food, FoodEntity> {
 
@@ -15,7 +15,12 @@ data class FoodFilterQuery(
                 hasNameLike(it.name),
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),
-                hasSellerNameIn(it.sellerNameList)
+                hasSellerNameIn(it.sellerNameList),
+                querysToSpecification(
+                        hasNameLike(it.query),
+                        hasTagLike(it.query),
+                        hasSellerName(it.query)
+                )
         )
     }
 

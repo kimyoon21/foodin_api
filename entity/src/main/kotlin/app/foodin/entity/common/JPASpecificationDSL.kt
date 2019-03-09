@@ -71,22 +71,22 @@ fun <T> KProperty1<T, String?>.notLike(x: String, escapeChar: Char): Specificati
 // And
 infix fun <T> Specification<T>.and(other: Specification<T>): Specification<T> = this.and(other)
 
-inline fun <reified T> and(vararg specs: Specification<T>?): Specification<T> {
+inline fun <T> and(vararg specs: Specification<T>?): Specification<T> {
     return and(specs.toList())
 }
 
-inline fun <reified T> and(specs: Iterable<Specification<T>?>): Specification<T> {
+inline fun <T> and(specs: Iterable<Specification<T>?>): Specification<T> {
     return combineSpecification(specs, Specification<T>::and)
 }
 
 // Or
 infix fun <T> Specification<T>.or(other: Specification<T>): Specification<T> = this.or(other)
 
-inline fun <reified T> or(vararg specs: Specification<T>?): Specification<T> {
+inline fun <T> or(vararg specs: Specification<T>?): Specification<T> {
     return or(specs.toList())
 }
 
-inline fun <reified T> or(specs: Iterable<Specification<T>?>): Specification<T> {
+inline fun <T> or(specs: Iterable<Specification<T>?>): Specification<T> {
     return combineSpecification(specs, Specification<T>::or)
 }
 
@@ -94,7 +94,7 @@ inline fun <reified T> or(specs: Iterable<Specification<T>?>): Specification<T> 
 operator fun <T> Specification<T>.not(): Specification<T> = Specification.not(this)
 
 // Combines Specification with an operation
-inline fun <reified T> combineSpecification(specs: Iterable<Specification<T>?>, operation: Specification<T>.(Specification<T>) -> Specification<T>): Specification<T> {
+inline fun <T> combineSpecification(specs: Iterable<Specification<T>?>, operation: Specification<T>.(Specification<T>) -> Specification<T>): Specification<T> {
     return specs.filterNotNull().fold(emptySpecification()) { existing, new -> existing.operation(new) }
 }
 

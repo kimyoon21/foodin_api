@@ -1,3 +1,5 @@
 package app.foodin.domain
 
-interface BaseFilter
+abstract class BaseFilter {
+    val query: String? = null
+}

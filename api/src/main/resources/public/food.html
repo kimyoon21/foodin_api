@@ -41,7 +41,7 @@
       function req(no) {
         const oReq = new XMLHttpRequest();
         oReq.addEventListener("load", reqListener);
-        oReq.open("GET", `http://localhost:5000/food?size=20&page=${no}&name=${name}`);
+        oReq.open("GET", `http://localhost:5000/food?size=20&page=${no}&query=${query}`);
         oReq.send();
       }
 
@@ -71,12 +71,12 @@
       }
 
       function search(){
-        name = document.getElementById("q").value
+        query = document.getElementById("q").value
         pageNo = 0
         req(pageNo)
       }
 
-      let name = ""
+      let query = ""
       let pageNo = 0
       let hasNext = true
       req(pageNo)
