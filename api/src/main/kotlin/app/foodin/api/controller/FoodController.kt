@@ -34,7 +34,7 @@ class FoodController(
     @GetMapping(value = ["/categoryFilter"])
     fun getByCategoryFilterName(categoryFilterName: String, pageable: Pageable): ResponseResult {
 
-        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName,pageable))
+        return ResponseResult(foodService.findByCategoryFilterName(categoryFilterName, pageable))
     }
 
     @GetMapping(value = ["/{id}"])

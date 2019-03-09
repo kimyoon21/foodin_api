@@ -11,5 +11,5 @@ data class Code(
 ) : BaseDomain(id) {
     var imageUri: String? = null
     var infoJson: String? = null
-    var seq : Int = Integer.MAX_VALUE
+    var seq: Int = Integer.MAX_VALUE
 }

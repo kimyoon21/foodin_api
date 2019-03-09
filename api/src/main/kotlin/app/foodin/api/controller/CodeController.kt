@@ -17,7 +17,7 @@ class CodeController(
 
     @GetMapping
     fun getAll(
-        @PageableDefault(page = 0,size = 100) pageable: Pageable,
+        @PageableDefault(page = 0, size = 100) pageable: Pageable,
         codeFilter: CodeFilter
     ): ResponseResult {
 

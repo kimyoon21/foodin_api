@@ -59,8 +59,8 @@ class FoodService(
 
     fun findByCategoryFilterName(categoryFilterName: String, pageable: Pageable): Page<Food>? {
         var foodCategoryPage = foodCategoryGateway.findByFilterName(categoryFilterName).content
-        val categoryIdList : List<Long> = foodCategoryPage.map { e-> e.id }
+        val categoryIdList: List<Long> = foodCategoryPage.map { e -> e.id }
 
-        return foodGateway.findAllByFilter(FoodFilter(categoryIdList = categoryIdList),pageable)
+        return foodGateway.findAllByFilter(FoodFilter(categoryIdList = categoryIdList), pageable)
     }
 }
