@@ -7,7 +7,7 @@ import app.foodin.entity.common.*
 import org.springframework.data.jpa.domain.Specification
 
 data class FoodFilterQuery(
-        val filter: FoodFilter
+    val filter: FoodFilter
 ) : BaseFilterQuery<Food, FoodEntity> {
 
     override fun toSpecification(): Specification<FoodEntity> = filter.let {
@@ -32,7 +32,5 @@ data class FoodFilterQuery(
         fun hasNameLike(name: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::name, name, MathMode.ANYWHERE)
 
         fun hasTagLike(tag: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::tags, tag, MathMode.ANYWHERE)
-
     }
 }
-

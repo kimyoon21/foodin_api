@@ -27,7 +27,7 @@ fun String?.hasValue(): Boolean {
 }
 
 fun <T> Collection<T>?.hasValue(): Boolean {
-    return this != null && !this.isEmpty() && this.stream().anyMatch{x-> x != null}
+    return this != null && !this.isEmpty() && this.stream().anyMatch { x -> x != null }
 }
 
 /**

@@ -208,7 +208,7 @@ class FoodTest {
                 or(
                         and(
                                 hasSellerNameIn(listOf("CU")),
-                                likeFilter(FoodEntity::tags,"메론",MathMode.ANYWHERE)
+                                likeFilter(FoodEntity::tags, "메론", MathMode.ANYWHERE)
                         ),
                         and(
                                 hasNameLike(haribo.name)

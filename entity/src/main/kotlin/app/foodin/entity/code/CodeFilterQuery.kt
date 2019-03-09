@@ -10,9 +10,8 @@ data class CodeFilterQuery(
 ) : BaseFilterQuery<Code, CodeEntity> {
 
     override fun toSpecification(): Specification<CodeEntity> = filter.let { and(
-            equalFilter(CodeEntity::code,it.code),
-            equalFilter(CodeEntity::codeType,it.code),
-            likeFilter(CodeEntity::codeName,it.codeName,MathMode.ANYWHERE)
+            equalFilter(CodeEntity::code, it.code),
+            equalFilter(CodeEntity::codeType, it.code),
+            likeFilter(CodeEntity::codeName, it.codeName, MathMode.ANYWHERE)
     ) }
 }
-
