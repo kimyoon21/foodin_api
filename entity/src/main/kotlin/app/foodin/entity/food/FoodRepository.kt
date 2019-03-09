@@ -45,4 +45,5 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) :
     override fun saveFrom(t: Food): Food {
         return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
     }
+
 }

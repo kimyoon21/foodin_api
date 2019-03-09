@@ -8,12 +8,10 @@ const val DEFAULT_DATE_FORMAT = "yyyyMMdd"
  * 1분을 milli sec
  */
 const val A_MINUTE_TO_MILLISEC = 60.toLong() * 1000
-        
 /**
  * 1시간을 milli sec
  */
 const val AN_HOUR_TO_MILLISEC = 60.toLong() * 60 * 1000
-        
 /**
  * 24시간을 milli sec
  */

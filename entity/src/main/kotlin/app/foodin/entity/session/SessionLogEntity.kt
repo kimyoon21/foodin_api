@@ -21,4 +21,3 @@ data class SessionLogEntity(
     constructor(sessionLog: SessionLog) :
             this(userId = sessionLog.userId, token = sessionLog.token)
 }
-
