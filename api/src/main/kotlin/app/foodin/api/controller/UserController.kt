@@ -27,7 +27,6 @@ import javax.validation.Valid
 @Loggable(result = true, param = true)
 class UserController(
     private val userService: UserService
-
 ) {
 
     private val logger = LoggerFactory.getLogger(UserController::class.java)
