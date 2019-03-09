@@ -26,6 +26,10 @@ fun String?.hasValue(): Boolean {
     return this != null && !this.isEmpty()
 }
 
+fun <T> Collection<T>?.hasValue(): Boolean {
+    return this != null && !this.isEmpty() && this.stream().anyMatch{x-> x != null}
+}
+
 /**
  * String.substring 의 예외처리 추가한 버전
  *

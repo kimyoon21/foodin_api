@@ -1,6 +1,10 @@
 package app.foodin.entity.food
 
+import app.foodin.domain.food.FoodFilter
 import app.foodin.entity.common.*
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasNameLike
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasSellerNameIn
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasTagLike
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.After
@@ -75,8 +79,8 @@ class FoodTest {
     /**
      * A collection of FoodEntityQueries is equivalent to an OR of all the queries in the collection.
      */
-    fun Iterable<FoodFilter>.toSpecification(): Specification<FoodEntity> = or(
-            map { query -> query.toSpecification() }
+    fun Iterable<FoodFilterQuery>.toSpecification(): Specification<FoodEntity> = or(
+            map { filter -> filter.toSpecification() }
     )
 
     @Test
@@ -159,14 +163,14 @@ class FoodTest {
 
     @Test
     fun `Find foodentity by query DTO`() {
-        val query = FoodFilter(categoryIdList = listOf(haribo.categoryId, melona.categoryId))
+        val query = FoodFilterQuery(FoodFilter(categoryIdList = listOf(haribo.categoryId, melona.categoryId)))
         val foods = foodRepo.findAll(query.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, melona))
     }
 
     @Test
     fun `Find foods by query DTO - empty query`() {
-        val query = FoodFilter()
+        val query = FoodFilterQuery(FoodFilter())
         val foods = foodRepo.findAll(query.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero, melona))
     }
@@ -174,8 +178,8 @@ class FoodTest {
     @Test
     fun `Find foods by multiple query DTOs`() {
         val queries = listOf(
-                FoodFilter(name = bebero.name),
-                FoodFilter(tag = haribo.tags)
+                FoodFilterQuery(FoodFilter(name = bebero.name)),
+                FoodFilterQuery(FoodFilter(tag = haribo.tags))
         )
         val foods = foodRepo.findAll(queries.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero))
@@ -183,7 +187,7 @@ class FoodTest {
 
     @Test
     fun `Find foods by empty query DTOs list`() {
-        val queries = listOf<FoodFilter>()
+        val queries = listOf<FoodFilterQuery>()
         val foods = foodRepo.findAll(queries.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero, melona))
     }
@@ -192,7 +196,7 @@ class FoodTest {
     fun `Find foods by inlined query`() {
         val foods = foodRepo.findAll(and(
                 hasSellerNameIn(listOf("CU")),
-                hasTag("메론")), Pageable.unpaged()
+                hasTagLike("메론")), Pageable.unpaged()
         )
 
         assertThat(foods, allOf(iterableWithSize(2), hasItem(melona)))
@@ -204,10 +208,10 @@ class FoodTest {
                 or(
                         and(
                                 hasSellerNameIn(listOf("CU")),
-                                hasTag("메론")
+                                likeFilter(FoodEntity::tags,"메론",MathMode.ANYWHERE)
                         ),
                         and(
-                                hasName(haribo.name)
+                                hasNameLike(haribo.name)
                         )
                 ), Pageable.unpaged()
         )

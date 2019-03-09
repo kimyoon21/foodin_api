@@ -43,3 +43,20 @@ inline fun <R> String?.ifNullOrEmptyOtherwise(ifNull: () -> R, orElse: (String) 
     else
         orElse(this)
 }
+
+/***
+ * 값이 실제로 있는 경우에만 let 블록을 수행
+ */
+inline fun <T, R> T?.hasValueLet(block: (T) -> R): R? {
+
+    return if(when(this){
+                is String -> this.hasValue()
+                is Collection<*> -> this.hasValue()
+                else -> this != null
+            }) {
+        block(this!!)
+    }else{
+        null
+    }
+
+}

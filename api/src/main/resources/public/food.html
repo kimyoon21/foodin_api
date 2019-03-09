@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-      var result;
+      let result;
       function reqListener() {
         console.log(this)
         result = JSON.parse(this.responseText)
-        pageNo = pageNo + 1
+        hasNext = result.data.hasNext
         drawResult(result.data.list)
       }
 
@@ -39,26 +39,57 @@
       }
 
       function req(no) {
-        var oReq = new XMLHttpRequest();
+        const oReq = new XMLHttpRequest();
         oReq.addEventListener("load", reqListener);
-        oReq.open("GET", "http://localhost:5000/food?size=20&page="+no);
+        oReq.open("GET", `http://localhost:5000/food?size=20&page=${no}&name=${name}`);
         oReq.send();
       }
 
-      function showMore(){
+      function showNext(){
+        if(!hasNext){
+          alert("마지막 페이지입니다")
+          return
+        }
+        pageNo += 1
+        req(pageNo)
+      }
+      function showPrev(){
+        if(pageNo == 0){
+          alert("첫 페이지입니다")
+          return
+        }
+        pageNo += 1
         req(pageNo)
       }
 
-      let pageNo = 0
-      showMore()
+      function enterkey() {
 
+        if (window.event.keyCode == 13) {
+          // 엔터키가 눌렸을 때 실행할 내용
+          search();
+        }
+      }
+
+      function search(){
+        name = document.getElementById("q").value
+        pageNo = 0
+        req(pageNo)
+      }
+
+      let name = ""
+      let pageNo = 0
+      let hasNext = true
+      req(pageNo)
     </script>
 </head>
 <body>
+<button onclick="showPrev()">이전 페이지 보기</button><button onclick="showNext()">다음 페이지 보기</button>
+<br/><input onkeyup="enterkey();" id="q" type="text"  value="" /><button onclick="search()">이름검색</button>
 
 <div id="foods"></div>
 <br/>
-<button onclick="showMore()">다음 페이지 보기</button>
+
+<button onclick="showPrev()">이전 페이지 보기</button><button onclick="showNext()">다음 페이지 보기</button>
 
 </body>
 </html>
