@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.auth.CustomJwtUserInfo
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_REGISTERED
@@ -15,6 +16,7 @@ import app.foodin.domain.user.UserRegDTO
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
@@ -128,8 +130,9 @@ class UserController(
     }
 
     @GetMapping(value = ["/me"])
-    fun getMe(principal: Principal, httpServletRequest: HttpServletRequest): ResponseResult {
-        return ResponseResult(userService.findByEmail(principal.name))
+    fun getMe(authentication: Authentication, httpServletRequest: HttpServletRequest): ResponseResult {
+        val userInfo = authentication.principal as CustomJwtUserInfo
+        return ResponseResult(userService.findByEmail(userInfo.username))
     }
 
     @GetMapping(value = [""])

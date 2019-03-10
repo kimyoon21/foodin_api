@@ -34,7 +34,7 @@ data class Review(
 
     var commentCount: Int = 0
 
-    var rating: Int = 0
+    var rating: Float = 0F
 
     constructor(reviewCreateReq: ReviewCreateReq): this(foodId = reviewCreateReq.foodId) {
         reviewCreateReq.let {

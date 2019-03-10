@@ -32,7 +32,7 @@ data class ReviewEntity(
 
     var commentCount: Int = 0
 
-    var rating: Int = 0
+    var rating: Float = 0F
 
     var writeUserId: Long? = null
 

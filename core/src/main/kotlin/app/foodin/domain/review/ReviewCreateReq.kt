@@ -10,7 +10,7 @@ import java.io.Serializable
 data class ReviewCreateReq(
     val foodId: Long,
     val writeUserId: Long,
-    val rating: Int,
+    val rating: Float,
     val price: Int? = null,
     val contents: String? = null,
     val tagList: MutableList<String> = mutableListOf(),
