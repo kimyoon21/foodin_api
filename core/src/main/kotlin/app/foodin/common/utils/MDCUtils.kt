@@ -3,6 +3,8 @@ package app.foodin.common.utils
 import app.foodin.common.extension.hasValue
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import javax.servlet.ServletRequest
 
 object MDCUtils {
@@ -22,10 +24,6 @@ object MDCUtils {
     val PUSH_TOKEN = "PUSH_TOKEN"
     val AUTH_SKIP_CASE = "AUTH_SKIP_CASE"
     val USERNAME = "USERNAME"
-    val USER_ID = "USER_ID"
-    val USER_LOGIN_ID = "USER_LOGIN_ID"
-    val USER_REAL_NAME = "USER_REAL_NAME"
-    val USER_NICK_NAME = "USER_NICK_NAME"
     val KEY_REQUEST_UID = "x-request-uid"
     val API_ID = "API_ID"
     val SESSION_ID = "SESSION_ID"
@@ -51,7 +49,7 @@ object MDCUtils {
         return mdc.get(key).hasValue()
     }
 
-    operator fun get(key: String): String {
+    operator fun get(key: String): String? {
         return mdc.get(key)
     }
 
@@ -100,6 +98,20 @@ object MDCUtils {
         set(REQUEST_METHOD_MDC, requestWrapper.requestMethod)
         // Set Http Request src IP
         set(REQUEST_IP, requestWrapper.requestSrcIp)
+
+        getContextAuthPrincipal()?.let {
+            set(USER_INFO_MDC, JsonUtils.toJson(it))
+        }
+    }
+
+    private fun getContextAuthPrincipal(): Any? {
+        val authentication = SecurityContextHolder.getContext().authentication
+        return if (authentication != null && authentication !is AnonymousAuthenticationToken &&
+                authentication.principal !is String) {
+            authentication.principal
+        } else {
+            null
+        }
     }
 
     fun remove(key: String) {
