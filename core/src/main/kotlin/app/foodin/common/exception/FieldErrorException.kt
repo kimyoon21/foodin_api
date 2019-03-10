@@ -16,7 +16,7 @@ class FieldErrorException : CommonException {
 
     var fields: List<CustomFieldError> = ArrayList()
 
-    constructor(errors: Errors) : super(msgCode=MSG_CODE) {
+    constructor(errors: Errors) : super(msgCode = MSG_CODE) {
         fields = errors.fieldErrors.map { CustomFieldError(it) }
     }
 
@@ -24,7 +24,7 @@ class FieldErrorException : CommonException {
         field: String,
         msgCode: String,
         vararg msgArgs: String
-    ) : super(msgCode=MSG_CODE) {
+    ) : super(msgCode = MSG_CODE) {
         fields = arrayListOf(CustomFieldError(field, msgCode, msgArgs))
     }
 

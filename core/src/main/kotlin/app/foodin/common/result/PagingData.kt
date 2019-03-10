@@ -2,9 +2,9 @@ package app.foodin.common.result
 
 import org.springframework.data.domain.Page
 
-class PagingData() {
+class PagingData<T>() {
 
-    var list: List<*> = ArrayList<Any>()
+    var list: List<T> = listOf()
     var totalCount: Long = 0
     var totalPageCount: Int = 0
     var size: Int = 0
@@ -12,7 +12,7 @@ class PagingData() {
     var page: Int = 0
     var hasNext: Boolean = false
 
-    constructor(page: Page<*>) : this() {
+    constructor(page: Page<T>) : this() {
         this.list = page.toList()
         this.totalCount = page.totalElements
         this.totalPageCount = page.totalPages
@@ -21,7 +21,7 @@ class PagingData() {
         this.hasNext = page.hasNext()
     }
 
-    constructor(list: List<*>, totalCount: Long, size: Int = list.size, pageNo: Int = 0) : this() {
+    constructor(list: List<T>, totalCount: Long, size: Int = list.size, pageNo: Int = 0) : this() {
         this.list = list
         this.totalCount = totalCount
         this.totalPageCount = (totalCount / size).toInt() + 1

@@ -40,7 +40,6 @@ class ExceptionResult(
             exception.message,
             null
     )
-
 }
 /***
  * 정규식 사용법
@@ -48,6 +47,6 @@ class ExceptionResult(
 .find(input = "phone: 123-456-7890, e..")?.value // phoneNumber: 123-456-7890
  *
  */
-fun makeMsgCodeToCode(msgCode: String) : String{
+fun makeMsgCodeToCode(msgCode: String): String {
     return Regex(pattern = "\\{ex\\.(.*)}").find(msgCode)?.groupValues?.get(1)?.toUpperCase() ?: "INVALID_REQUEST"
 }
