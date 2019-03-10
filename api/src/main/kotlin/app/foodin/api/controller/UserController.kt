@@ -2,6 +2,7 @@ package app.foodin.api.controller
 
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_ALREADY_REGISTERED
 import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.hasValueOrElseThrow
 import app.foodin.common.result.ResponseResult
@@ -39,9 +40,8 @@ class UserController(
      */
     fun throwAlreadyRegistered(registeredList: List<String>) {
         throw CommonException(
-                "ALREADY_REGISTERED",
                 registeredList,
-                "이미 가입되어 있습니다."
+                EX_ALREADY_REGISTERED
         )
     }
 
