@@ -41,7 +41,7 @@ class FoodTest {
                             categoryId = 5).also {
                         it.companyName = "롯데"
                         it.sellerNames = "CU GS25"
-                        it.rating = 1.3F
+                        it.ratingAvg = 1.3F
                         it.tags = "초코 메론"
                     })
 
@@ -51,7 +51,7 @@ class FoodTest {
                             categoryId = 3).also {
                         it.companyName = "빙그레"
                         it.sellerNames = "CU GS25 7ELEVEN"
-                        it.rating = 3.0F
+                        it.ratingAvg = 3.0F
                         it.minPrice = 2000
                         it.maxPrice = 3000
                         it.tags = "메론"
@@ -63,7 +63,7 @@ class FoodTest {
                             categoryId = 1).also {
                         it.companyName = "Haribo"
                         it.sellerNames = "CU"
-                        it.rating = 5.0F
+                        it.ratingAvg = 5.0F
                         it.minPrice = 5000
                         it.maxPrice = 5000
                         it.tags = "젤리"

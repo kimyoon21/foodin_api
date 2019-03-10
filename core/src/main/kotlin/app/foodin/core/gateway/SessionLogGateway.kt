@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.core.gateway
 
 import app.foodin.domain.sessionLog.SessionLog
 

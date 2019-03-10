@@ -11,4 +11,10 @@ open class BaseDomain(
     var createdTime: Timestamp? = null
 
     var updatedTime: Timestamp? = null
+
+    fun setDefaultValues(id: Long, createdTime: Timestamp, updatedTime: Timestamp) {
+        this.id = id
+        this.createdTime = createdTime
+        this.updatedTime = updatedTime
+    }
 }

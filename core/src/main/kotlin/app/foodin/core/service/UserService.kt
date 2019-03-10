@@ -6,6 +6,7 @@ import app.foodin.common.exception.EX_NEED
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
+import app.foodin.core.gateway.SessionLogGateway
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
 import app.foodin.domain.user.*
@@ -38,9 +39,9 @@ interface UserService {
 
 @Service
 class CustomUserDetailsService(
-    private val userGateway: UserGateway,
-    private val sessionLogGateway: SessionLogGateway,
-    private val clientRegistrationRepository: ClientRegistrationRepository
+        private val userGateway: UserGateway,
+        private val sessionLogGateway: SessionLogGateway,
+        private val clientRegistrationRepository: ClientRegistrationRepository
 ) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)
@@ -61,7 +62,7 @@ class CustomUserDetailsService(
     override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
 
         val expireTime = Timestamp(expiration.time)
-        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token, expireTime = expireTime))
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id, token = token, expireTime = expireTime))
 
         return UserLoginResultDTO(user, token, refreshToken, expireTime)
     }
@@ -165,11 +166,12 @@ class CustomUserDetailsService(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
-        val resultMap: Map<String, Any> = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
+        val resultMap = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
         return when (snsTokenDTO.snsType) {
             SnsType.KAKAO -> {
-                val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
+                val kakaoUserId = resultMap["id"] ?: throw CommonException("INVALID_KAKAO_RESULT")
                 snsTokenDTO.snsUserId == kakaoUserId.toString()
             }
 //            SnsType.NAVER ->{}

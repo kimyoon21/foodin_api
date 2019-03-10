@@ -1,9 +1,9 @@
 package app.foodin.entity.food
 
 import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodDto
+import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.user.FoodGateway
+import app.foodin.core.gateway.FoodGateway
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
@@ -30,7 +30,7 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
 class JpaFoodRepository(private val foodRepository: FoodRepository) :
         BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
 
-    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodDto>? {
+    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDTO>? {
         return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 

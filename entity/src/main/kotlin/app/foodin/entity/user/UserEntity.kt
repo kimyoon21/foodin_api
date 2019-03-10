@@ -32,6 +32,8 @@ data class UserEntity(
 
     var nickName: String? = null
 
+    var profileImageUri: String? = null
+
     var firstFoodRegTime: Timestamp? = null
 
     var firstReviewRegTime: Timestamp? = null
@@ -51,6 +53,10 @@ data class UserEntity(
     var followingCount: Int? = 0
 
     var followerCount: Int? = 0
+
+    var mainBadgeId: Long? = null
+
+    /*** for UserDetails */
 
     var agreePolicy: Boolean = false
 
@@ -72,6 +78,7 @@ data class UserEntity(
         birth = Birth(user.birthFullDay)
         gender = user.gender
         nickName = user.nickName
+        profileImageUri = user.profileImageUri
         firstFoodRegTime = user.firstFoodRegTime
         firstReviewRegTime = user.firstReviewRegTime
         firstRecipeRegTime = user.firstRecipeRegTime
@@ -82,6 +89,8 @@ data class UserEntity(
         recipeCount = user.recipeCount
         followingCount = user.followingCount
         followerCount = user.followerCount
+        mainBadgeId = user.mainBadgeId
+
         agreePolicy = user.agreePolicy
         agreeMarketing = user.agreeMarketing
         authoritiesStr = user.authoritiesStr
@@ -102,6 +111,7 @@ data class UserEntity(
             it.birthYear = this.birth?.birthYear
             it.gender = this.gender
             it.nickName = this.nickName
+            it.profileImageUri = this.profileImageUri
             it.firstFoodRegTime = this.firstFoodRegTime
             it.firstReviewRegTime = this.firstReviewRegTime
             it.firstRecipeRegTime = this.firstRecipeRegTime
@@ -112,6 +122,8 @@ data class UserEntity(
             it.recipeCount = this.recipeCount
             it.followingCount = this.followingCount
             it.followerCount = this.followerCount
+            it.mainBadgeId = this.mainBadgeId
+
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
             it.authoritiesStr = this.authoritiesStr

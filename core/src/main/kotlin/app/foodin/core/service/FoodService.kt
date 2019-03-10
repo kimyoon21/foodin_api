@@ -1,8 +1,9 @@
 package app.foodin.domain.user
 
 import app.foodin.core.gateway.FoodCategoryGateway
+import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodDto
+import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodRegRequest
 import app.foodin.domain.writable.UserWritableInterface
@@ -13,13 +14,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class FoodService(
-    private val foodGateway: FoodGateway,
-    private val foodCategoryGateway: FoodCategoryGateway
+        private val foodGateway: FoodGateway,
+        private val foodCategoryGateway: FoodCategoryGateway
 ) : BaseService<Food, FoodFilter>(foodGateway), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 
-    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodDto>? {
+    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDTO>? {
         return foodGateway.findNameAll(filter = filter, pageable = pageable)
     }
 
