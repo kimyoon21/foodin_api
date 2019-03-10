@@ -76,7 +76,7 @@ data class FoodEntity(
 
     override fun toDomain(): Food {
         return Food(name = this.name, categoryId = this.categoryId).also {
-            it.setDefaultValues(this.id,this.createdTime,this.updatedTime)
+            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
             it.companyId = this.companyId
             it.companyName = this.companyName
             it.sellerNameList = this.sellerNames.csvToList()

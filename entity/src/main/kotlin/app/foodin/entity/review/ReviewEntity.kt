@@ -49,7 +49,7 @@ data class ReviewEntity(
 
     override fun toDomain(): Review {
         return Review(foodId = this.foodId).also {
-            it.setDefaultValues(this.id,this.createdTime,this.updatedTime)
+            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
             it.price = this.price
             it.contents = this.contents
             it.tagList = this.tags.csvToList()
@@ -62,5 +62,4 @@ data class ReviewEntity(
             it.status = this.status
         }
     }
-
 }

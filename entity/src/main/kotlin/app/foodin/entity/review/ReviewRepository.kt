@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
-}
+interface ReviewRepository : BaseRepositoryInterface<ReviewEntity>
 
 @Component
 class JpaReviewRepository(private val reviewRepository: ReviewRepository) :

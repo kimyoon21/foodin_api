@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ReviewService(
-        private val reviewGateway: ReviewGateway
+    private val reviewGateway: ReviewGateway
 ) : BaseService<Review, ReviewFilter>(reviewGateway), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(ReviewService::class.java)
-
 }

@@ -1,9 +1,9 @@
 package app.foodin.common.exception
 
 open class CommonException(
-        open val data: Any? = null,
-        open val msgCode: String,
-        open val msgArgs: Array<out String>? = null
+    open val data: Any? = null,
+    open val msgCode: String,
+    open val msgArgs: Array<out String>? = null
 ) : RuntimeException(msgCode) {
     constructor(msgCode: String) : this(null, msgCode, null)
 

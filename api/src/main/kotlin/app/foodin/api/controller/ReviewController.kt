@@ -33,6 +33,5 @@ class ReviewController(
     fun register(@RequestBody reviewCreateReq: ReviewCreateReq): ResponseResult {
 
         return ResponseResult(reviewService.saveFrom(Review(reviewCreateReq)))
-
     }
 }

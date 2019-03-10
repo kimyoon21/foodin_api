@@ -5,7 +5,6 @@ data class FoodInfoDTO(
     var mainImageUri: String?,
     var ratingAvg: Float?,
     var tagList: List<String> = listOf()
-){
+) {
     constructor(food: Food) : this(food.name, food.mainImageUri, food.ratingAvg, food.tagList)
-
 }

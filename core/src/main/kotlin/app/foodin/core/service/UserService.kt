@@ -39,9 +39,9 @@ interface UserService {
 
 @Service
 class CustomUserDetailsService(
-        private val userGateway: UserGateway,
-        private val sessionLogGateway: SessionLogGateway,
-        private val clientRegistrationRepository: ClientRegistrationRepository
+    private val userGateway: UserGateway,
+    private val sessionLogGateway: SessionLogGateway,
+    private val clientRegistrationRepository: ClientRegistrationRepository
 ) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)

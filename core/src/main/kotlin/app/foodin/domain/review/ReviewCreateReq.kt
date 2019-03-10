@@ -6,6 +6,4 @@ data class ReviewCreateReq(
     val name: String,
     val foodId: Long
 
-) : Serializable {
-
-}
+) : Serializable

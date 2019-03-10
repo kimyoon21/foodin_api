@@ -32,8 +32,6 @@ data class Review(
 
     var rating: Int = 0
 
-    constructor(reviewCreateReq: ReviewCreateReq):this(foodId = reviewCreateReq.foodId){
-
+    constructor(reviewCreateReq: ReviewCreateReq): this(foodId = reviewCreateReq.foodId) {
     }
-
 }

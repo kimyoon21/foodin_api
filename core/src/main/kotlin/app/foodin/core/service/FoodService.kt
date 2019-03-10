@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class FoodService(
-        private val foodGateway: FoodGateway,
-        private val foodCategoryGateway: FoodCategoryGateway
+    private val foodGateway: FoodGateway,
+    private val foodCategoryGateway: FoodCategoryGateway
 ) : BaseService<Food, FoodFilter>(foodGateway), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
