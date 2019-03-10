@@ -24,7 +24,8 @@
           html +=
             `<td><div>
             <img src = "${item.mainImageUri}" width="200px" /><br/>
-            [${item.companyName}]${item.name} <br/>
+            ${item.companyName}]${item.name} <br/>
+            태그 (${item.tagList.join(")(")}) <br/>
             ${item.sellerNameList[0]} : ${item.minPrice}원 ~ ${item.maxPrice}원
            </div></td>`
           if(n%4==3){
@@ -41,7 +42,8 @@
       function req(no) {
         const oReq = new XMLHttpRequest();
         oReq.addEventListener("load", reqListener);
-        oReq.open("GET", `http://localhost:5000/food?size=20&page=${no}&query=${query}`);
+        // oReq.open("GET", `http://localhost:5000/food?size=20&page=${no}&query=${query}`);
+        oReq.open("GET", `https://api-test.foodin.app/food?size=20&page=${no}&query=${query}`);
         oReq.send();
       }
 

@@ -17,15 +17,15 @@ interface BaseFilterQuery<D : BaseDomain, E : BaseEntity<D>> {
     fun toSpecification(): Specification<E>
 }
 
-fun <E, R> equalFilter(property: KProperty1<E, R>, query: R?): Specification<E>? = query.hasValueLet {
+fun <E, R> equalFilter(property: KProperty1<E, R>, value: R?): Specification<E>? = value.hasValueLet {
     property.equal(it)
 }
 
-fun <E> likeFilter(property: KProperty1<E, String?>, query: String?, mathMode: MathMode): Specification<E>? = query.hasValueLet {
+fun <E> likeFilter(property: KProperty1<E, String?>, value: String?, mathMode: MathMode): Specification<E>? = value.hasValueLet {
     when (mathMode) {
-        MathMode.ANYWHERE -> property.like("%$query%")
-        MathMode.PRE -> property.like("$query%")
-        MathMode.POST -> property.like("%$query")
+        MathMode.ANYWHERE -> property.like("%$value%")
+        MathMode.PRE -> property.like("$value%")
+        MathMode.POST -> property.like("%$value")
     }
 }
 

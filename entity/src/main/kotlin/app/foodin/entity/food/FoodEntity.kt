@@ -3,6 +3,8 @@ package app.foodin.entity.food
 import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
+import app.foodin.common.extension.listToTags
+import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.entity.common.BaseEntity
@@ -60,7 +62,7 @@ data class FoodEntity(
         minPrice = food.minPrice
         maxPrice = food.maxPrice
         summary = food.summary
-        tags = food.tagList.listToCsv()
+        tags = food.tagList.listToTags()
         mainImageUri = food.mainImageUri
         imageUris = food.imageUriList.listToCsv()
         loveCount = food.loveCount
@@ -81,7 +83,7 @@ data class FoodEntity(
             it.minPrice = this.minPrice
             it.maxPrice = this.maxPrice
             it.summary = this.summary
-            it.tagList = this.tags.csvToList()
+            it.tagList = this.tags.tagsToList()
             it.mainImageUri = this.mainImageUri
             it.imageUriList = this.imageUris.csvToList()
             it.loveCount = this.loveCount

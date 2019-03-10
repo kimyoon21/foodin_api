@@ -16,11 +16,13 @@ class FoodFilterQuery(
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),
                 hasSellerNameIn(it.sellerNameList),
-                querysToSpecification(
-                        hasNameLike(it.query),
-                        hasTagLike(it.query),
-                        hasSellerName(it.query)
-                )
+                it.query.hasValueLet { q ->
+                    querysToSpecification(
+                            hasNameLike(q),
+                            hasTagLike(q),
+                            hasSellerName(q)
+                    )
+                }
         )
     }
 
