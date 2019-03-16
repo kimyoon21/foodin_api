@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CodeService(
-    val codeGateway: CodeGateway
-) : BaseService<Code, CodeFilter>(codeGateway) {
+    override val gateway: CodeGateway
+) : BaseService<Code, CodeFilter>() {
 
     private val logger = LoggerFactory.getLogger(CodeService::class.java)
 }
