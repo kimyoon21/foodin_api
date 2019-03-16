@@ -45,8 +45,7 @@ class ReviewController(
         val result = ResponseTypeResult(reviewService.saveFrom(reviewCreateReq))
         result.data?.let {
             // count 증가 async
-            // TODO transactional 오류 해결하고 수행
-//            foodService.addReviewAndRatingCount(it.foodId,!it.contents.isNullOrBlank())
+            foodService.addReviewAndRatingCount(it.foodId,!it.contents.isNullOrBlank())
         }
 
         return result
