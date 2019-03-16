@@ -8,14 +8,15 @@ import app.foodin.domain.review.ReviewFilter
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-// @Transactional
+@Transactional
 class ReviewService(
-    reviewGateway: ReviewGateway,
+    override val gateway: ReviewGateway,
     private val foodService: FoodService,
     private val userService: UserService
-) : BaseService<Review, ReviewFilter>(reviewGateway), UserWritableInterface {
+) : BaseService<Review, ReviewFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(ReviewService::class.java)
 
