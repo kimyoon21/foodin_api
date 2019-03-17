@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
     fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): ReviewEntity?
+    fun findAllByWriteUserId(userId: Long): List<ReviewEntity>
 }
 
 @Component
@@ -29,4 +30,6 @@ class JpaReviewRepository(private val repository: ReviewRepository) :
     override fun saveFrom(t: Review): Review {
         return repository.saveAndFlush(ReviewEntity(t)).toDomain()
     }
+
+    override fun getByUserId(userId: Long): List<Review> = repository.findAllByWriteUserId(userId).map(ReviewEntity::toDomain)
 }
