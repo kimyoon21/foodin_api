@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class FoodCategoryService(
-    private val foodCategoryGateway: FoodCategoryGateway
-) : BaseService<FoodCategory, BaseFilter>(foodCategoryGateway) {
+    override val gateway: FoodCategoryGateway
+) : BaseService<FoodCategory, BaseFilter>() {
 
     private val logger = LoggerFactory.getLogger(FoodCategoryService::class.java)
 }

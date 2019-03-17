@@ -3,6 +3,7 @@ package app.foodin.core.service
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
+import app.foodin.common.exception.NotExistsException
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
@@ -35,6 +36,7 @@ interface UserService {
     fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
     fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO
     fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean
+    fun findById(id: Long): User
 }
 
 @Service
@@ -65,6 +67,10 @@ class CustomUserDetailsService(
         sessionLogGateway.saveFrom(SessionLog(userId = user.id, token = token, expireTime = expireTime))
 
         return UserLoginResultDTO(user, token, refreshToken, expireTime)
+    }
+
+    override fun findById(id: Long): User {
+        return userGateway.findById(id) ?: throw NotExistsException(msgArgs = "유저")
     }
 
     override fun saveFrom(userRegDTO: UserRegDTO): User {

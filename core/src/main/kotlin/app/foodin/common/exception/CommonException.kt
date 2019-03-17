@@ -3,7 +3,7 @@ package app.foodin.common.exception
 open class CommonException(
     open val data: Any? = null,
     open val msgCode: String,
-    open val msgArgs: Array<out String>? = null
+    vararg msgArgs: String?
 ) : RuntimeException(msgCode) {
     constructor(msgCode: String) : this(null, msgCode, null)
 
@@ -71,5 +71,5 @@ const val EX_DEFAULT = "{ex.default}"
 /** {0} : 필수 항목입니다.  */
 const val EX_NEED = "{ex.need}"
 
-/** 해당 기능에 대한 권한이 없습니다.  */
+/** 계정 인증 관련 오류입니다.  */
 const val EX_AUTH_FAILED = "{ex.auth_failed}"

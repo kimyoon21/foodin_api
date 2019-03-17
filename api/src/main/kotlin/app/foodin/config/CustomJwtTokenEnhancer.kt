@@ -1,5 +1,6 @@
 package app.foodin.config
 
+import app.foodin.auth.CustomJwtUserInfo
 import app.foodin.domain.user.User
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
 import org.springframework.security.oauth2.common.OAuth2AccessToken
@@ -16,11 +17,7 @@ class CustomJwtTokenEnhancer : TokenEnhancer {
     ): OAuth2AccessToken {
         val additionalInfo = HashMap<String, Any>()
         val user: User = authentication.principal as User
-        additionalInfo["user_id"] = user.id
-        additionalInfo["user_real_name"] = user.realName
-        if (user.nickName != null) {
-            additionalInfo["user_nick_name"] = user.nickName!!
-        }
+        additionalInfo["userInfo"] = CustomJwtUserInfo(user.id, user.username, user.nickName, user.realName, user.snsType)
         (accessToken as DefaultOAuth2AccessToken).additionalInformation = additionalInfo
         return accessToken
     }

@@ -6,10 +6,7 @@ import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
 import app.foodin.entity.common.BaseEntity
 import java.sql.Timestamp
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -24,7 +21,7 @@ data class UserEntity(
     var snsUserId: String? = null
 
     var loginPw: String? = null
-
+    @Embedded
     var birth: Birth? = null
 
     @Enumerated(EnumType.STRING)

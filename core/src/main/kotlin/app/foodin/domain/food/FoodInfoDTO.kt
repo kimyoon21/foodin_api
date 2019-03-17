@@ -1,5 +1,8 @@
 package app.foodin.domain.food
 
+import app.foodin.core.annotation.KotlinNoArgConstructor
+
+@KotlinNoArgConstructor
 data class FoodInfoDTO(
     var name: String,
     var mainImageUri: String?,

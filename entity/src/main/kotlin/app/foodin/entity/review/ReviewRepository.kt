@@ -11,17 +11,22 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ReviewRepository : BaseRepositoryInterface<ReviewEntity>
+interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
+    fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): ReviewEntity?
+}
 
 @Component
-class JpaReviewRepository(private val reviewRepository: ReviewRepository) :
-        BaseRepository<Review, ReviewEntity, ReviewFilter>(reviewRepository), ReviewGateway {
+class JpaReviewRepository(private val repository: ReviewRepository) :
+        BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
+    override fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): Review? {
+        return repository.findByWriteUserIdAndFoodId(userId, foodId)?.toDomain()
+    }
 
     override fun findAllByFilter(filter: ReviewFilter, pageable: Pageable): Page<Review> {
         return findAll(ReviewFilterQuery(filter), pageable)
     }
 
     override fun saveFrom(t: Review): Review {
-        return reviewRepository.saveAndFlush(ReviewEntity(t)).toDomain()
+        return repository.saveAndFlush(ReviewEntity(t)).toDomain()
     }
 }

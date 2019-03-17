@@ -25,5 +25,5 @@ data class ReviewInfoDTO(
 
     var commentCount: Int? = null,
 
-    var rating: Int = 0
+    var rating: Float = 0F
 )

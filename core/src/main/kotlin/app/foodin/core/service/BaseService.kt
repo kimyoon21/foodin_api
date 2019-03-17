@@ -7,12 +7,10 @@ import app.foodin.domain.common.BaseDomain
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-open class BaseService<T : BaseDomain, F : BaseFilter>(
-    private val gateway: BaseGateway<T, F>
-) {
-//    fun findAll(spec: Specification<*>?, pageable: Pageable): Page<T> {
-//        return gateway.findAll(spec, pageable)
-//    }
+abstract class BaseService<T : BaseDomain, F : BaseFilter> {
+    constructor()
+
+    abstract val gateway: BaseGateway<T, F>
 
     fun findAll(filter: F, pageable: Pageable): Page<T> {
         return gateway.findAllByFilter(filter, pageable)
