@@ -2,6 +2,7 @@ package app.foodin.domain.food
 
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.user.User
 import app.foodin.domain.writable.UserWritable
 
 data class Food(
@@ -10,6 +11,10 @@ data class Food(
     var categoryId: Long
 
 ) : BaseDomain(id), UserWritable {
+
+    override var writeUser: User? = null
+
+    override var writeUserId: Long? = null
 
     var companyId: Long? = null
 
@@ -37,9 +42,7 @@ data class Food(
 
     var recipeCount: Int = 0
 
-    var rating: Float? = null
-
-    var firstWriterId: Long? = null
+    var ratingAvg: Float? = null
 
     var status: Status? = null
 }

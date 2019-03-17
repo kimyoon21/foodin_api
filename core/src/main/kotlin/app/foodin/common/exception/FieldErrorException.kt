@@ -11,13 +11,12 @@ import org.springframework.validation.FieldError
 class FieldErrorException : CommonException {
 
     companion object {
-        const val CODE = "INVALID_FIELDS"
-        const val MSG_CODE = "{ex.invalid_fields}"
+        const val MSG_CODE = EX_INVALID_FIELD
     }
 
     var fields: List<CustomFieldError> = ArrayList()
 
-    constructor(errors: Errors) : super(CODE, null, MSG_CODE) {
+    constructor(errors: Errors) : super(msgCode = MSG_CODE) {
         fields = errors.fieldErrors.map { CustomFieldError(it) }
     }
 
@@ -25,7 +24,7 @@ class FieldErrorException : CommonException {
         field: String,
         msgCode: String,
         vararg msgArgs: String
-    ) : super(CODE, null, MSG_CODE) {
+    ) : super(msgCode = MSG_CODE) {
         fields = arrayListOf(CustomFieldError(field, msgCode, msgArgs))
     }
 

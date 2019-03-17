@@ -8,4 +8,5 @@ interface UserGateway {
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
     fun saveFrom(user: User): User
     fun findAll(): List<User>
+    fun findById(id: Long): User?
 }

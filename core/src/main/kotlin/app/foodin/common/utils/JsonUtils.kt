@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.GsonBuilder
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
@@ -99,4 +100,9 @@ object JsonUtils {
         }
         return ""
     }
+
+    inline fun <reified T : Any> mapTo(map: Any): T =
+            GsonBuilder().create().run {
+                toJson(map).let { fromJson(it, T::class.java) }
+            }
 }

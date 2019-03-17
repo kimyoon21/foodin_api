@@ -31,12 +31,12 @@ internal object ControllerHandlerFactory {
 internal class DefaultControllerHandler(private val meta: SignatureProcessor) : ControllerHandler {
     override fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog {
 
-        val path = MDCUtils[REQUEST_URI_MDC]
-        val method = MDCUtils[REQUEST_METHOD_MDC]
+        val path = MDCUtils[REQUEST_URI_MDC] ?: ""
+        val method = MDCUtils[REQUEST_METHOD_MDC] ?: ""
 
-        val clientIp = MDCUtils[REQUEST_IP]
+        val clientIp = MDCUtils[REQUEST_IP] ?: ""
         logger.info("====== REQUEST START(uri : {} - {}, ip : {} , headers : {} )", method, path, clientIp, MDCUtils[HEADER_MAP_MDC])
-        RequestLog.start(method = method, path = path, eventId = MDCUtils[KEY_REQUEST_UID], clientIp = clientIp)
+        RequestLog.start(method = method, path = path, eventId = MDCUtils[KEY_REQUEST_UID] ?: "", clientIp = clientIp)
         return RequestLog
     }
 

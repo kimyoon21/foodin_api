@@ -4,6 +4,7 @@ import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.extension.csvToList
+import app.foodin.domain.badge.Badge
 import app.foodin.domain.common.Authority
 import app.foodin.domain.common.BaseDomain
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -42,6 +43,8 @@ class User(
 
     var nickName: String? = null
 
+    var profileImageUri: String? = null
+
     var firstFoodRegTime: Timestamp? = null
 
     var firstReviewRegTime: Timestamp? = null
@@ -61,6 +64,11 @@ class User(
     var followingCount: Int? = 0
 
     var followerCount: Int? = 0
+
+    var mainBadgeId: Long? = null
+//    @JoinColumn TODO
+//    @ManyToOne
+    val mainBadge: Badge? = null
 
     /*** for UserDetails */
     // auth csv

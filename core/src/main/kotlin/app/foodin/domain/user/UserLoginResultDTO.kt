@@ -4,6 +4,7 @@ import app.foodin.common.enums.SnsType
 import java.sql.Timestamp
 
 class UserLoginResultDTO(
+    val id: Long,
     val email: String,
     val realName: String,
     val nickName: String,
@@ -15,6 +16,7 @@ class UserLoginResultDTO(
 ) {
 
     constructor(user: User, accessToken: String, refeshToken: String, expireTime: Timestamp) : this(
+            id = user.id,
             email = user.email,
             realName = user.realName,
             nickName = user.nickName ?: user.realName,
