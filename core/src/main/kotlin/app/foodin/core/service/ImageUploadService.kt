@@ -20,8 +20,9 @@ class ImageUploadService(
         REVIEW,
         RECIPE,
         PROFILE,
+        NOTICE,
         BADGE,
-        ETC
+        CODE,
     }
 
     private val logger = LoggerFactory.getLogger(ImageUploadService::class.java)
