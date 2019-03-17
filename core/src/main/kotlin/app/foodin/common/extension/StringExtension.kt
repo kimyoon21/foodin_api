@@ -22,8 +22,24 @@ fun MutableList<String>.listToCsv(): String {
     return this.filter { it.trim().hasValue() }.joinToString(",")
 }
 
+fun String?.tagsToList(): MutableList<String> {
+    return if (this.hasValue()) {
+        this!!.split(" ").map { it.trim() }.filter { it.hasValue() }.toMutableList()
+    } else {
+        mutableListOf()
+    }
+}
+
+fun MutableList<String>.listToTags(): String {
+    return this.filter { it.trim().hasValue() }.joinToString(" ")
+}
+
 fun String?.hasValue(): Boolean {
     return this != null && !this.isEmpty()
+}
+
+fun <T> Collection<T>?.hasValue(): Boolean {
+    return this != null && !this.isEmpty() && this.stream().anyMatch { x -> x != null }
 }
 
 /**

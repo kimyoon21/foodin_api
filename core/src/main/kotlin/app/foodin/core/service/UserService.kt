@@ -3,9 +3,11 @@ package app.foodin.core.service
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
+import app.foodin.common.exception.NotExistsException
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
+import app.foodin.core.gateway.SessionLogGateway
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
 import app.foodin.domain.user.*
@@ -34,6 +36,7 @@ interface UserService {
     fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
     fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO
     fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean
+    fun findById(id: Long): User
 }
 
 @Service
@@ -61,9 +64,13 @@ class CustomUserDetailsService(
     override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
 
         val expireTime = Timestamp(expiration.time)
-        sessionLogGateway.saveFrom(SessionLog(userId = user.id!!, token = token, expireTime = expireTime))
+        sessionLogGateway.saveFrom(SessionLog(userId = user.id, token = token, expireTime = expireTime))
 
         return UserLoginResultDTO(user, token, refreshToken, expireTime)
+    }
+
+    override fun findById(id: Long): User {
+        return userGateway.findById(id) ?: throw NotExistsException(msgArgs = "유저")
     }
 
     override fun saveFrom(userRegDTO: UserRegDTO): User {
@@ -165,11 +172,12 @@ class CustomUserDetailsService(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
-        val resultMap: Map<String, Any> = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
+        val resultMap = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
         return when (snsTokenDTO.snsType) {
             SnsType.KAKAO -> {
-                val kakaoUserId = resultMap.get("id") ?: throw CommonException("INVALID_KAKAO_RESULT")
+                val kakaoUserId = resultMap["id"] ?: throw CommonException("INVALID_KAKAO_RESULT")
                 snsTokenDTO.snsUserId == kakaoUserId.toString()
             }
 //            SnsType.NAVER ->{}

@@ -3,8 +3,10 @@ package app.foodin.entity.food
 import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
+import app.foodin.common.extension.listToTags
+import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodDto
+import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.entity.common.BaseEntity
 import org.modelmapper.ModelMapper
 import javax.persistence.Entity
@@ -35,7 +37,7 @@ data class FoodEntity(
 
     var mainImageUri: String? = null
 
-    var imagesUri: String? = null
+    var imageUris: String? = null
 
     var loveCount: Int = 0
 
@@ -45,9 +47,9 @@ data class FoodEntity(
 
     var recipeCount: Int = 0
 
-    var rating: Float? = null
+    var ratingAvg: Float? = null
 
-    var firstWriterId: Long? = null
+    var writeUserId: Long? = null
 
     var status: Status? = null
 
@@ -60,43 +62,41 @@ data class FoodEntity(
         minPrice = food.minPrice
         maxPrice = food.maxPrice
         summary = food.summary
-        tags = food.tagList.listToCsv()
+        tags = food.tagList.listToTags()
         mainImageUri = food.mainImageUri
-        imagesUri = food.imageUriList.listToCsv()
+        imageUris = food.imageUriList.listToCsv()
         loveCount = food.loveCount
         ratingCount = food.ratingCount
         reviewCount = food.reviewCount
         recipeCount = food.recipeCount
-        rating = food.rating
-        firstWriterId = food.firstWriterId
+        ratingAvg = food.ratingAvg
+        writeUserId = food.writeUserId
         status = food.status
     }
 
     override fun toDomain(): Food {
         return Food(name = this.name, categoryId = this.categoryId).also {
-            it.id = this.id
-            it.createdTime = this.createdTime
-            it.updatedTime = this.updatedTime
+            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
             it.companyId = this.companyId
             it.companyName = this.companyName
             it.sellerNameList = this.sellerNames.csvToList()
             it.minPrice = this.minPrice
             it.maxPrice = this.maxPrice
             it.summary = this.summary
-            it.tagList = this.tags.csvToList()
+            it.tagList = this.tags.tagsToList()
             it.mainImageUri = this.mainImageUri
-            it.imageUriList = this.imagesUri.csvToList()
+            it.imageUriList = this.imageUris.csvToList()
             it.loveCount = this.loveCount
             it.ratingCount = this.ratingCount
             it.reviewCount = this.reviewCount
             it.recipeCount = this.recipeCount
-            it.rating = this.rating
-            it.firstWriterId = this.firstWriterId
+            it.ratingAvg = this.ratingAvg
+            it.writeUserId = this.writeUserId
             it.status = this.status
         }
     }
 
-    fun toDto(): FoodDto {
-        return ModelMapper().map(this, FoodDto::class.java)
+    fun toDto(): FoodInfoDTO {
+        return ModelMapper().map(this, FoodInfoDTO::class.java)
     }
 }

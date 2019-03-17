@@ -16,6 +16,10 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
 
 @Component
 class JpaUserRepository(private val userRepository: UserRepository) : UserGateway {
+    override fun findById(id: Long): User? {
+        return userRepository.findById(id).orElse(null)?.toDomain()
+    }
+
     override fun findAll(): List<User> {
 //        Pageable  TODO page 처리 나중에
         val list = userRepository.findAll()

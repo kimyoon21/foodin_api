@@ -1,6 +1,10 @@
 package app.foodin.entity.food
 
+import app.foodin.domain.food.FoodFilter
 import app.foodin.entity.common.*
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasNameLike
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasSellerNameIn
+import app.foodin.entity.food.FoodFilterQuery.Companion.hasTagLike
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.After
@@ -37,7 +41,7 @@ class FoodTest {
                             categoryId = 5).also {
                         it.companyName = "롯데"
                         it.sellerNames = "CU GS25"
-                        it.rating = 1.3F
+                        it.ratingAvg = 1.3F
                         it.tags = "초코 메론"
                     })
 
@@ -47,7 +51,7 @@ class FoodTest {
                             categoryId = 3).also {
                         it.companyName = "빙그레"
                         it.sellerNames = "CU GS25 7ELEVEN"
-                        it.rating = 3.0F
+                        it.ratingAvg = 3.0F
                         it.minPrice = 2000
                         it.maxPrice = 3000
                         it.tags = "메론"
@@ -59,7 +63,7 @@ class FoodTest {
                             categoryId = 1).also {
                         it.companyName = "Haribo"
                         it.sellerNames = "CU"
-                        it.rating = 5.0F
+                        it.ratingAvg = 5.0F
                         it.minPrice = 5000
                         it.maxPrice = 5000
                         it.tags = "젤리"
@@ -75,8 +79,8 @@ class FoodTest {
     /**
      * A collection of FoodEntityQueries is equivalent to an OR of all the queries in the collection.
      */
-    fun Iterable<FoodFilter>.toSpecification(): Specification<FoodEntity> = or(
-            map { query -> query.toSpecification() }
+    fun Iterable<FoodFilterQuery>.toSpecification(): Specification<FoodEntity> = or(
+            map { filter -> filter.toSpecification() }
     )
 
     @Test
@@ -159,14 +163,14 @@ class FoodTest {
 
     @Test
     fun `Find foodentity by query DTO`() {
-        val query = FoodFilter(categoryIdList = listOf(haribo.categoryId, melona.categoryId))
+        val query = FoodFilterQuery(FoodFilter(categoryIdList = listOf(haribo.categoryId, melona.categoryId)))
         val foods = foodRepo.findAll(query.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, melona))
     }
 
     @Test
     fun `Find foods by query DTO - empty query`() {
-        val query = FoodFilter()
+        val query = FoodFilterQuery(FoodFilter())
         val foods = foodRepo.findAll(query.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero, melona))
     }
@@ -174,8 +178,8 @@ class FoodTest {
     @Test
     fun `Find foods by multiple query DTOs`() {
         val queries = listOf(
-                FoodFilter(name = bebero.name),
-                FoodFilter(tag = haribo.tags)
+                FoodFilterQuery(FoodFilter(name = bebero.name)),
+                FoodFilterQuery(FoodFilter(tag = haribo.tags))
         )
         val foods = foodRepo.findAll(queries.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero))
@@ -183,7 +187,7 @@ class FoodTest {
 
     @Test
     fun `Find foods by empty query DTOs list`() {
-        val queries = listOf<FoodFilter>()
+        val queries = listOf<FoodFilterQuery>()
         val foods = foodRepo.findAll(queries.toSpecification())
         assertThat(foods, containsInAnyOrder(haribo, bebero, melona))
     }
@@ -192,7 +196,7 @@ class FoodTest {
     fun `Find foods by inlined query`() {
         val foods = foodRepo.findAll(and(
                 hasSellerNameIn(listOf("CU")),
-                hasTag("메론")), Pageable.unpaged()
+                hasTagLike("메론")), Pageable.unpaged()
         )
 
         assertThat(foods, allOf(iterableWithSize(2), hasItem(melona)))
@@ -204,10 +208,10 @@ class FoodTest {
                 or(
                         and(
                                 hasSellerNameIn(listOf("CU")),
-                                hasTag("메론")
+                                likeFilter(FoodEntity::tags, "메론", MathMode.ANYWHERE)
                         ),
                         and(
-                                hasName(haribo.name)
+                                hasNameLike(haribo.name)
                         )
                 ), Pageable.unpaged()
         )

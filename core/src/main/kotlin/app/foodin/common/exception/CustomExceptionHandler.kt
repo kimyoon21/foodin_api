@@ -1,6 +1,6 @@
 package app.foodin.common.exception
 
-import app.foodin.common.result.FailureResult
+import app.foodin.common.result.ExceptionResult
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -20,9 +20,16 @@ import java.util.*
 @RestControllerAdvice
 class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
+    @ExceptionHandler(NotExistsException::class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    fun handleNotExistsException(ex: NotExistsException, request: WebRequest): ExceptionResult {
+        logger.info(" ****** NotExistsException : " + ex.localizedMessage)
+        return ExceptionResult(request, ex)
+    }
+
     @ExceptionHandler(CommonException::class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    fun handleCommonException(ex: CommonException, request: WebRequest): FailureResult {
+    fun handleCommonException(ex: CommonException, request: WebRequest): ExceptionResult {
         logger.info(" ****** CommonException : " + ex.localizedMessage)
         val cause = ex.cause
         // http 오류는 해당 바디에 오류내용이 있을 때가 많으므로 그걸 넣어준다
@@ -31,21 +38,21 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         } else {
             cause?.message
         }
-        return FailureResult(request, ex, debugMessage)
+        return ExceptionResult(request, ex, debugMessage)
     }
 
     @ExceptionHandler(AccessDeniedException::class)
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-    fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): FailureResult {
+    fun handleAccessDeniedException(ex: AccessDeniedException, request: WebRequest): ExceptionResult {
         logger.info(" ****** AccessDeniedException : " + ex.localizedMessage)
-        return FailureResult(request, EX_AUTH_FAILED, "권한이 없습니다", ex.localizedMessage, null)
+        return ExceptionResult(request, EX_AUTH_FAILED, "권한이 없습니다", ex.localizedMessage, null)
     }
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handleExceptions(ex: Exception, request: WebRequest): FailureResult {
+    fun handleExceptions(ex: Exception, request: WebRequest): ExceptionResult {
         logger.info(" ****** other Exceptions : " + ex.localizedMessage)
-        return FailureResult(request, ex)
+        return ExceptionResult(request, ex)
     }
 
     override fun handleBindException(
@@ -56,14 +63,14 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     ): ResponseEntity<Any> {
         logger.info(" ****** BindException : " + ex.localizedMessage)
         val field = ex.bindingResult.fieldError?.field
-        val failureResult = FailureResult(request, EX_INVALID_REQUEST, "$field 값이 잘못되거나 부족합니다", null, null)
+        val failureResult = ExceptionResult(request, EX_INVALID_REQUEST, "$field 값이 잘못되거나 부족합니다", null, null)
         failureResult.debugMessage = ex.bindingResult.fieldError.toString()
         return ResponseEntity(failureResult, HttpStatus.BAD_REQUEST)
     }
 
     override fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         logger.info(" ****** HttpMessageNotReadableException : " + ex.localizedMessage)
-        val failureResult = FailureResult(request, EX_INVALID_REQUEST, "입력값이 잘못되거나 부족합니다", null, null)
+        val failureResult = ExceptionResult(request, EX_INVALID_REQUEST, "입력값이 잘못되거나 부족합니다", null, null)
         val cause = ex.cause
         if (cause is MissingKotlinParameterException) {
             failureResult.debugMessage = cause.path[0].description

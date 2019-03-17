@@ -28,15 +28,25 @@ class AuthorizationConfig(
     val customJwtTokenEnhancer: CustomJwtTokenEnhancer
 ) : AuthorizationServerConfigurerAdapter() {
 
+//    @Bean
+//    fun accessTokenConverter(): JwtAccessTokenConverter {
+//        val converter = JwtAccessTokenConverter()
+//        converter.setSigningKey(SecurityConstants.SECRET)
+// //        val keyPair = KeyStoreKeyFactory(ClassPathResource("server.jks"), "passtwo".toCharArray())
+// //                .getKeyPair("auth", "passone".toCharArray())
+// //        converter.setKeyPair(keyPair)
+//
+//        return converter
+//    }
+
     @Bean
     fun accessTokenConverter(): JwtAccessTokenConverter {
-        val converter = JwtAccessTokenConverter()
-        converter.setSigningKey(SecurityConstants.SECRET)
+        val accessTokenConverter = CustomJwtAccessTokenConverter()
+        accessTokenConverter.setSigningKey(SecurityConstants.SECRET)
 //        val keyPair = KeyStoreKeyFactory(ClassPathResource("server.jks"), "passtwo".toCharArray())
-//                .getKeyPair("auth", "passone".toCharArray())
-//        converter.setKeyPair(keyPair)
-
-        return converter
+// //                .getKeyPair("auth", "passone".toCharArray())
+// //        converter.setKeyPair(keyPair)
+        return accessTokenConverter
     }
 
     @Bean
@@ -80,7 +90,7 @@ class AuthorizationConfig(
         endpoints
                 .tokenStore(jwtTokenStore())
                 .tokenEnhancer(enhancerChain)
-//                .accessTokenConverter(accessTokenConverter())
+//                .accessTokenConverter(accessTokenConverter()) chain 에 넣어서 할필요없음
                 .authenticationManager(authenticationManager)
     }
 }

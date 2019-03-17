@@ -1,7 +1,7 @@
 package app.foodin.entity.session
 
 import app.foodin.domain.sessionLog.SessionLog
-import app.foodin.domain.user.SessionLogGateway
+import app.foodin.core.gateway.SessionLogGateway
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository

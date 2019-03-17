@@ -6,10 +6,7 @@ import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
 import app.foodin.entity.common.BaseEntity
 import java.sql.Timestamp
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -24,13 +21,15 @@ data class UserEntity(
     var snsUserId: String? = null
 
     var loginPw: String? = null
-
+    @Embedded
     var birth: Birth? = null
 
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
 
     var nickName: String? = null
+
+    var profileImageUri: String? = null
 
     var firstFoodRegTime: Timestamp? = null
 
@@ -52,6 +51,10 @@ data class UserEntity(
 
     var followerCount: Int? = 0
 
+    var mainBadgeId: Long? = null
+
+    /*** for UserDetails */
+
     var agreePolicy: Boolean = false
 
     var agreeMarketing: Boolean = false
@@ -72,6 +75,7 @@ data class UserEntity(
         birth = Birth(user.birthFullDay)
         gender = user.gender
         nickName = user.nickName
+        profileImageUri = user.profileImageUri
         firstFoodRegTime = user.firstFoodRegTime
         firstReviewRegTime = user.firstReviewRegTime
         firstRecipeRegTime = user.firstRecipeRegTime
@@ -82,6 +86,8 @@ data class UserEntity(
         recipeCount = user.recipeCount
         followingCount = user.followingCount
         followerCount = user.followerCount
+        mainBadgeId = user.mainBadgeId
+
         agreePolicy = user.agreePolicy
         agreeMarketing = user.agreeMarketing
         authoritiesStr = user.authoritiesStr
@@ -102,6 +108,7 @@ data class UserEntity(
             it.birthYear = this.birth?.birthYear
             it.gender = this.gender
             it.nickName = this.nickName
+            it.profileImageUri = this.profileImageUri
             it.firstFoodRegTime = this.firstFoodRegTime
             it.firstReviewRegTime = this.firstReviewRegTime
             it.firstRecipeRegTime = this.firstRecipeRegTime
@@ -112,6 +119,8 @@ data class UserEntity(
             it.recipeCount = this.recipeCount
             it.followingCount = this.followingCount
             it.followerCount = this.followerCount
+            it.mainBadgeId = this.mainBadgeId
+
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
             it.authoritiesStr = this.authoritiesStr

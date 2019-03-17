@@ -1,13 +1,16 @@
 package app.foodin.entity.food
 
+import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodDto
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.user.FoodGateway
+import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
@@ -23,14 +26,35 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
      *
      */
     fun findByName(name: String): FoodEntity?
-//    fun findAll(name:String): Page<FoodDto>
+
+    @Modifying
+    @Query("UPDATE FoodEntity f set f.loveCount = f.loveCount + 1 where f.id = :id")
+    fun addLoveCount(@Param("id") id: Long)
+    @Modifying
+    @Query("UPDATE FoodEntity f set f.ratingCount = f.ratingCount + 1 where f.id = :id")
+    fun addRatingCount(@Param("id") id: Long)
+    @Modifying
+    @Query("UPDATE FoodEntity f set f.reviewCount = f.reviewCount + 1 where f.id = :id")
+    fun addReviewCount(@Param("id") id: Long)
 }
 
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) :
         BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
 
-    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodDto>? {
+    override fun addLoveCount(id: Long) {
+        foodRepository.addLoveCount(id)
+    }
+
+    override fun addRatingCount(id: Long) {
+        foodRepository.addRatingCount(id)
+    }
+
+    override fun addReviewCount(id: Long) {
+        foodRepository.addReviewCount(id)
+    }
+
+    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDTO>? {
         return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 
