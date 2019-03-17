@@ -12,8 +12,8 @@ data class ImageInfo(
         this.ext = ext
     }
 
-    private var width: Int? = null
-    private var height: Int? = null
+    var width: Int? = null
+    var height: Int? = null
     var ext: String? = null
     var sizeKb: Int? = null
     var category: ImageUploadService.ImageCategory? = null
