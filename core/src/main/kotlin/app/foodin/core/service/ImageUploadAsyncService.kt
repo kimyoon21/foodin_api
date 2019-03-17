@@ -47,6 +47,7 @@ class ImageUploadAsyncService {
     private val bucketName = "app.foodin.images"
     private val accessKey = "AKIAITKXECDSZWUMZZBA"
     private val secretKey = "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"
+    private val cfDomain = "https://image.foodin.app"
 
     private lateinit var s3Client: AmazonS3
 
@@ -61,12 +62,12 @@ class ImageUploadAsyncService {
                     .withRegion(clientRegion)
                     .build()
         } catch (ex: Exception) {
-            logger.error("s3 client init error",ex)
+            logger.error("s3 client init error", ex)
         }
     }
 
 
-    fun makeFilePath(imageCategory: ImageUploadService.ImageCategory, ext:String): String {
+    fun makeFilePath(imageCategory: ImageUploadService.ImageCategory, ext: String): String {
         val imgFolder = imageCategory.name.toLowerCase()
         return "$imgFolder/${System.currentTimeMillis()}_${getCleanUUID()}.$ext"
     }
@@ -85,13 +86,13 @@ class ImageUploadAsyncService {
             } catch (e: AmazonServiceException) {
                 // The call was transmitted successfully, but Amazon S3 couldn't process
                 // it, so it returned an error response.
-                logger.error(e.errorMessage,e)
+                logger.error(e.errorMessage, e)
                 //S3 재접속.
                 retryNo++
             } catch (e: SdkClientException) {
                 // Amazon S3 couldn't be contacted for a response, or the client
                 // couldn't parse the response from Amazon S3.
-                logger.error(e.message,e)
+                logger.error(e.message, e)
                 retryNo++
             }
         }
@@ -99,10 +100,9 @@ class ImageUploadAsyncService {
     }
 
 
-
     @Async
     fun deleteImage(uri: String?) {
-        if(uri == null) {
+        if (uri == null) {
             return
         }
         // 버킷 호스트 제거
@@ -134,7 +134,6 @@ class ImageUploadAsyncService {
 
         val imageInfo = readImageInformation(inputStream)
 
-        var byteRead: Int
         var imageLength = 0
         val buff = charArrayOf()
         var outputStream = ByteArrayOutputStream()
@@ -147,13 +146,17 @@ class ImageUploadAsyncService {
         // 메타데이터 생성.
         val metadata = ObjectMetadata()
         metadata.contentLength = imageLength.toLong()
-        val uploadPath = makeFilePath(category,imageInfo.ext!!)
-        s3Upload(uploadPath,transformedIs,metadata)
+        val uploadPath = makeFilePath(category, imageInfo.ext!!)
+        s3Upload(uploadPath, transformedIs, metadata)
         // close
         transformedIs.close()
         outputStream.close()
-        imageInfo.uri = "https://image.foodin.app/$uploadPath"
-        return AsyncResult(imageInfo)
+        imageInfo.let {
+            it.uri = "$cfDomain/$uploadPath"
+            it.sizeKb = imageLength / 1024
+            it.category = category
+            return AsyncResult(it)
+        }
     }
 
     @Throws(IOException::class, MetadataException::class, ImageProcessingException::class, CommonException::class)
@@ -199,7 +202,8 @@ class ImageUploadAsyncService {
                     height = directory.getInt(BmpHeaderDirectory.TAG_IMAGE_HEIGHT)
                     ext = "bmp"
                 }
-                else -> {}
+                else -> {
+                }
             }
             if (ext.hasValue()) {
                 break
@@ -216,6 +220,6 @@ class ImageUploadAsyncService {
 //        }
 
 
-        return ImageInfo(null, width, height, ext, sizeKb = null)
+        return ImageInfo(width = width, height = height, ext = ext)
     }
 }
