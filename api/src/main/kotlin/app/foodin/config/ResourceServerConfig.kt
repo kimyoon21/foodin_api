@@ -38,6 +38,7 @@ class ResourceServerConfig(
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
                 .antMatchers("/code/**").permitAll() // TODO 임시로
                 .antMatchers("/food/**").permitAll() // TODO 임시로
+                .antMatchers("/image/**").permitAll() // TODO 임시로
                 .antMatchers("/user/login/**", "/user/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
                 .antMatchers("/**").authenticated()

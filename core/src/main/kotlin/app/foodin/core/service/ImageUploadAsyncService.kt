@@ -25,7 +25,7 @@ import com.drew.metadata.webp.WebpDirectory
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.AsyncResult
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -34,13 +34,13 @@ import java.net.URLConnection
 import java.util.concurrent.Future
 import javax.annotation.PostConstruct
 
-@Component
+@Service
 class ImageUploadAsyncService {
 
     private val logger = LoggerFactory.getLogger(ImageUploadAsyncService::class.java)
     private val DETAIL_WIDTH = 720
     private val MAX_SIZE = 1024 * 1024 * 2
-    private val MAX_FILE_SIZE = 1024 * 1024 * 6    // 6MB
+    private val MAX_FILE_SIZE = 1024 * 1024 * 6 // 6MB
     private val maxRetry = 3
 
     private val clientRegion = Regions.AP_NORTHEAST_2
@@ -66,14 +66,13 @@ class ImageUploadAsyncService {
         }
     }
 
-
     fun makeFilePath(imageCategory: ImageUploadService.ImageCategory, ext: String): String {
         val imgFolder = imageCategory.name.toLowerCase()
         return "$imgFolder/${System.currentTimeMillis()}_${getCleanUUID()}.$ext"
     }
 
     fun s3Upload(filePath: String, inputStream: InputStream, metadata: ObjectMetadata) {
-
+        logger.info("============ start upload to s3")
         var retryNo = 0
         // 재시도프로세스.
         while (retryNo < maxRetry) {
@@ -82,12 +81,11 @@ class ImageUploadAsyncService {
                 // Upload a text string as a new object.
                 s3Client.putObject(bucketName, filePath, inputStream, metadata)
                 return
-
             } catch (e: AmazonServiceException) {
                 // The call was transmitted successfully, but Amazon S3 couldn't process
                 // it, so it returned an error response.
                 logger.error(e.errorMessage, e)
-                //S3 재접속.
+                // S3 재접속.
                 retryNo++
             } catch (e: SdkClientException) {
                 // Amazon S3 couldn't be contacted for a response, or the client
@@ -99,7 +97,6 @@ class ImageUploadAsyncService {
         throw CommonException(EX_CANNOT)
     }
 
-
     @Async
     fun deleteImage(uri: String?) {
         if (uri == null) {
@@ -107,14 +104,14 @@ class ImageUploadAsyncService {
         }
         // 버킷 호스트 제거
 
-        val bucketUrlRegx = "https://.*/"
+        val bucketUrlRegx = "https://.*.app/"
         val filePath = uri.replaceFirst(bucketUrlRegx.toRegex(), "")
 
         logger.info("base uri : $filePath")
-        //기본 이미지 삭제
+        // 기본 이미지 삭제
         s3Client.deleteObject(DeleteObjectRequest(bucketName, filePath))
-        logger.info("delete completed. $filePath")
-        TODO()
+        logger.info("delete completed. $bucketName/$filePath")
+//        TODO()
         var targetUrl: String? = null
         // size별 이미지 삭제.
 //        for (postFix in IMG_TYPE_POST_FIXS) {
@@ -122,7 +119,6 @@ class ImageUploadAsyncService {
 //            logger.info("targetUrl : $targetUrl")
 //            s3Client.deleteObject(DeleteObjectRequest(awsBucketName, targetUrl))
 //        }
-
     }
 
     /*******
@@ -131,26 +127,29 @@ class ImageUploadAsyncService {
      */
     @Async
     fun uploadImage(category: ImageUploadService.ImageCategory, inputStream: InputStream): Future<ImageInfo> {
-
-        val imageInfo = readImageInformation(inputStream)
-
+        logger.info("============ start upload a image")
         var imageLength = 0
-        val buff = charArrayOf()
-        var outputStream = ByteArrayOutputStream()
-        inputStream.bufferedReader().use {
-            outputStream.write(it.read(buff))
-            imageLength += buff.size
+        val buff = ByteArray(1024*8)
+        val outputStream = ByteArrayOutputStream()
+        var byteRead = 0
+        while (inputStream.read(buff).also { byteRead = it } != -1) {
+            outputStream.write(buff, 0, byteRead)
+            imageLength += byteRead
         }
-        val transformedIs = ByteArrayInputStream(outputStream.toByteArray())
+        val uploadStream = ByteArrayInputStream(outputStream.toByteArray())
 
+        val imageInfo = readImageInformation(uploadStream)
+        uploadStream.reset()
         // 메타데이터 생성.
         val metadata = ObjectMetadata()
         metadata.contentLength = imageLength.toLong()
         val uploadPath = makeFilePath(category, imageInfo.ext!!)
-        s3Upload(uploadPath, transformedIs, metadata)
+
+        s3Upload(uploadPath, uploadStream, metadata)
         // close
-        transformedIs.close()
+        inputStream.close()
         outputStream.close()
+        logger.info("============ finish upload a image")
         imageInfo.let {
             it.uri = "$cfDomain/$uploadPath"
             it.sizeKb = imageLength / 1024
@@ -218,7 +217,6 @@ class ImageUploadAsyncService {
 //            logger.warn("Could not get orientation. $orientation")
 //            orientation = 1
 //        }
-
 
         return ImageInfo(width = width, height = height, ext = ext)
     }

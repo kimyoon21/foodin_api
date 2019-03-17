@@ -5,7 +5,7 @@ import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_REGISTERED
 import app.foodin.common.exception.FieldErrorException
-import app.foodin.common.extension.hasValueOrElseThrow
+import app.foodin.common.extension.throwNullOrEmpty
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
@@ -88,14 +88,14 @@ class UserController(
         }
 
         userRegDTO.email
-                .hasValueOrElseThrow { FieldErrorException(userRegDTO::email.name, "{ex.need}", "{word.email}") }
+                .throwNullOrEmpty { FieldErrorException(userRegDTO::email.name, "{ex.need}", "{word.email}") }
                 .let {
                     checkRegisteredEmail(it)
                 }
 
         if (userRegDTO.snsType != SnsType.EMAIL) {
             userRegDTO.snsUserId
-                    .hasValueOrElseThrow { FieldErrorException(userRegDTO::snsUserId.name, "{ex.need}", "{word.uid}") }
+                    .throwNullOrEmpty { FieldErrorException(userRegDTO::snsUserId.name, "{ex.need}", "{word.uid}") }
                     .let {
 
                         checkRegisteredUid(userRegDTO.snsType, it)
@@ -104,7 +104,7 @@ class UserController(
                     }
         } else {
             userRegDTO.loginPw
-                    .hasValueOrElseThrow { FieldErrorException(userRegDTO::loginPw.name, "{ex.need}", "{word.loginPw}") }
+                    .throwNullOrEmpty { FieldErrorException(userRegDTO::loginPw.name, "{ex.need}", "{word.loginPw}") }
                     .let {
                         checkPassword(it)
                         // email 경우 snsUserId 에 email 세팅
@@ -119,7 +119,7 @@ class UserController(
         }
 
         userRegDTO.realName
-                .hasValueOrElseThrow { FieldErrorException(userRegDTO::realName.name, "{ex.need}", "{word.realName}") }
+                .throwNullOrEmpty { FieldErrorException(userRegDTO::realName.name, "{ex.need}", "{word.realName}") }
 
         return ResponseResult(userService.saveFrom(userRegDTO))
     }

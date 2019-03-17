@@ -16,7 +16,6 @@ class ImageTest {
     @Autowired
     lateinit var imageUploadService: ImageUploadService
 
-
     @Test
     fun imageOneUpload() {
     }
