@@ -25,8 +25,8 @@ class ReviewService(
     fun saveFrom(createReq: ReviewCreateReq): Review {
         // 기 데이터 확인
         // 이미 작성한 리뷰(평점)이 있으면 무조건 update
-        gateway.findByWriteUserIdAndFoodId(createReq.writeUserId,createReq.foodId)?.let {
-            throw CommonException(EX_ALREADY_EXISTS_WHAT,"word.review")
+        gateway.findByWriteUserIdAndFoodId(createReq.writeUserId, createReq.foodId)?.let {
+            throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
         }
 
         // 푸드 주입

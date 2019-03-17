@@ -6,7 +6,6 @@ import app.foodin.domain.BaseFilter
 import app.foodin.domain.common.BaseDomain
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.transaction.annotation.Transactional
 
 abstract class BaseService<T : BaseDomain, F : BaseFilter> {
     constructor()

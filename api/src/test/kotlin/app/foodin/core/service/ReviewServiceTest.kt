@@ -2,7 +2,6 @@ package app.foodin.core.service
 
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.user.ReviewService
-import app.foodin.domain.user.User
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.food.FoodRepository
 import app.foodin.entity.user.UserEntity
