@@ -8,12 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import java.util.concurrent.Executor
 
-
-
-
 @Configuration
 @EnableAsync
-class SpringAsyncConfig : AsyncConfigurer{
+class SpringAsyncConfig : AsyncConfigurer {
 
     override fun getAsyncExecutor(): Executor {
         return ThreadPoolTaskExecutor().also {

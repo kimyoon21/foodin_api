@@ -33,7 +33,6 @@ fun Collection<Any>?.isNullOrEmpty(): Boolean {
     return this == null || this.isEmpty()
 }
 
-
 inline fun <R> String?.ifNullOrEmptyOtherwise(ifNull: () -> R, orElse: (String) -> R): R {
     // if문에 this.isNullOrEmpty() 만 넣고 싶었으나, 그럼 else 구문에서 오류가 발생하여 null 체크를 명시적으로 작성
     return if (this == null || this.isEmpty())

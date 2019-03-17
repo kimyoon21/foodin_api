@@ -12,29 +12,27 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/image")
-class ImageUploadController (
-        private val imageUploadService: ImageUploadService
-){
+class ImageUploadController(
+    private val imageUploadService: ImageUploadService
+) {
 
     private val logger = LoggerFactory.getLogger(ImageUploadController::class.java)
 
     @PostMapping(consumes = ["multipart/form-data"])
     fun upload(
-            @RequestParam(required = false) imageCategory: ImageUploadService.ImageCategory,
-            images: List<MultipartFile?>
+        @RequestParam(required = false) imageCategory: ImageUploadService.ImageCategory,
+        images: List<MultipartFile?>
     ): ResponseResult {
         images.throwNullOrEmpty { throw CommonException(EX_NEED) }
         return ResponseResult(imageUploadService.uploadImages(imageCategory, images))
-
     }
 
     @DeleteMapping(consumes = ["multipart/form-data"])
     fun delete(
-            @RequestParam(required = false) imageUris: List<String>
+        @RequestParam(required = false) imageUris: List<String>
     ): ResponseResult {
         imageUris.throwNullOrEmpty { throw CommonException(EX_NEED) }
         val imageInfos = imageUris.map { ImageInfo(uri = it) }
         return ResponseResult(imageUploadService.deleteImages(imageInfos))
-
     }
 }

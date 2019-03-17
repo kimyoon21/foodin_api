@@ -77,7 +77,6 @@ class ImageUploadService(
             logger.info(" ########## upload images 전체완료! ###########$cnt")
             val end = System.currentTimeMillis()
             logger.info(" 타임 : " + (end - startTime))
-
         } catch (e: Exception) {
             logger.error(" Image async upload callback ERROR ", e)
             deleteImages(imageInfoList)
