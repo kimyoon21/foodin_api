@@ -20,11 +20,11 @@ class ImageUploadController(
 
     @PostMapping(consumes = ["multipart/form-data"])
     fun upload(
-        @RequestParam(required = false) imageCategory: ImageUploadService.ImageCategory,
+        @RequestParam(required = false) category: ImageUploadService.ImageCategory,
         images: List<MultipartFile?>
     ): ResponseResult {
         images.throwNullOrEmpty { throw CommonException(EX_NEED) }
-        return ResponseResult(imageUploadService.uploadImages(imageCategory, images))
+        return ResponseResult(imageUploadService.uploadImages(category, images))
     }
 
     @DeleteMapping(consumes = ["multipart/form-data"])
