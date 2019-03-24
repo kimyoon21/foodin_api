@@ -71,22 +71,22 @@ fun <T> KProperty1<T, String?>.notLike(x: String, escapeChar: Char): Specificati
 // And
 infix fun <T> Specification<T>.and(other: Specification<T>): Specification<T> = this.and(other)
 
-inline fun <T> and(vararg specs: Specification<T>?): Specification<T> {
+fun <T> and(vararg specs: Specification<T>?): Specification<T> {
     return and(specs.toList())
 }
 
-inline fun <T> and(specs: Iterable<Specification<T>?>): Specification<T> {
+fun <T> and(specs: Iterable<Specification<T>?>): Specification<T> {
     return combineSpecification(specs, Specification<T>::and)
 }
 
 // Or
 infix fun <T> Specification<T>.or(other: Specification<T>): Specification<T> = this.or(other)
 
-inline fun <T> or(vararg specs: Specification<T>?): Specification<T> {
+fun <T> or(vararg specs: Specification<T>?): Specification<T> {
     return or(specs.toList())
 }
 
-inline fun <T> or(specs: Iterable<Specification<T>?>): Specification<T> {
+fun <T> or(specs: Iterable<Specification<T>?>): Specification<T> {
     return combineSpecification(specs, Specification<T>::or)
 }
 

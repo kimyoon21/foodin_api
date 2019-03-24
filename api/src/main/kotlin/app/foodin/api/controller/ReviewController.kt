@@ -5,11 +5,11 @@ import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_INVALID_FIELD
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
+import app.foodin.core.service.FoodService
+import app.foodin.core.service.ReviewService
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.review.ReviewFilter
-import app.foodin.core.service.FoodService
-import app.foodin.core.service.ReviewService
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -40,7 +40,7 @@ class ReviewController(
 
         val userInfo = getAuthenticatedUserInfo()
         if (userInfo.id != reviewCreateReq.writeUserId) {
-            throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = "유저")
+            throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = *arrayOf("유저"))
         }
         val result = ResponseTypeResult(reviewService.saveFrom(reviewCreateReq))
         result.data?.let {
