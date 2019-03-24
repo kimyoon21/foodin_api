@@ -38,9 +38,8 @@ import javax.annotation.PostConstruct
 class ImageUploadAsyncService {
 
     private val logger = LoggerFactory.getLogger(ImageUploadAsyncService::class.java)
-    private val DETAIL_WIDTH = 720
-    private val MAX_SIZE = 1024 * 1024 * 2
-    private val MAX_FILE_SIZE = 1024 * 1024 * 6 // 6MB
+    private val maxWidth = 1200
+    private val maxFileSize = 1024 * 1024 * 6 // 6MB
     private val maxRetry = 3
 
     private val clientRegion = Regions.AP_NORTHEAST_2
@@ -127,41 +126,62 @@ class ImageUploadAsyncService {
      */
     @Async
     fun uploadImage(category: ImageUploadService.ImageCategory, inputStream: InputStream): Future<ImageInfo> {
-        logger.info("============ start upload a image")
-        var imageLength = 0
-        val buff = ByteArray(1024*8)
         val outputStream = ByteArrayOutputStream()
-        var byteRead = 0
-        while (inputStream.read(buff).also { byteRead = it } != -1) {
-            outputStream.write(buff, 0, byteRead)
-            imageLength += byteRead
-        }
-        val uploadStream = ByteArrayInputStream(outputStream.toByteArray())
+        try {
+            logger.info("============ start upload a image")
+            var imageLength = 0
+            val buff = ByteArray(1024 * 8)
 
-        val imageInfo = readImageInformation(uploadStream)
-        uploadStream.reset()
-        // 메타데이터 생성.
-        val metadata = ObjectMetadata()
-        metadata.contentLength = imageLength.toLong()
-        val uploadPath = makeFilePath(category, imageInfo.ext!!)
+            var byteRead = 0
+            while (inputStream.read(buff).also { byteRead = it } != -1) {
+                outputStream.write(buff, 0, byteRead)
+                imageLength += byteRead
+            }
 
-        s3Upload(uploadPath, uploadStream, metadata)
-        // close
-        inputStream.close()
-        outputStream.close()
-        logger.info("============ finish upload a image")
-        imageInfo.let {
-            it.uri = "$cfDomain/$uploadPath"
-            it.sizeKb = imageLength / 1024
-            it.category = category
-            return AsyncResult(it)
+            if (imageLength > maxFileSize) {
+                throw CommonException(EX_CANNOT, "act.upload_big_file")
+            }
+
+            val uploadStream = ByteArrayInputStream(outputStream.toByteArray())
+
+            val imageInfo = readImageInformation(uploadStream)
+
+            // 혹시 1200 이상의 넓이의 이미지라면 1200으로 줄여야 한다 TODO
+            if (imageInfo.width == null || imageInfo.width!! > maxWidth) {
+                // TODO 이미지 크기 줄이기
+            }
+
+            uploadStream.reset()
+            // 메타데이터 생성.
+            val metadata = ObjectMetadata()
+            metadata.contentLength = imageLength.toLong()
+            val uploadPath = makeFilePath(category, imageInfo.ext!!)
+
+            s3Upload(uploadPath, uploadStream, metadata)
+
+            logger.info("============ finish upload a image")
+            imageInfo.let {
+                it.uri = "$cfDomain/$uploadPath"
+                it.sizeKb = imageLength / 1024
+                it.category = category
+                return AsyncResult(it)
+            }
+        } catch (e: Exception) {
+            // close
+            inputStream.close()
+            outputStream.close()
+            throw e
+        } finally {
+            // close
+            inputStream.close()
+            outputStream.close()
         }
     }
 
     @Throws(IOException::class, MetadataException::class, ImageProcessingException::class, CommonException::class)
     fun readImageInformation(imageStream: InputStream): ImageInfo {
-        var width: Int = 0
-        var height: Int = 0
+        var width = 0
+        var height = 0
         var ext: String? = null
         val metadata = ImageMetadataReader.readMetadata(imageStream)
         for (directory in metadata.directories) {

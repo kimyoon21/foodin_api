@@ -27,7 +27,7 @@ class ImageUploadController(
         return ResponseResult(imageUploadService.uploadImages(category, images))
     }
 
-    @DeleteMapping(consumes = ["multipart/form-data"])
+    @DeleteMapping
     fun delete(
         @RequestParam(required = false) imageUris: List<String>
     ): ResponseResult {
