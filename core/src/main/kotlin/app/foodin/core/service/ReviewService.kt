@@ -1,9 +1,8 @@
-package app.foodin.domain.user
+package app.foodin.core.service
 
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_EXISTS_WHAT
 import app.foodin.core.gateway.ReviewGateway
-import app.foodin.core.service.UserService
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.review.ReviewFilter

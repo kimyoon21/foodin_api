@@ -8,8 +8,8 @@ import app.foodin.common.result.ResponseTypeResult
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.review.ReviewFilter
-import app.foodin.domain.user.FoodService
-import app.foodin.domain.user.ReviewService
+import app.foodin.core.service.FoodService
+import app.foodin.core.service.ReviewService
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 

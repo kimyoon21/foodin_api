@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.core.service
 
 import app.foodin.common.exception.NotExistsException
 import app.foodin.core.gateway.BaseGateway

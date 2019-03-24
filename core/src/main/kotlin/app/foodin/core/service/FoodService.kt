@@ -1,4 +1,4 @@
-package app.foodin.domain.user
+package app.foodin.core.service
 
 import app.foodin.core.gateway.FoodCategoryGateway
 import app.foodin.core.gateway.FoodGateway

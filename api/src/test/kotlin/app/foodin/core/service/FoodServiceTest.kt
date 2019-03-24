@@ -1,7 +1,5 @@
 package app.foodin.core.service
 
-import app.foodin.domain.user.FoodService
-
 import app.foodin.entity.food.FoodRepository
 import org.junit.Assert.assertEquals
 import org.junit.Test
