@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper
 data class Review(
     override var id: Long = 0,
     var foodId: Long
-
 ) : BaseDomain(id), UserWritable {
     override var writeUser: User? = null
 
@@ -36,27 +35,30 @@ data class Review(
 
     var rating: Float = 0F
 
-    constructor(reviewCreateReq: ReviewCreateReq): this(foodId = reviewCreateReq.foodId) {
-        reviewCreateReq.let {
+    constructor(food: Food, writer: User, reviewReq: ReviewReq) : this(foodId = food.id) {
+        setRequestDto(reviewReq)
+        this.writeUserId = writer.id
+        this.writeUser = writer
+        this.foodId = food.id
+        this.food = food
+        this.status = Status.APPROVED
+    }
+
+    fun setRequestDto(reviewReq: ReviewReq) {
+        reviewReq.let {
             this.imageUriList = it.imageUriList
             this.tagList = it.tagList
             this.contents = it.contents
             this.mainImageUri = it.mainImageUri
             this.rating = it.rating
             this.price = it.price
-            this.status = Status.APPROVED
-            this.writeUserId = it.writeUserId
-            this.writeUser = it.writeUser
-            this.foodId = it.foodId
-            this.food = it.food
         }
     }
-}
 
-// TODO noArgsConstructor 가 필요
-fun createFromReq(reviewCreateReq: ReviewCreateReq): Review {
-    val entity = ModelMapper().map(reviewCreateReq, Review::class.java).also {
-        it.status = Status.APPROVED
+    fun createFromReq(reviewCreateReq: ReviewCreateReq): Review {
+        val entity = ModelMapper().map(reviewCreateReq, Review::class.java).also {
+            it.status = Status.APPROVED
+        }
+        return entity
     }
-    return entity
 }

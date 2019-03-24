@@ -10,6 +10,7 @@ import app.foodin.core.service.ReviewService
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.review.ReviewFilter
+import app.foodin.domain.review.ReviewReq
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -35,6 +36,11 @@ class ReviewController(
         return ResponseResult(reviewService.findById(id))
     }
 
+    @PutMapping(value = ["/{id}"])
+    fun update(@PathVariable id: Long, @RequestBody reviewReq: ReviewReq): ResponseTypeResult<Review> {
+        return ResponseTypeResult(reviewService.update(id, reviewReq))
+    }
+
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody reviewCreateReq: ReviewCreateReq): ResponseTypeResult<Review> {
 
@@ -42,7 +48,7 @@ class ReviewController(
         if (userInfo.id != reviewCreateReq.writeUserId) {
             throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = *arrayOf("유저"))
         }
-        val result = ResponseTypeResult(reviewService.saveFrom(reviewCreateReq))
+        val result = ResponseTypeResult(reviewService.save(reviewCreateReq))
         result.data?.let {
             // count 증가 async
             foodService.addReviewAndRatingCount(it.foodId, !it.contents.isNullOrBlank())
