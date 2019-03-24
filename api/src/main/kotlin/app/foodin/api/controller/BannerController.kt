@@ -6,6 +6,7 @@ import app.foodin.core.service.BannerService
 import app.foodin.domain.banner.Banner
 import app.foodin.domain.banner.BannerFilter
 import org.springframework.data.domain.Pageable
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -29,12 +30,14 @@ class BannerController(
         return ResponseResult(bannerService.findById(id))
     }
 
+    @PreAuthorize("hasRole(Role)")
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
 
         return ResponseTypeResult(bannerService.saveFrom(banner))
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(consumes = ["application/json"])
     fun update(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
         // TODO

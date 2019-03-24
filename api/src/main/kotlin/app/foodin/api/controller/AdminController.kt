@@ -15,7 +15,7 @@ class AdminController {
     private val logger = LoggerFactory.getLogger(AdminController::class.java)
 
     @RequestMapping(method = [RequestMethod.GET])
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     fun productAll(): ResponseEntity<String> {
 
         SecurityContextHolder.getContext().authentication

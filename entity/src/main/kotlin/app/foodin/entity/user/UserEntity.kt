@@ -1,6 +1,6 @@
 package app.foodin.entity.user
 
-import app.foodin.common.enums.AuthRole
+import app.foodin.common.enums.UserAuthority
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.domain.user.User
@@ -59,7 +59,7 @@ data class UserEntity(
 
     var agreeMarketing: Boolean = false
 
-    var authoritiesStr: String? = AuthRole.ROLE_USER.name
+    var authoritiesStr: String? = UserAuthority.ROLE_USER.name
 
     var enabled: Boolean = true
 

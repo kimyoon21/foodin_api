@@ -1,6 +1,6 @@
 package app.foodin.config
 
-import app.foodin.common.enums.AuthRole
+import app.foodin.common.enums.UserAuthority
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -40,7 +40,7 @@ class ResourceServerConfig(
                 .antMatchers("/food/**").permitAll() // TODO 임시로
                 .antMatchers("/image/**").permitAll() // TODO 임시로
                 .antMatchers("/user/login/**", "/user/register").permitAll()
-                .antMatchers("/admin/**").hasAnyAuthority(AuthRole.ROLE_ADMIN.name)
+                .antMatchers("/admin/**").hasAnyAuthority(UserAuthority.ROLE_ADMIN.name)
                 .antMatchers("/**").authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
