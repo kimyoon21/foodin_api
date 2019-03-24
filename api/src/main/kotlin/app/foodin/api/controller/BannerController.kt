@@ -30,7 +30,7 @@ class BannerController(
         return ResponseResult(bannerService.findById(id))
     }
 
-    @PreAuthorize("hasRole(Role)")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
 
