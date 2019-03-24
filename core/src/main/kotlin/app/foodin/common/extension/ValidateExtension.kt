@@ -15,25 +15,22 @@ inline fun <T, X : Throwable> T?.orElseThrow(supplier: () -> X): T {
 /**
  * hasValue : Not null and not empty
  */
-inline fun <X : Throwable> String?.hasValueOrElseThrow(supplier: () -> X): String {
+inline fun <X : Throwable> String?.throwNullOrEmpty(supplier: () -> X): String {
     return if (this != null && !this.isEmpty())
         this
     else
         throw supplier()
 }
 
-inline fun <X : Throwable> List<Any>?.hasValueOrElseThrow(supplier: () -> X): List<Any> {
+inline fun <X : Throwable> List<*>?.throwNullOrEmpty(supplier: () -> X): List<*> {
     return if (this != null && !this.isEmpty())
         this
     else
         throw supplier()
 }
 
-inline fun <T, R> T?.ifNullOrElse(ifNull: () -> R, orElse: (T) -> R): R {
-    return if (this == null)
-        ifNull()
-    else
-        orElse(this)
+fun Collection<Any>?.isNullOrEmpty(): Boolean {
+    return this == null || this.isEmpty()
 }
 
 inline fun <R> String?.ifNullOrEmptyOtherwise(ifNull: () -> R, orElse: (String) -> R): R {

@@ -7,4 +7,7 @@ jar.enabled = true
 dependencies {
 //    compile project(":entity")
     implementation('org.springframework.boot:spring-boot-starter-aop')
+    implementation('com.amazonaws:aws-java-sdk:1.11.519')
+    implementation('com.drewnoakes:metadata-extractor:2.11.0')
+
 }
