@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.api.common.checkBindingException
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
 import app.foodin.core.service.BannerService
@@ -7,7 +8,9 @@ import app.foodin.domain.banner.Banner
 import app.foodin.domain.banner.BannerFilter
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/banner")
@@ -32,8 +35,8 @@ class BannerController(
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = ["application/json"])
-    fun register(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
-
+    fun register(@RequestBody @Valid banner: Banner , bindingResult: BindingResult): ResponseTypeResult<Banner> {
+        checkBindingException(bindingResult)
         return ResponseTypeResult(bannerService.saveFrom(banner))
     }
 
