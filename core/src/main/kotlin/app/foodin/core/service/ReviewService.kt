@@ -25,7 +25,7 @@ class ReviewService(
 
     fun update(reviewId: Long, req: ReviewReq): Review {
         val review = gateway.findById(reviewId) ?: throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
-        review.setRequestDto(req)
+        review.setFromRequestDTO(req)
         return saveFrom(review)
     }
 

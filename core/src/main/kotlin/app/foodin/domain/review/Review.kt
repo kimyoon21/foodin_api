@@ -36,7 +36,7 @@ data class Review(
     var rating: Float = 0F
 
     constructor(food: Food, writer: User, reviewReq: ReviewReq) : this(foodId = food.id) {
-        setRequestDto(reviewReq)
+        setFromRequestDTO(reviewReq)
         this.writeUserId = writer.id
         this.writeUser = writer
         this.foodId = food.id
@@ -44,7 +44,7 @@ data class Review(
         this.status = Status.APPROVED
     }
 
-    fun setRequestDto(reviewReq: ReviewReq) {
+    fun setFromRequestDTO(reviewReq: ReviewReq) {
         reviewReq.let {
             this.imageUriList = it.imageUriList
             this.tagList = it.tagList
