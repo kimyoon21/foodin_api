@@ -163,7 +163,7 @@ class UserController(
     }
 
     fun checkRegisteredEmail(email: String) {
-        userService.findByEmail(email)?.let {
+        userService.findByEmail(email) ?:  throwAlreadyRegistered(listOf())
             throwAlreadyRegistered(listOf()) // TODO
         }
     }
