@@ -10,4 +10,6 @@ dependencies {
     implementation('com.amazonaws:aws-java-sdk:1.11.519')
     implementation('com.drewnoakes:metadata-extractor:2.11.0')
 
+    compile group: 'com.squareup', name: 'kotlinpoet', version: '1.2.0'
+
 }
