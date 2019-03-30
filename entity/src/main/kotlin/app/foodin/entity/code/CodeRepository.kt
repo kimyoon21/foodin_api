@@ -17,7 +17,7 @@ interface CodeRepository : BaseRepositoryInterface<CodeEntity> {
 }
 
 @Component
-class CodeJpsRepository(private val codeRepository: CodeRepository)
+class CodeJpaRepository(private val codeRepository: CodeRepository)
     : BaseRepository<Code, CodeEntity, CodeFilter>(codeRepository), CodeGateway {
     override fun findAllByFilter(filter: CodeFilter, pageable: Pageable): Page<Code> {
         return findAll(CodeFilterQuery(filter), pageable)

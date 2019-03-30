@@ -1,8 +1,8 @@
 package app.foodin.domain.user
 
-import app.foodin.common.enums.AuthRole
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
+import app.foodin.common.enums.UserAuthority
 import app.foodin.common.extension.csvToList
 import app.foodin.domain.badge.Badge
 import app.foodin.domain.common.Authority
@@ -72,7 +72,7 @@ class User(
 
     /*** for UserDetails */
     // auth csv
-    var authoritiesStr: String? = AuthRole.ROLE_USER.name
+    var authoritiesStr: String? = UserAuthority.ROLE_USER.name
 
     var enabled: Boolean = true
 

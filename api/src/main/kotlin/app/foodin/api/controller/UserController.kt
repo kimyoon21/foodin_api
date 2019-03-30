@@ -37,34 +37,6 @@ class UserController(
 
     private val passwordRegex = "^(?=.*[a-z])(?=.*[0-9]).{8,}$".toRegex(RegexOption.IGNORE_CASE)
 
-    /**
-     * 이미 가입되어 있다는 메시지와 함께, 어떤 SNS 로 가입했는지 예외 발생
-     */
-    fun throwAlreadyRegistered(registeredList: List<String>) {
-        throw CommonException(
-                registeredList,
-                EX_ALREADY_REGISTERED
-        )
-    }
-
-    fun checkRegisteredEmail(email: String) {
-        userService.findByEmail(email)?.let {
-            throwAlreadyRegistered(listOf()) // TODO
-        }
-    }
-
-    fun checkRegisteredUid(snsType: SnsType, snsUserId: String) {
-        userService.findBySnsTypeAndSnsUserId(snsType, snsUserId)?.let {
-            throwAlreadyRegistered(listOf(it.snsType.toString()))
-        }
-    }
-
-    fun checkPassword(password: String) {
-        if (!passwordRegex.containsMatchIn(password)) {
-            throw CommonException("패스워드 규칙에 맞춰주세요. 영문+숫자 혼합된 8자 이상")
-        }
-    }
-
     @PutMapping("/{id}")
     fun update(
         @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
@@ -178,5 +150,33 @@ class UserController(
 
         // 로그인 처리
         return ResponseResult(userService.snsLogin(snsTokenDTO, user))
+    }
+
+    /**
+     * 이미 가입되어 있다는 메시지와 함께, 어떤 SNS 로 가입했는지 예외 발생
+     */
+    fun throwAlreadyRegistered(registeredList: List<String>) {
+        throw CommonException(
+                registeredList,
+                EX_ALREADY_REGISTERED
+        )
+    }
+
+    fun checkRegisteredEmail(email: String) {
+        userService.findByEmail(email) ?:  throwAlreadyRegistered(listOf())
+            throwAlreadyRegistered(listOf()) // TODO
+        }
+    }
+
+    fun checkRegisteredUid(snsType: SnsType, snsUserId: String) {
+        userService.findBySnsTypeAndSnsUserId(snsType, snsUserId)?.let {
+            throwAlreadyRegistered(listOf(it.snsType.toString()))
+        }
+    }
+
+    fun checkPassword(password: String) {
+        if (!passwordRegex.containsMatchIn(password)) {
+            throw CommonException("패스워드 규칙에 맞춰주세요. 영문+숫자 혼합된 8자 이상")
+        }
     }
 }

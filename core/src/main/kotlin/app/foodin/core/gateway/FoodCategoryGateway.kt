@@ -5,5 +5,5 @@ import app.foodin.domain.foodCategory.FoodCategory
 import org.springframework.data.domain.Page
 
 interface FoodCategoryGateway : BaseGateway<FoodCategory, BaseFilter> {
-    fun findByFilterName(name: String): Page<FoodCategory>
+    fun findByFilterName(filterName: String): Page<FoodCategory>
 }

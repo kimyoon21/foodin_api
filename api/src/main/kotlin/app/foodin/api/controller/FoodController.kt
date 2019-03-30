@@ -3,7 +3,7 @@ package app.foodin.api.controller
 import app.foodin.common.result.ResponseResult
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.user.FoodService
+import app.foodin.core.service.FoodService
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
