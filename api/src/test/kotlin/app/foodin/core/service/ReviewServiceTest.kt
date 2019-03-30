@@ -76,6 +76,7 @@ class ReviewServiceTest {
         reviewService.update(review.id, reviewCreateReq.reviewReq.copy(rating = 5.0f))
 
         em.flush()
+        // function 리턴값을 가지고 this 로 활용할땐 with
         with(reviewGateway.findById(saved.id)!!) {
             assert(this.rating == 5.0f)
         }
