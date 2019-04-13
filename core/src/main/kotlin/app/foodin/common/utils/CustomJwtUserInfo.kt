@@ -1,10 +1,8 @@
-package app.foodin.auth
+package app.foodin.common.utils
 
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_AUTH_FAILED
-import app.foodin.common.utils.JsonUtils
-import app.foodin.common.utils.MDCUtils
 import app.foodin.common.utils.MDCUtils.USER_INFO_MDC
 
 data class CustomJwtUserInfo(

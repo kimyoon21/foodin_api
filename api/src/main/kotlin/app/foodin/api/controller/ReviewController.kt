@@ -1,10 +1,10 @@
 package app.foodin.api.controller
 
-import app.foodin.auth.getAuthenticatedUserInfo
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_INVALID_FIELD
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
+import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.FoodService
 import app.foodin.core.service.ReviewService
 import app.foodin.domain.review.Review

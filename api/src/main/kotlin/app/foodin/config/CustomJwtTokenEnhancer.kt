@@ -1,6 +1,6 @@
 package app.foodin.config
 
-import app.foodin.auth.CustomJwtUserInfo
+import app.foodin.common.utils.CustomJwtUserInfo
 import app.foodin.domain.user.User
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
 import org.springframework.security.oauth2.common.OAuth2AccessToken
