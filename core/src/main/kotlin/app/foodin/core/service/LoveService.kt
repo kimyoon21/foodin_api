@@ -20,20 +20,18 @@ class LoveService(override val gateway: LoveGateway) : BaseService<Love,
      */
     fun addOrDelete(loveReq: LoveReq): Love? {
         if (loveReq.foodId == null && loveReq.recipeId == null && loveReq.reviewId == null) {
-            throw CommonException(EX_NEED,"word.targetId")
+            throw CommonException(EX_NEED, "word.targetId")
         }
         loveReq.userId = getAuthenticatedUserInfo().id
 
         val loveFilter = LoveFilter(loveReq)
         val page = findAll(loveFilter, Pageable.unpaged())
-        return if(page.isEmpty) {
+        return if (page.isEmpty) {
             val love = Love(loveReq)
             saveFrom(love)
-        }
-        else {
+        } else {
             deleteById(page.content[0].id)
             null
         }
-
     }
 }

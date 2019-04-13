@@ -6,11 +6,13 @@ import app.foodin.domain.recipe.Recipe
 import app.foodin.domain.review.Review
 import app.foodin.domain.user.User
 
-data class Love(override var id: Long = 0L,
-                val foodId: Long? = null,
-                val reviewId: Long? = null,
-                val recipeId: Long? = null,
-                val userId: Long) : BaseDomain(id) {
+data class Love(
+    override var id: Long = 0L,
+    val foodId: Long? = null,
+    val reviewId: Long? = null,
+    val recipeId: Long? = null,
+    val userId: Long
+) : BaseDomain(id) {
 
     var food: Food? = null
     var review: Review? = null

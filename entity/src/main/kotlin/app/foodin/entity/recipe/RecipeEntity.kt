@@ -10,11 +10,10 @@ import javax.persistence.Table
 data class RecipeEntity(val writeUserId: Long) : StatusEntity<Recipe>() {
 
     constructor(recipe: Recipe) : this(recipe.writeUserId ?: 0) {
-
     }
     override fun toDomain(): Recipe {
         return Recipe().also {
-            it.setDefaultValues(this.id, this.createdTime, this.updatedTime,this.status)
+            it.setDefaultValues(this.id, this.createdTime, this.updatedTime, this.status)
             it.writeUserId = this.writeUserId
         }
     }

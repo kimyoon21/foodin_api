@@ -1,6 +1,6 @@
 package app.foodin.domain.common
 
-enum class EntityType{
+enum class EntityType {
     FOOD,
     REVIEW,
     RECIPE,
@@ -10,5 +10,4 @@ enum class EntityType{
     CODE,
     USER,
     LOVE
-
 }
