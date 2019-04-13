@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class FoodService(
-    override var gateway: FoodGateway,
+    override val gateway: FoodGateway,
     val foodCategoryGateway: FoodCategoryGateway
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 

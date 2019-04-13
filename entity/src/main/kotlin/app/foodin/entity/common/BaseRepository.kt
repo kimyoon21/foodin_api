@@ -13,6 +13,11 @@ abstract class BaseRepository<D : BaseDomain, E : BaseEntity<D>, F : BaseFilter>
         return baseJpaRepository.findById(id).orElse(null)?.toDomain()
     }
 
+    override fun deleteById(id: Long) : Boolean {
+        baseJpaRepository.deleteById(id)
+        return true
+    }
+
     override fun findAll(spec: Specification<*>?, pageable: Pageable): Page<D> {
         var specification: Specification<E>? = null
         @Suppress("UNCHECKED_CAST")

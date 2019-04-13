@@ -13,14 +13,14 @@ data class ReviewCreateReq(
     val writeUserId: Long,
 
     @field:JsonUnwrapped
-    var review: ReviewReq
+    var reviewReq: ReviewReq
 ) : Serializable
 
 @KotlinNoArgConstructor
 data class ReviewUpdateReq(
 
     @field:JsonUnwrapped
-    var review: ReviewReq
+    var reviewReq: ReviewReq
 ) : Serializable
 
 @KotlinNoArgConstructor

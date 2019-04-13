@@ -44,7 +44,7 @@ class ReviewServiceTest {
     private lateinit var user: UserEntity
     private lateinit var food: FoodEntity
 
-    private lateinit var reviewReq: ReviewCreateReq
+    private lateinit var reviewCreateReq: ReviewCreateReq
 
     @PersistenceContext
     private lateinit var em: EntityManager
@@ -54,8 +54,8 @@ class ReviewServiceTest {
         food = foodRepository.findAll().first()
         user = userRepository.findAll().first()
 
-        reviewReq = ReviewCreateReq(
-            foodId = food.id, review = ReviewReq(price = 3000, rating = 3.5f, tagList = mutableListOf("매움")),
+        reviewCreateReq = ReviewCreateReq(
+            foodId = food.id, reviewReq = ReviewReq(price = 3000, rating = 3.5f, tagList = mutableListOf("매움")),
             writeUserId = 99
         )
     }
@@ -66,16 +66,17 @@ class ReviewServiceTest {
 
     @Test
     fun save() {
-        reviewService.save(reviewReq)
+        reviewService.save(reviewCreateReq)
     }
 
     @Test
     fun update() {
-        val saved = reviewService.save(reviewReq)
+        val saved = reviewService.save(reviewCreateReq)
         val review = reviewGateway.findById(saved.id)!!
-        reviewService.update(review.id, reviewReq.review.copy(rating = 5.0f))
+        reviewService.update(review.id, reviewCreateReq.reviewReq.copy(rating = 5.0f))
 
         em.flush()
+        // function 리턴값을 가지고 this 로 활용할땐 with
         with(reviewGateway.findById(saved.id)!!) {
             assert(this.rating == 5.0f)
         }
