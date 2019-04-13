@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class RecipeService(override val gateway: RecipeGateway) : BaseService<Recipe, RecipeFilter>(){
+class RecipeService(override val gateway: RecipeGateway) : BaseService<Recipe, RecipeFilter>() {
 
     fun update(reviewId: Long, req: ReviewReq): Recipe {
         val review = gateway.findById(reviewId) ?: throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")

@@ -34,7 +34,6 @@ fun main(args: Array<String>) {
         System.exit(0)
     }
 
-
     /****
      * 생성할 파일(New) 종류
      * api module
@@ -99,7 +98,6 @@ fun makeApiModuleFiles(domainCamel: String) {
 
                     .build())
 
-
             .build()
 
     file.writeTo(File("api/src/main/kotlin/"))
@@ -142,14 +140,13 @@ fun makeCoreModuleFiles(domainCamel: String) {
 
                     .build())
 
-
             .build()
 
     serviceFile.writeTo(File("entity/src/main/kotlin/"))
 
     /***
     interface BannerGateway : BaseGateway<Banner, BannerFilter> {
-    }***/
+    } ***/
     val baseGatewayClass = BaseGateway::class.asClassName()
     val gatewayFile = FileSpec.builder("app.foodin.core.gateway", "${domainPascal}Gateway")
             .addType(TypeSpec.interfaceBuilder("${domainPascal}Gateway")
@@ -157,11 +154,9 @@ fun makeCoreModuleFiles(domainCamel: String) {
 
                     .build())
 
-
             .build()
 
     gatewayFile.writeTo(File("core/src/main/kotlin/"))
-
 
     /****
      * data class Banner(
@@ -185,7 +180,6 @@ fun makeCoreModuleFiles(domainCamel: String) {
 
                     .build())
 
-
             .build()
 
     domainFile.writeTo(File("core/src/main/kotlin/"))
@@ -198,9 +192,9 @@ fun makeCoreModuleFiles(domainCamel: String) {
     val filterFile = FileSpec.builder("app.foodin.domain.$domainCamel", "${domainPascal}Filter")
             .addType(TypeSpec.classBuilder("${domainPascal}Filter")
                     .primaryConstructor(FunSpec.constructorBuilder()
-                            .addParameter(ParameterSpec.builder("field1", Any::class.asTypeName().copy(nullable = true)).defaultValue("null").build())
+                            .addParameter(ParameterSpec.builder("field1", String::class.asTypeName().copy(nullable = true)).defaultValue("null").build())
                             .build())
-                    .addProperty(PropertySpec.builder("field1", Any::class.asTypeName().copy(nullable = true))
+                    .addProperty(PropertySpec.builder("field1", String::class.asTypeName().copy(nullable = true))
                             .initializer("field1")
                             .mutable(false)
                             .build())
@@ -210,10 +204,7 @@ fun makeCoreModuleFiles(domainCamel: String) {
             .build()
 
     filterFile.writeTo(File("core/src/main/kotlin/"))
-
-
 }
-
 
 fun makeEntityModuleFiles(domainCamel: String) {
 
@@ -244,9 +235,9 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .addMember("name = %S", domainSnake)
                             .build())
                     .primaryConstructor(FunSpec.constructorBuilder()
-                            .addParameter(ParameterSpec.builder("field1", Any::class).build())
+                            .addParameter(ParameterSpec.builder("field1", String::class).build())
                             .build())
-                    .addProperty(PropertySpec.builder("field1", Any::class)
+                    .addProperty(PropertySpec.builder("field1", String::class)
                             .initializer("field1")
                             .mutable(false)
                             .build())
@@ -261,7 +252,6 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .build())
 
                     .build())
-
 
             .build()
 
@@ -298,7 +288,6 @@ fun makeEntityModuleFiles(domainCamel: String) {
                     .build())
             .build()
 
-
     filterQueryFile.writeTo(File("entity/src/main/kotlin/"))
 
     /***
@@ -321,7 +310,6 @@ fun makeEntityModuleFiles(domainCamel: String) {
                     .addAnnotation(Repository::class)
                     .build())
 
-
             .addType(TypeSpec.classBuilder("Jpa${domainPascal}Repository")
                     .addAnnotation(Component::class)
                     .primaryConstructor(FunSpec.constructorBuilder()
@@ -338,7 +326,7 @@ fun makeEntityModuleFiles(domainCamel: String) {
                     .addSuperinterface(gatewayClass)
                     .addFunction(FunSpec.builder("saveFrom")
                             .returns(domainClass)
-                            .addParameter("$domainCamel",domainClass)
+                            .addParameter("$domainCamel", domainClass)
                             .addModifiers(KModifier.OVERRIDE)
                             .addCode("""
         TODO("not implemented")
@@ -346,10 +334,7 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .build())
                     .build())
 
-
             .build()
 
     repositoryFile.writeTo(File("entity/src/main/kotlin/"))
-
-
 }

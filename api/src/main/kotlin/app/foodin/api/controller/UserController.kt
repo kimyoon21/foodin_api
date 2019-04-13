@@ -29,7 +29,7 @@ import javax.validation.Valid
 @RequestMapping("/user")
 @Loggable(result = true, param = true)
 class UserController(
-        private val userService: UserService
+    private val userService: UserService
 
 ) {
 
@@ -39,9 +39,9 @@ class UserController(
 
     @PutMapping("/{id}")
     fun update(
-            @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
-            @PathVariable("id") userId: Long,
-            @ApiIgnore errors: Errors
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
+        @PathVariable("id") userId: Long,
+        @ApiIgnore errors: Errors
     ): ResponseResult {
         logger.info("authRequest: $userUpdateDTO")
 
@@ -50,8 +50,8 @@ class UserController(
 
     @PostMapping("/register")
     fun register(
-            @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegDTO: UserRegDTO,
-            @ApiIgnore errors: Errors
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegDTO: UserRegDTO,
+        @ApiIgnore errors: Errors
     ): ResponseResult {
         logger.info("authRequest: $userRegDTO")
 
@@ -116,8 +116,8 @@ class UserController(
 
     @PostMapping(value = ["/login/email"])
     fun emailLogin(
-            @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
-            errors: Errors
+        @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
+        errors: Errors
     ): ResponseResult {
 
         return ResponseResult(userService.emailLogin(emailLoginDTO))
@@ -132,8 +132,8 @@ class UserController(
      */
     @PostMapping(value = ["/login/sns"])
     fun checkUserInfoByAccessToken(
-            @RequestBody snsTokenDTO: SnsTokenDTO,
-            errors: Errors
+        @RequestBody snsTokenDTO: SnsTokenDTO,
+        errors: Errors
     ): ResponseResult {
         // TODO 필드가 null 이거나 맞지 않는 타입일 때 아무런 메시지 없이 400 에러 발생함.
         if (errors.hasErrors()) {

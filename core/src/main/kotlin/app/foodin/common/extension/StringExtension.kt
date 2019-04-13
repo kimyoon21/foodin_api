@@ -87,7 +87,7 @@ fun String?.substring(length: Int, endStr: String): String? {
 
 fun String.toPascalCase(): String {
     return this.split('_').map {
-        it.capitalize() } .joinToString("")
+        it.capitalize() }.joinToString("")
 }
 
 fun String.toSnakeCase(): String {
