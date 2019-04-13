@@ -142,7 +142,7 @@ fun makeCoreModuleFiles(domainCamel: String) {
 
             .build()
 
-    serviceFile.writeTo(File("entity/src/main/kotlin/"))
+    serviceFile.writeTo(File("core/src/main/kotlin/"))
 
     /***
     interface BannerGateway : BaseGateway<Banner, BannerFilter> {

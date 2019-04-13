@@ -1,7 +1,8 @@
 package app.foodin.common.enums
 
-public enum class Status {
+enum class Status {
     WAIT,
     APPROVED,
-    DELETED
+    DELETED,
+    BLIND
 }
