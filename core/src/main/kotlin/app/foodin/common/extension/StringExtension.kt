@@ -84,3 +84,23 @@ fun String?.substring(length: Int, endStr: String): String? {
         return this
     }
 }
+
+fun String.toPascalCase(): String {
+    return this.split('_').map {
+        it.capitalize() } .joinToString("")
+}
+
+fun String.toSnakeCase(): String {
+    var text: String = ""
+    var isFirst = true
+    this.forEach {
+        if (it.isUpperCase()) {
+            if (isFirst) isFirst = false
+            else text += "_"
+            text += it.toLowerCase()
+        } else {
+            text += it
+        }
+    }
+    return text
+}
