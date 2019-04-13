@@ -13,10 +13,10 @@ class LoveFilterQuery(
     override fun toSpecification(): Specification<LoveEntity> = filter.let {
         and(
                 hasEntityType(it.type),
-                equalFilter(LoveEntity::foodId,it.foodId),
-                equalFilter(LoveEntity::reviewId,it.reviewId),
-                equalFilter(LoveEntity::recipeId,it.recipeId),
-                equalFilter(LoveEntity::userId,it.userId)
+                equalFilter(LoveEntity::foodId, it.foodId),
+                equalFilter(LoveEntity::reviewId, it.reviewId),
+                equalFilter(LoveEntity::recipeId, it.recipeId),
+                equalFilter(LoveEntity::userId, it.userId)
         )
     }
 
@@ -31,7 +31,5 @@ class LoveFilterQuery(
                 else -> emptySpecification()
             }
         }
-
     }
-
 }

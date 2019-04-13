@@ -13,7 +13,7 @@ abstract class BaseRepository<D : BaseDomain, E : BaseEntity<D>, F : BaseFilter>
         return baseJpaRepository.findById(id).orElse(null)?.toDomain()
     }
 
-    override fun deleteById(id: Long) : Boolean {
+    override fun deleteById(id: Long): Boolean {
         baseJpaRepository.deleteById(id)
         return true
     }

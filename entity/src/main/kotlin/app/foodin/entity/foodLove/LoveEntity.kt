@@ -12,32 +12,33 @@ import javax.persistence.*
 @Entity
 @Table(name = "love")
 data class LoveEntity(
-        @Column(name = "food_id")
-        val foodId: Long?,
-        @Column(name = "review_id")
-        val reviewId: Long?,
-        @Column(name = "recipe_id")
-        val recipeId: Long?,
-        @Column(name = "user_id")
-        val userId: Long) : BaseEntity<Love>() {
+    @Column(name = "food_id")
+    val foodId: Long?,
+    @Column(name = "review_id")
+    val reviewId: Long?,
+    @Column(name = "recipe_id")
+    val recipeId: Long?,
+    @Column(name = "user_id")
+    val userId: Long
+) : BaseEntity<Love>() {
 
     @ManyToOne
-    @JoinColumn(name = "food_id",insertable = false, updatable = false)
+    @JoinColumn(name = "food_id", insertable = false, updatable = false)
     @Where(clause = "status = 1")
     var food: FoodEntity? = null
 
     @ManyToOne
-    @JoinColumn(name = "review_id",insertable = false, updatable = false)
+    @JoinColumn(name = "review_id", insertable = false, updatable = false)
     @Where(clause = "status = 1")
     var review: ReviewEntity? = null
 
     @ManyToOne
-    @JoinColumn(name = "recipe_id",insertable = false, updatable = false)
+    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
     @Where(clause = "status = 1")
     var recipe: RecipeEntity? = null
 
     @ManyToOne
-    @JoinColumn(name = "user_id",insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @Where(clause = "enable = 1")
     var user: UserEntity? = null
 

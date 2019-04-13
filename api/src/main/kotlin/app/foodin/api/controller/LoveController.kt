@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(value = ["/love"])
 class LoveController(val loveService: LoveService) {
     @GetMapping
-    fun getAll(pageable: Pageable, filter: LoveFilter
-               ): ResponseResult {
+    fun getAll(
+        pageable: Pageable,
+        filter: LoveFilter
+    ): ResponseResult {
         return ResponseResult(loveService.findAll(filter, pageable))
     }
 
     @PostMapping
-    fun loveOrNot(@RequestBody loveReq: LoveReq
+    fun loveOrNot(
+        @RequestBody loveReq: LoveReq
     ): ResponseResult {
         return ResponseResult(loveService.addOrDelete(loveReq))
     }
-
 }
