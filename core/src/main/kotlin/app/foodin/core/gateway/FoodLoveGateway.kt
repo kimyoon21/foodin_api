@@ -1,6 +1,6 @@
 package app.foodin.core.gateway
 
-import app.foodin.domain.foodLove.FoodLove
-import app.foodin.domain.foodLove.FoodLoveFilter
+import app.foodin.domain.foodLove.Love
+import app.foodin.domain.foodLove.LoveFilter
 
-interface FoodLoveGateway : BaseGateway<FoodLove, FoodLoveFilter>
+interface FoodLoveGateway : BaseGateway<Love, LoveFilter>

@@ -6,6 +6,7 @@ import app.foodin.common.extension.throwNullOrEmpty
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.service.ImageUploadService
 import app.foodin.domain.ImageInfo
+import app.foodin.domain.common.EntityType
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -20,11 +21,11 @@ class ImageUploadController(
 
     @PostMapping(consumes = ["multipart/form-data"])
     fun upload(
-        @RequestParam(required = false) category: ImageUploadService.ImageCategory,
+        @RequestParam(required = false) type: EntityType,
         images: List<MultipartFile?>
     ): ResponseResult {
         images.throwNullOrEmpty { throw CommonException(EX_NEED) }
-        return ResponseResult(imageUploadService.uploadImages(category, images))
+        return ResponseResult(imageUploadService.uploadImages(type, images))
     }
 
     @DeleteMapping

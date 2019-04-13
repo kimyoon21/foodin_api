@@ -67,7 +67,7 @@ fun makeApiModuleFiles(domainCamel: String) {
             .addType(TypeSpec.classBuilder("${domainPascal}Controller")
                     .addAnnotation(RestController::class)
                     .addAnnotation(AnnotationSpec.builder(RequestMapping::class)
-                            .addMember("value = %S", "/$domainCamel")
+                            .addMember("value = [%S]", "/$domainCamel")
                             .build())
                     .primaryConstructor(FunSpec.constructorBuilder()
                             .addParameter("${domainCamel}Service", serviceClass)
@@ -85,8 +85,15 @@ fun makeApiModuleFiles(domainCamel: String) {
         return ResponseResult(${domainCamel}Service.findAll(filter, pageable))
         |""".trimMargin())
                             .build())
+
+                    /**
+                     * @GetMapping(value = ["/{id}"])
+                    fun getOne(@PathVariable id: Long): ResponseResult {
+                     */
                     .addFunction(FunSpec.builder("getOne")
-                            .addAnnotation(GetMapping::class)
+                            .addAnnotation(AnnotationSpec.builder(GetMapping::class)
+                                    .addMember("value = [%S]", "/{id}")
+                                    .build())
                             .returns(ResponseResult::class)
                             .addParameter(ParameterSpec.builder("id", Long::class)
                                     .addAnnotation(PathVariable::class)

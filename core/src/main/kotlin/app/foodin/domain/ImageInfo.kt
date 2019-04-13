@@ -1,6 +1,6 @@
 package app.foodin.domain
 
-import app.foodin.core.service.ImageUploadService
+import app.foodin.domain.common.EntityType
 
 data class ImageInfo(
     var uri: String?
@@ -16,5 +16,5 @@ data class ImageInfo(
     var height: Int? = null
     var ext: String? = null
     var sizeKb: Int? = null
-    var category: ImageUploadService.ImageCategory? = null
+    var type: EntityType? = null
 }

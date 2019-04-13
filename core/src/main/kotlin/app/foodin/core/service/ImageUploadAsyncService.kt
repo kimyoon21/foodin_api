@@ -5,6 +5,7 @@ import app.foodin.common.exception.EX_CANNOT
 import app.foodin.common.extension.hasValue
 import app.foodin.common.utils.getCleanUUID
 import app.foodin.domain.ImageInfo
+import app.foodin.domain.common.EntityType
 import com.amazonaws.AmazonServiceException
 import com.amazonaws.SdkClientException
 import com.amazonaws.auth.AWSStaticCredentialsProvider
@@ -65,7 +66,7 @@ class ImageUploadAsyncService {
         }
     }
 
-    fun makeFilePath(imageCategory: ImageUploadService.ImageCategory, ext: String): String {
+    fun makeFilePath(imageCategory: EntityType, ext: String): String {
         val imgFolder = imageCategory.name.toLowerCase()
         return "$imgFolder/${System.currentTimeMillis()}_${getCleanUUID()}.$ext"
     }
@@ -125,7 +126,7 @@ class ImageUploadAsyncService {
      * s3 업로드 하고 정보 내려주기
      */
     @Async
-    fun uploadImage(category: ImageUploadService.ImageCategory, inputStream: InputStream): Future<ImageInfo> {
+    fun uploadImage(type: EntityType, inputStream: InputStream): Future<ImageInfo> {
         val outputStream = ByteArrayOutputStream()
         try {
             logger.info("============ start upload a image")
@@ -155,7 +156,7 @@ class ImageUploadAsyncService {
             // 메타데이터 생성.
             val metadata = ObjectMetadata()
             metadata.contentLength = imageLength.toLong()
-            val uploadPath = makeFilePath(category, imageInfo.ext!!)
+            val uploadPath = makeFilePath(type, imageInfo.ext!!)
 
             s3Upload(uploadPath, uploadStream, metadata)
 
@@ -163,7 +164,7 @@ class ImageUploadAsyncService {
             imageInfo.let {
                 it.uri = "$cfDomain/$uploadPath"
                 it.sizeKb = imageLength / 1024
-                it.category = category
+                it.type = type
                 return AsyncResult(it)
             }
         } catch (e: Exception) {
