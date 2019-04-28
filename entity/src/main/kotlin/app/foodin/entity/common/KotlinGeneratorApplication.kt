@@ -14,10 +14,7 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.io.File
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -63,6 +60,8 @@ fun makeApiModuleFiles(domainCamel: String) {
     val domainPascal = domainCamel.capitalize()
     val serviceClass = ClassName("app.foodin.core.service", "${domainPascal}Service")
     val filterClass = ClassName("app.foodin.domain.$domainCamel", "${domainPascal}Filter")
+    val domainClass = ClassName("app.foodin.domain.$domainCamel", "$domainPascal")
+
     val file = FileSpec.builder("app.foodin.api.controller", "${domainPascal}Controller")
             .addType(TypeSpec.classBuilder("${domainPascal}Controller")
                     .addAnnotation(RestController::class)
@@ -100,6 +99,18 @@ fun makeApiModuleFiles(domainCamel: String) {
                                     .build())
                             .addCode("""
         return ResponseResult(${domainCamel}Service.findById(id))
+        |""".trimMargin())
+                            .build())
+                    .addFunction(FunSpec.builder("register")
+                            .addAnnotation(AnnotationSpec.builder(PostMapping::class)
+                                    .addMember("consumes = [%S]", "application/json")
+                                    .build())
+                            .returns(ResponseResult::class)
+                            .addParameter(ParameterSpec.builder(domainCamel, domainClass)
+                                    .addAnnotation(RequestBody::class)
+                                    .build())
+                            .addCode("""
+        return ResponseResult(${domainCamel}Service.saveFrom($domainCamel))
         |""".trimMargin())
                             .build())
 
@@ -152,6 +163,7 @@ fun makeCoreModuleFiles(domainCamel: String) {
     serviceFile.writeTo(File("core/src/main/kotlin/"))
 
     /***
+    interface BannerGateway : BaseGateway<Banner, BannerFilter> {
     interface BannerGateway : BaseGateway<Banner, BannerFilter> {
     } ***/
     val baseGatewayClass = BaseGateway::class.asClassName()
