@@ -2,10 +2,7 @@ package app.foodin.entity.review
 
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewFilter
-import app.foodin.entity.common.BaseFilterQuery
-import app.foodin.entity.common.MathMode
-import app.foodin.entity.common.and
-import app.foodin.entity.common.likeFilter
+import app.foodin.entity.common.*
 import org.springframework.data.jpa.domain.Specification
 
 class ReviewFilterQuery(
@@ -19,7 +16,8 @@ class ReviewFilterQuery(
                 querysToSpecification(
                         hasContentsLike(it.query),
                         hasTagLike(it.query)
-                )
+                ),
+                equalFilter(ReviewEntity::foodId,it.foodId)
         )
     }
 
