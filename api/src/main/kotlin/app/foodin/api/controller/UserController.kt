@@ -163,9 +163,8 @@ class UserController(
     }
 
     fun checkRegisteredEmail(email: String) {
-        userService.findByEmail(email) ?:  throwAlreadyRegistered(listOf())
-            throwAlreadyRegistered(listOf()) // TODO
-        }
+        userService.findByEmail(email) ?: throwAlreadyRegistered(listOf())
+        throwAlreadyRegistered(listOf()) // TODO
     }
 
     fun checkRegisteredUid(snsType: SnsType, snsUserId: String) {
