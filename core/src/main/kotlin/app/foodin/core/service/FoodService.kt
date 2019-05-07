@@ -1,7 +1,11 @@
 package app.foodin.core.service
 
+import app.foodin.common.extension.hasValue
 import app.foodin.core.gateway.FoodCategoryGateway
 import app.foodin.core.gateway.FoodGateway
+import app.foodin.core.gateway.LoveGateway
+import app.foodin.core.gateway.ReviewGateway
+import app.foodin.domain.common.EntityType
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodInfoDTO
@@ -18,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class FoodService(
     override val gateway: FoodGateway,
-    val foodCategoryGateway: FoodCategoryGateway
+    val foodCategoryGateway: FoodCategoryGateway,
+    val loveGateway: LoveGateway,
+    val reviewGateway: ReviewGateway
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
@@ -74,5 +80,18 @@ class FoodService(
         val categoryIdList: List<Long> = foodCategoryPage.map { e -> e.id }
 
         return gateway.findAllByFilter(FoodFilter(categoryIdList = categoryIdList), pageable)
+    }
+
+    fun checkReviewAndLove(foodList: List<Food>, userId: Long) {
+        for (food in foodList) {
+            val loveList = loveGateway.findByUserIdAndEntityTypeAndId(userId = userId,type= EntityType.FOOD,entityId = food.id)
+            if (loveList.hasValue()) {
+                food.hasLoved = true
+            }
+            val review = reviewGateway.findByWriteUserIdAndFoodId(writeUserId = userId,foodId= food.id)
+            if (review != null) {
+                food.hasReview = true
+            }
+        }
     }
 }

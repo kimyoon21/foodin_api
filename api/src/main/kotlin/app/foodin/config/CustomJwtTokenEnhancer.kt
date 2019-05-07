@@ -17,7 +17,7 @@ class CustomJwtTokenEnhancer : TokenEnhancer {
     ): OAuth2AccessToken {
         val additionalInfo = HashMap<String, Any>()
         val user: User = authentication.principal as User
-        additionalInfo["userInfo"] = CustomJwtUserInfo(user.id, user.username, user.nickName, user.realName, user.snsType)
+        additionalInfo["userInfo"] = CustomJwtUserInfo(user.id, user.username, user.nickName, user.realName, user.snsType, user.getUserAuthorities())
         (accessToken as DefaultOAuth2AccessToken).additionalInformation = additionalInfo
         return accessToken
     }

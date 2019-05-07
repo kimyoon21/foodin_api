@@ -1,6 +1,6 @@
-package app.foodin.entity.foodLove
+package app.foodin.entity.love
 
-import app.foodin.domain.foodLove.Love
+import app.foodin.domain.love.Love
 import app.foodin.entity.common.BaseEntity
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.recipe.RecipeEntity
