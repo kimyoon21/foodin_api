@@ -1,8 +1,8 @@
-package app.foodin.entity.foodLove
+package app.foodin.entity.love
 
 import app.foodin.domain.common.EntityType
-import app.foodin.domain.foodLove.Love
-import app.foodin.domain.foodLove.LoveFilter
+import app.foodin.domain.love.Love
+import app.foodin.domain.love.LoveFilter
 import app.foodin.entity.common.*
 import org.springframework.data.jpa.domain.Specification
 

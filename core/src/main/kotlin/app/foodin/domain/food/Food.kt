@@ -45,4 +45,9 @@ data class Food(
     var ratingAvg: Float? = null
 
     var status: Status? = null
+
+    // for my
+    var hasLoved = false
+    var hasReview = false
+    var hasRecipe = false
 }

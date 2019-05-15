@@ -1,4 +1,4 @@
-package app.foodin.domain.foodLove
+package app.foodin.domain.love
 
 data class LoveReq(
     var foodId: Long? = null,

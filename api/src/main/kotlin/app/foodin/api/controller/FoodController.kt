@@ -1,6 +1,10 @@
 package app.foodin.api.controller
 
 import app.foodin.common.result.ResponseResult
+
+import app.foodin.common.utils.getAuthenticatedUserInfo
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import app.foodin.core.service.FoodService
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
@@ -41,7 +45,12 @@ class FoodController(
     @GetMapping(value = ["/{id}"])
     fun getOne(@PathVariable id: Long): ResponseResult {
 
-        return ResponseResult(foodService.findById(id))
+        val result = ResponseResult(foodService.findById(id))
+        if(getAuthenticatedUserInfo().hasUserRole()) {
+            // review 및 love 여부 체크
+            foodService.checkReviewAndLove(listOf(result.data as Food), getAuthenticatedUserInfo().id)
+        }
+        return result
     }
 
     /*****
