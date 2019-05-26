@@ -49,11 +49,11 @@ class FoodService(
 
     fun checkReviewAndLove(foodList: List<Food>, userId: Long) {
         for (food in foodList) {
-            val loveList = loveGateway.findByUserIdAndEntityTypeAndId(userId = userId,type= EntityType.FOOD,entityId = food.id)
+            val loveList = loveGateway.findByUserIdAndEntityTypeAndId(userId = userId, type = EntityType.FOOD, entityId = food.id)
             if (loveList.hasValue()) {
                 food.hasLoved = true
             }
-            val review = reviewGateway.findByWriteUserIdAndFoodId(writeUserId = userId,foodId= food.id)
+            val review = reviewGateway.findByWriteUserIdAndFoodId(writeUserId = userId, foodId = food.id)
             if (review != null) {
                 food.hasReview = true
             }

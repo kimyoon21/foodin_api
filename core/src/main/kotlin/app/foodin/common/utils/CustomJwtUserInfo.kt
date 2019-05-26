@@ -12,13 +12,13 @@ data class CustomJwtUserInfo(
     val nickName: String? = null,
     val realName: String = "",
     val snsType: SnsType? = null,
-    val roles : List<UserAuthority> = emptyList()
-){
-    fun hasUserRole() : Boolean {
+    val roles: List<UserAuthority> = emptyList()
+) {
+    fun hasUserRole(): Boolean {
         return roles.indexOf(UserAuthority.ROLE_USER) >= 0
     }
 
-    fun hasAdminRole() : Boolean {
+    fun hasAdminRole(): Boolean {
         return roles.indexOf(UserAuthority.ROLE_ADMIN) >= 0
     }
 }

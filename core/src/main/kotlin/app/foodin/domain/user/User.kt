@@ -7,6 +7,7 @@ import app.foodin.common.extension.csvToList
 import app.foodin.domain.badge.Badge
 import app.foodin.domain.common.Authority
 import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.foodCategory.FoodCategory
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails
 import java.sql.Timestamp
@@ -68,7 +69,9 @@ class User(
     var mainBadgeId: Long? = null
 //    @JoinColumn TODO
 //    @ManyToOne
-    val mainBadge: Badge? = null
+    var mainBadge: Badge? = null
+
+    var userFoodCategoryList: List<FoodCategory> = listOf()
 
     /*** for UserDetails */
     // auth csv

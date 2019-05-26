@@ -25,12 +25,11 @@ class JpaLoveRepository(private val repository: LoveRepository) :
             EntityType.RECIPE -> LoveEntity::recipeId.equal(entityId)
             else -> null
         }
-        val spec : Specification<LoveEntity> = and(
+        val spec: Specification<LoveEntity> = and(
                 LoveEntity::userId.equal(userId),
                 entitySpec)
         return repository.findAll(spec).toDomainList()
     }
-
 
     override fun saveFrom(t: Love): Love {
         return repository.saveAndFlush(LoveEntity(t)).toDomain()
