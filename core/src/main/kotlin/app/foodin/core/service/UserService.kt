@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 import java.sql.Timestamp
@@ -40,6 +41,7 @@ interface UserService {
 }
 
 @Service
+@Transactional
 class CustomUserDetailsService(
     private val userGateway: UserGateway,
     private val sessionLogGateway: SessionLogGateway,
