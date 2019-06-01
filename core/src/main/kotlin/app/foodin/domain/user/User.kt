@@ -95,4 +95,6 @@ class User(
     override fun isAccountNonLocked() = !accountLocked
 
     override fun getAuthorities() = authoritiesStr?.csvToList()?.map { Authority(it) } ?: mutableListOf()
+
+    fun getUserAuthorities() = authoritiesStr?.csvToList()?.map { UserAuthority.valueOf(it) } ?: mutableListOf()
 }

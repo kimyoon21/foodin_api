@@ -19,8 +19,9 @@ interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
 @Component
 class JpaReviewRepository(private val repository: ReviewRepository) :
         BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
-    override fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): Review? {
-        return repository.findByWriteUserIdAndFoodId(userId, foodId)?.toDomain()
+
+    override fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review? {
+        return repository.findByWriteUserIdAndFoodId(writeUserId, foodId)?.toDomain()
     }
 
     override fun findAllByFilter(filter: ReviewFilter, pageable: Pageable): Page<Review> {

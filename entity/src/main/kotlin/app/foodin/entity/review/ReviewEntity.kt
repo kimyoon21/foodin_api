@@ -1,12 +1,11 @@
 package app.foodin.entity.review
 
-import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
 import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.review.Review
-import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.common.StatusEntity
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -14,9 +13,7 @@ import javax.persistence.Table
 @Table(name = "review")
 data class ReviewEntity(
     val foodId: Long
-) : BaseEntity<Review>() {
-
-    var status: Status? = null
+) : StatusEntity<Review>() {
 
     var price: Int? = null
 

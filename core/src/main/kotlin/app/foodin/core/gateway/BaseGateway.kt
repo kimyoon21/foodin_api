@@ -11,4 +11,5 @@ interface BaseGateway<T : BaseDomain, F : BaseFilter> {
     fun findAllByFilter(filter: F, pageable: Pageable): Page<T>
     fun findById(id: Long): T?
     fun saveFrom(t: T): T
+    fun deleteById(id: Long): Boolean
 }

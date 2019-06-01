@@ -1,8 +1,8 @@
 package app.foodin.config
 
-import app.foodin.auth.CustomJwtUserInfo
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_AUTH_FAILED
+import app.foodin.common.utils.CustomJwtUserInfo
 import app.foodin.common.utils.JsonUtils
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
