@@ -22,7 +22,7 @@ class ExceptionResult(
             debugMessage,
             data
     ) {
-        ref = request.getDescription(true)
+        ref = request.getDescription(false)
     }
 
     constructor(request: WebRequest, exception: CommonException, debugMessage: String? = null) : this(
