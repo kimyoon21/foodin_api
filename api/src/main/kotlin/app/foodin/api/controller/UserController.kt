@@ -1,12 +1,12 @@
 package app.foodin.api.controller
 
-import app.foodin.auth.CustomJwtUserInfo
 import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_REGISTERED
 import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.throwNullOrEmpty
 import app.foodin.common.result.ResponseResult
+import app.foodin.common.utils.CustomJwtUserInfo
 import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
 import app.foodin.domain.user.EmailLoginDTO
@@ -163,8 +163,7 @@ class UserController(
     }
 
     fun checkRegisteredEmail(email: String) {
-        userService.findByEmail(email) ?: throwAlreadyRegistered(listOf())
-        throwAlreadyRegistered(listOf()) // TODO
+        userService.findByEmail(email)?.let { throwAlreadyRegistered(listOf()) }
     }
 
     fun checkRegisteredUid(snsType: SnsType, snsUserId: String) {

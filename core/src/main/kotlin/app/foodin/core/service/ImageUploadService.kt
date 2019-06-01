@@ -4,6 +4,7 @@ import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_FAILED
 import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.domain.ImageInfo
+import app.foodin.domain.common.EntityType
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -15,22 +16,12 @@ class ImageUploadService(
     val imageUploadAsyncService: ImageUploadAsyncService
 ) {
 
-    enum class ImageCategory {
-        FOOD,
-        REVIEW,
-        RECIPE,
-        PROFILE,
-        NOTICE,
-        BADGE,
-        CODE,
-    }
-
     private val logger = LoggerFactory.getLogger(ImageUploadService::class.java)
     private val DETAIL_WIDTH = 720
     private val MAX_SIZE = 1024 * 1024 * 2
     private val MAX_FILE_SIZE = 1024 * 1024 * 6 // 6MB
 
-    fun uploadImages(category: ImageCategory, uploadImages: List<MultipartFile?>): List<ImageInfo?> {
+    fun uploadImages(type: EntityType, uploadImages: List<MultipartFile?>): List<ImageInfo?> {
         val imageInfoList = ArrayList<ImageInfo?>(uploadImages.size)
         val asyncResultList = ArrayList<Future<ImageInfo>>()
         var success = true
@@ -53,7 +44,7 @@ class ImageUploadService(
             logger.info(" 타임 : " + (m1 - startTime))
             val result: Future<ImageInfo>
             try {
-                result = imageUploadAsyncService.uploadImage(category, image.inputStream)
+                result = imageUploadAsyncService.uploadImage(type, image.inputStream)
                 asyncResultList.add(result)
                 // 미리 파일수만큼 null 을 채워둔 후, 후에 매칭해서 넣어주기
                 imageInfoList.add(null)

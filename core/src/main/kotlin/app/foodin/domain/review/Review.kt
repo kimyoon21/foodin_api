@@ -1,7 +1,7 @@
 package app.foodin.domain.review
 
 import app.foodin.common.enums.Status
-import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.User
 import app.foodin.domain.writable.UserWritable
@@ -10,14 +10,12 @@ import org.modelmapper.ModelMapper
 data class Review(
     override var id: Long = 0,
     var foodId: Long
-) : BaseDomain(id), UserWritable {
+) : StatusDomain(id), UserWritable {
     override var writeUser: User? = null
 
     override var writeUserId: Long? = null
 
     var food: Food? = null
-
-    var status: Status? = null
 
     var price: Int? = null
 
