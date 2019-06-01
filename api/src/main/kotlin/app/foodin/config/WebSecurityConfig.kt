@@ -33,10 +33,6 @@ class WebSecurityConfig(
         auth.authenticationProvider(authenticationProvider())
     }
 
-    // 로그인 URL 등록
-    override fun configure(http: HttpSecurity) {
-        http.oauth2Login()
-    }
 
     /**
      * 데이터베이스 인증용 Provider
@@ -48,6 +44,12 @@ class WebSecurityConfig(
         authenticationProvider.setUserDetailsService(customUserDetailsService)
         authenticationProvider.setPasswordEncoder(passwordEncoder()) // 패스워드를 암호활 경우 사용한다
         return authenticationProvider
+    }
+
+
+    // 로그인 URL 등록
+    override fun configure(http: HttpSecurity) {
+        http.authorizeRequests().anyRequest().authenticated().and().oauth2Login()
     }
 
     override fun configure(web: WebSecurity) {
