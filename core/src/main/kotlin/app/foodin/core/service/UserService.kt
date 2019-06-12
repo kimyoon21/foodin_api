@@ -31,7 +31,8 @@ import java.util.*
 interface UserService {
     fun findByEmail(email: String): User?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
-    fun saveFrom(userRegDTO: UserRegDTO): User
+    fun saveFrom(userCreateReq: UserCreateReq): User
+    fun update(userId: Long, userUpdateReq: UserUpdateReq): User
     fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO
     fun findAll(): List<User>
     fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
@@ -75,8 +76,12 @@ class CustomUserDetailsService(
         return userGateway.findById(id) ?: throw NotExistsException(msgArgs = "유저")
     }
 
-    override fun saveFrom(userRegDTO: UserRegDTO): User {
-        return userGateway.saveFrom(userRegDTO.toUser())
+    override fun saveFrom(userCreateReq: UserCreateReq): User {
+        return userGateway.saveFrom(userCreateReq.toUser())
+    }
+
+    override fun update(userId: Long, req: UserUpdateReq): User {
+        return userGateway.updateFrom(userId, req)
     }
 
     override fun findByEmail(email: String): User? {

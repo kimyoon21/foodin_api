@@ -9,10 +9,7 @@ import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.CustomJwtUserInfo
 import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
-import app.foodin.domain.user.EmailLoginDTO
-import app.foodin.domain.user.SnsTokenDTO
-import app.foodin.domain.user.User
-import app.foodin.domain.user.UserRegDTO
+import app.foodin.domain.user.*
 import io.swagger.annotations.ApiParam
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -39,61 +36,61 @@ class UserController(
 
     @PutMapping("/{id}")
     fun update(
-        @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateDTO: UserRegDTO,
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateReq: UserUpdateReq,
         @PathVariable("id") userId: Long,
         @ApiIgnore errors: Errors
     ): ResponseResult {
-        logger.info("authRequest: $userUpdateDTO")
+        logger.info("authRequest: $userUpdateReq")
 
-        return ResponseResult()
+        return ResponseResult(userService.update(userId, userUpdateReq))
     }
 
     @PostMapping("/register")
     fun register(
-        @ApiParam(value = "Authentication Request") @RequestBody @Valid userRegDTO: UserRegDTO,
+        @ApiParam(value = "Authentication Request") @RequestBody @Valid userCreateReq: UserCreateReq,
         @ApiIgnore errors: Errors
     ): ResponseResult {
-        logger.info("authRequest: $userRegDTO")
+        logger.info("authRequest: $userCreateReq")
 
         if (errors.hasErrors()) {
             throw FieldErrorException(errors)
         }
 
-        userRegDTO.email
-                .throwNullOrEmpty { FieldErrorException(userRegDTO::email.name, "{ex.need}", "{word.email}") }
+        userCreateReq.email
+                .throwNullOrEmpty { FieldErrorException(userCreateReq::email.name, "{ex.need}", "{word.email}") }
                 .let {
                     checkRegisteredEmail(it)
                 }
 
-        if (userRegDTO.snsType != SnsType.EMAIL) {
-            userRegDTO.snsUserId
-                    .throwNullOrEmpty { FieldErrorException(userRegDTO::snsUserId.name, "{ex.need}", "{word.uid}") }
+        if (userCreateReq.snsType != SnsType.EMAIL) {
+            userCreateReq.snsUserId
+                    .throwNullOrEmpty { FieldErrorException(userCreateReq::snsUserId.name, "{ex.need}", "{word.uid}") }
                     .let {
 
-                        checkRegisteredUid(userRegDTO.snsType, it)
+                        checkRegisteredUid(userCreateReq.snsType, it)
                         // sns 인경우 비번 세팅
-                        userRegDTO.loginPw = BCryptPasswordEncoder().encode("${userRegDTO.snsUserId}")
+                        userCreateReq.loginPw = BCryptPasswordEncoder().encode("${userCreateReq.snsUserId}")
                     }
         } else {
-            userRegDTO.loginPw
-                    .throwNullOrEmpty { FieldErrorException(userRegDTO::loginPw.name, "{ex.need}", "{word.loginPw}") }
+            userCreateReq.loginPw
+                    .throwNullOrEmpty { FieldErrorException(userCreateReq::loginPw.name, "{ex.need}", "{word.loginPw}") }
                     .let {
                         checkPassword(it)
                         // email 경우 snsUserId 에 email 세팅
-                        userRegDTO.snsUserId = userRegDTO.email
+                        userCreateReq.snsUserId = userCreateReq.email
                         // 비번암호화
-                        userRegDTO.loginPw = BCryptPasswordEncoder().encode(it)
+                        userCreateReq.loginPw = BCryptPasswordEncoder().encode(it)
                     }
         }
 
-        if (!userRegDTO.agreePolicy) {
-            throw FieldErrorException(userRegDTO::agreePolicy.name, "{ex.need_to.agree_policy}")
+        if (!userCreateReq.agreePolicy) {
+            throw FieldErrorException(userCreateReq::agreePolicy.name, "{ex.need_to.agree_policy}")
         }
 
-        userRegDTO.realName
-                .throwNullOrEmpty { FieldErrorException(userRegDTO::realName.name, "{ex.need}", "{word.realName}") }
+        userCreateReq.realName
+                .throwNullOrEmpty { FieldErrorException(userCreateReq::realName.name, "{ex.need}", "{word.realName}") }
 
-        return ResponseResult(userService.saveFrom(userRegDTO))
+        return ResponseResult(userService.saveFrom(userCreateReq))
     }
 
     @GetMapping(value = ["/email"])

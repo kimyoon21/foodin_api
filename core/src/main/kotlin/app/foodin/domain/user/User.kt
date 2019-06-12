@@ -18,7 +18,7 @@ import javax.persistence.Enumerated
 class User(
     override var id: Long = 0,
     val email: String,
-    val realName: String,
+    var realName: String,
     val snsType: SnsType
 
 ) : BaseDomain(id), UserDetails {
@@ -67,7 +67,7 @@ class User(
     var followerCount: Int? = 0
 
     var mainBadgeId: Long? = null
-//    @JoinColumn TODO
+    //    @JoinColumn TODO
 //    @ManyToOne
     var mainBadge: Badge? = null
 
