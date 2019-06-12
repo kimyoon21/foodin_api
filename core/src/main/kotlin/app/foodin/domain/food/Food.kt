@@ -4,6 +4,7 @@ import app.foodin.common.enums.Status
 import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.user.User
 import app.foodin.domain.writable.UserWritable
+import org.modelmapper.ModelMapper
 
 data class Food(
     override var id: Long = 0,
@@ -50,4 +51,8 @@ data class Food(
     var hasLoved = false
     var hasReview = false
     var hasRecipe = false
+
+    fun toDto(): FoodInfoDTO {
+        return ModelMapper().map(this, FoodInfoDTO::class.java)
+    }
 }

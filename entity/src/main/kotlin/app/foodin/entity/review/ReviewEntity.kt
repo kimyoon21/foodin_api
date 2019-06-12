@@ -6,6 +6,7 @@ import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.review.Review
 import app.foodin.entity.common.StatusEntity
+import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
 import org.hibernate.annotations.Where
 import javax.persistence.*
@@ -14,8 +15,12 @@ import javax.persistence.*
 @Table(name = "review")
 data class ReviewEntity(
         // TODO 푸드를 엔티티로 연결하고, 리뷰에도 푸드카테고리 필터 가능하게
+    @Column(name = "food_id")
     val foodId: Long
 ) : StatusEntity<Review>() {
+    @ManyToOne
+    @JoinColumn(name = "food_id", insertable = false, updatable = false)
+    var food: FoodEntity? = null
 
     var price: Int? = null
 
@@ -57,6 +62,7 @@ data class ReviewEntity(
     override fun toDomain(): Review {
         return Review(foodId = this.foodId).also {
             it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
+            it.food = this.food?.toDto()
             it.price = this.price
             it.contents = this.contents
             it.tagList = this.tags.tagsToList()

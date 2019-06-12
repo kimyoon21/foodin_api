@@ -3,23 +3,24 @@ package app.foodin.entity.review
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewFilter
 import app.foodin.entity.common.*
+import app.foodin.entity.food.FoodEntity
 import org.springframework.data.jpa.domain.Specification
 
 class ReviewFilterQuery(
     val filter: ReviewFilter
 ) : BaseFilterQuery<Review, ReviewEntity> {
 
-    override fun toSpecification(): Specification<ReviewEntity> = filter.let {
+    override fun toSpecification(): Specification<ReviewEntity> = filter.let { filter ->
         and(
-                hasContentsLike(it.name),
-                hasTagLike(it.tag),
-                // TODO
-//                inListFilter(ReviewEntity::categoryId, it.categoryIdList),
+                hasContentsLike(filter.name),
+                hasTagLike(filter.tag),
+                // 푸드카테고리도 리뷰에 적용
+                where { it.join(ReviewEntity::food).get(FoodEntity::categoryId).`in`(filter.categoryIdList) },
                 querysToSpecification(
-                        hasContentsLike(it.query),
-                        hasTagLike(it.query)
+                        hasContentsLike(filter.query),
+                        hasTagLike(filter.query)
                 ),
-                equalFilter(ReviewEntity::foodId, it.foodId)
+                equalFilter(ReviewEntity::foodId, filter.foodId)
         )
     }
 

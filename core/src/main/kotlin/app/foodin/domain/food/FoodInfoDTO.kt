@@ -4,10 +4,11 @@ import app.foodin.core.annotation.KotlinNoArgConstructor
 
 @KotlinNoArgConstructor
 data class FoodInfoDTO(
+    var id: Long,
     var name: String,
     var mainImageUri: String?,
     var ratingAvg: Float?,
     var tagList: List<String> = listOf()
 ) {
-    constructor(food: Food) : this(food.name, food.mainImageUri, food.ratingAvg, food.tagList)
+    constructor(food: Food) : this(food.id, food.name, food.mainImageUri, food.ratingAvg, food.tagList)
 }
