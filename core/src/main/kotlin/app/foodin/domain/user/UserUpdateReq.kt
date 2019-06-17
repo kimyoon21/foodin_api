@@ -3,7 +3,7 @@ package app.foodin.domain.user
 import app.foodin.common.enums.Gender
 import javax.validation.constraints.Size
 
-class UserUpdateReq() {
+class UserUpdateReq {
 
     var nickName: String? = null
     var realName: String? = null
@@ -17,4 +17,6 @@ class UserUpdateReq() {
     var birthday: String? = null
 
     var gender: Gender? = null
+
+    var profileImageUri: String? = null
 }
