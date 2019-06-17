@@ -15,7 +15,7 @@ class ReviewFilterQuery(
                 hasContentsLike(filter.name),
                 hasTagLike(filter.tag),
                 // 푸드카테고리도 리뷰에 적용
-                where { it.join(ReviewEntity::food).get(FoodEntity::categoryId).`in`(filter.categoryIdList) },
+                filterIfHasValue(filter.categoryIdList, where { it.join(ReviewEntity::food).get(FoodEntity::categoryId).`in`(filter.categoryIdList) }),
                 querysToSpecification(
                         hasContentsLike(filter.query),
                         hasTagLike(filter.query)

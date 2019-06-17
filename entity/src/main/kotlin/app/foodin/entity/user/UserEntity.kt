@@ -163,6 +163,7 @@ data class UserEntity(
             this.gender = it.gender
             val birthFullDay = it.birthday?.let { day -> DateHelper.parse(day) }
             this.birth = Birth(birthFullDay)
+            this.profileImageUri = it.profileImageUri
         }
     }
 }
