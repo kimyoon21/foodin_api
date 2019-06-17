@@ -4,7 +4,11 @@ import app.foodin.domain.common.BaseDomain
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.sql.Timestamp
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class BaseEntity<D : BaseDomain> {
@@ -14,11 +18,11 @@ abstract class BaseEntity<D : BaseDomain> {
 
     @field:CreationTimestamp
     @Column(nullable = false, updatable = false)
-    lateinit var createdTime: Timestamp
+    open var createdTime: Timestamp = Timestamp(System.currentTimeMillis())
 
     @field:UpdateTimestamp
     @Column(nullable = false)
-    lateinit var updatedTime: Timestamp
+    open var updatedTime: Timestamp = Timestamp(System.currentTimeMillis())
 
     abstract fun toDomain(): D
 }

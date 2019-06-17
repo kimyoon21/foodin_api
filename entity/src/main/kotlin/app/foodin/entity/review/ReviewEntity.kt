@@ -44,6 +44,7 @@ data class ReviewEntity(
         rating = review.rating
         writeUserId = review.writeUserId
         status = review.status
+        super.id = review.id
     }
 
     override fun toDomain(): Review {
