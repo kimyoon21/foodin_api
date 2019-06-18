@@ -1,0 +1,13 @@
+<included>
+  <property name="ttyPattern"
+    value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(${PID:- }){magenta}  %clr(---){faint} [%thread, %X{x-request-uid:--}, %X{sessionId:--}] %clr(%logger{35}){cyan} %clr(:){faint} %msg %n"/>
+
+  <property name="defaultPattern"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread, %X{x-request-uid:--}, %X{sessionId:-NOSESSION}] %logger{35} : %msg %n"/>
+
+  <property name="slackPattern"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread, %X{x-request-uid:--}]%n %logger{35} : %msg %n"/>
+
+  <property name="simplePattern"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n"/>
+</included>

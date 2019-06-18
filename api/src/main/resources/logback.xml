@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <include resource="logback-property.xml"/>
+
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender"
+    name="dailyRollingFileAppender">
+    <prudent>true</prudent>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>application.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>90</maxHistory>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+
+    <encoder>
+      <pattern>${defaultPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Set channel name -->
+  <property name="serverChannel" value="#server-dev"/>
+
+  <appender class="com.github.maricn.logback.SlackAppender" name="SLACK_DEV">
+    <!-- Slack API token -->
+    <token>xoxp-5132495964-5132495966-7685392177-d96c01</token>
+    <!-- Channel that you want to post - default is #general -->
+    <channel>${serverChannel}</channel>
+    <!-- Formatting (you can use Slack formatting - URL links, code formatting,
+      etc.) -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${slackPattern}</pattern>
+    </layout>
+    <!-- Username of the messages sender -->
+    <username>${HOSTNAME}</username>
+    <!-- Emoji to be used for messages -->
+    <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
+  </appender>
+
+  <!-- Currently recommended way of using Slack appender -->
+  <appender name="ERROR_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="SLACK_DEV"/>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+  </appender>
+
+  <appender name="WARN_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="SLACK_DEV"/>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+  </appender>
+
+  <!-- Logger -->
+  <logger level="INFO" name="org.springframework"/>
+  <logger level="INFO" name="org.hibernate.SQL"/>
+  <root level="INFO">
+    <appender-ref ref="ERROR_SLACK"/>
+    <appender-ref ref="WARN_SLACK"/>
+    <appender-ref ref="dailyRollingFileAppender"/>
+  </root>
+</configuration>

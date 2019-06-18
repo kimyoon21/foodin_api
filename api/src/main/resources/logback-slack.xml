@@ -1,0 +1,68 @@
+<included>
+  <include resource="logback-property.xml"/>
+
+  <appender name="SLACK_ERROR" class="com.github.maricn.logback.SlackAppender">
+    <!-- Slack API token -->
+    <token>xoxp-5132495964-5132495966-7685392177-d96c01</token>
+    <!-- Channel that you want to post - default is #general -->
+    <channel>#server-error</channel>
+    <!-- Formatting (you can use Slack formatting - URL links, code formatting,
+      etc.) -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${slackPattern}</pattern>
+    </layout>
+    <!-- Username of the messages sender -->
+    <username>${HOSTNAME}</username>
+    <!-- Emoji to be used for messages -->
+    <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
+  </appender>
+
+  <appender name="SLACK_ALARM" class="com.github.maricn.logback.SlackAppender">
+    <!-- Slack API token -->
+    <token>xoxp-5132495964-5132495966-7685392177-d96c01</token>
+    <!-- Channel that you want to post - default is #general -->
+    <channel>#server-alarm</channel>
+    <!-- Formatting (you can use Slack formatting - URL links, code formatting,
+      etc.) -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${slackPattern}</pattern>
+    </layout>
+    <!-- Username of the messages sender -->
+    <username>${HOSTNAME}</username>
+    <!-- Emoji to be used for messages -->
+    <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
+  </appender>
+
+
+  <appender name="SLACK_INFO" class="com.github.maricn.logback.SlackAppender">
+    <!-- Slack API token -->
+    <token>xoxp-5132495964-5132495966-7685392177-d96c01</token>
+    <!-- Channel that you want to post - default is #general -->
+    <channel>#server-info</channel>
+    <!-- Formatting (you can use Slack formatting - URL links, code formatting,
+      etc.) -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${simplePattern}</pattern>
+    </layout>
+    <!-- Username of the messages sender -->
+    <username>${HOSTNAME}</username>
+    <!-- Emoji to be used for messages -->
+    <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
+  </appender>
+
+  <appender name="SLACK_WARN" class="com.github.maricn.logback.SlackAppender">
+    <!-- Slack API token -->
+    <token>xoxp-5132495964-5132495966-7685392177-d96c01</token>
+    <!-- Channel that you want to post - default is #general -->
+    <channel>#server-warn</channel>
+    <!-- Formatting (you can use Slack formatting - URL links, code formatting,
+      etc.) -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${slackPattern}</pattern>
+    </layout>
+    <!-- Username of the messages sender -->
+    <username>${HOSTNAME}</username>
+    <!-- Emoji to be used for messages -->
+    <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
+  </appender>
+</included>
