@@ -6,6 +6,7 @@ import app.foodin.core.service.FoodService
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import org.springframework.data.domain.Pageable
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -49,6 +50,11 @@ class FoodController(
         return result
     }
 
+    /*****
+     * admin 만 바로 등록이 가능
+     * 유저는 foodReqRequest 사용
+     */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody food: Food): ResponseResult {
         return ResponseResult(foodService.saveFrom(food))

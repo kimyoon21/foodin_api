@@ -1,15 +1,14 @@
-package app.foodin.domain.food
+package app.foodin.domain.foodRegRequest
 
 import app.foodin.common.enums.Status
+import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.user.User
-import java.io.Serializable
 
 data class FoodRegRequest(
+    override var id: Long = 0L,
     val name: String,
     val categoryId: Long
-
-) : Serializable {
-
+) : BaseDomain(id) {
     var companyId: Long? = null
 
     var price: Int = 0
