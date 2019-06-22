@@ -14,6 +14,7 @@ class CustomAccessDeniedHandler : AccessDeniedHandler {
     @Throws(IOException::class, ServletException::class)
     override fun handle(request: HttpServletRequest?, response: HttpServletResponse?, accessDeniedException: AccessDeniedException?) {
 //        response?.
+        print("accessDeniedException" + accessDeniedException.toString())
         throw accessDeniedException!!
     }
 }

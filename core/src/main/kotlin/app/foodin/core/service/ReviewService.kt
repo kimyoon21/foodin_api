@@ -31,16 +31,18 @@ class ReviewService(
     fun save(createReq: ReviewCreateReq): Review {
         // 기 데이터 확인
         // 이미 작성한 리뷰(평점)이 있으면 무조건 update
-        gateway.findByWriteUserIdAndFoodId(createReq.writeUserId, createReq.foodId)?.let {
-            throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
+        val oldReview = gateway.findByWriteUserIdAndFoodId(createReq.writeUserId, createReq.foodId)
+        val review = if (oldReview == null) {
+            // 푸드 주입
+            val food = foodService.findById(createReq.foodId)
+
+            val writer = userService.findById(createReq.writeUserId)
+
+            Review(food, writer, reviewReq = createReq.reviewReq)
+        } else {
+            oldReview.setFromRequestDTO(createReq.reviewReq)
+            oldReview
         }
-
-        // 푸드 주입
-        val food = foodService.findById(createReq.foodId)
-
-        val writer = userService.findById(createReq.writeUserId)
-
-        val review = Review(food, writer, reviewReq = createReq.reviewReq)
 
         return saveFrom(review)
     }

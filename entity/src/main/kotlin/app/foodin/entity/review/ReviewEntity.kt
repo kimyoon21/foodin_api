@@ -6,8 +6,9 @@ import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.review.Review
 import app.foodin.entity.common.StatusEntity
-import javax.persistence.Entity
-import javax.persistence.Table
+import app.foodin.entity.user.UserEntity
+import org.hibernate.annotations.Where
+import javax.persistence.*
 
 @Entity
 @Table(name = "review")
@@ -31,8 +32,13 @@ data class ReviewEntity(
     var commentCount: Int = 0
 
     var rating: Float = 0F
-
+    @Column(name = "write_user_id")
     var writeUserId: Long? = null
+
+    @ManyToOne
+    @JoinColumn(name = "write_user_id", insertable = false, updatable = false)
+    @Where(clause = "enable = 1")
+    lateinit var writeUserEntity: UserEntity
 
     constructor(review: Review) : this(review.foodId) {
         price = review.price
@@ -44,6 +50,7 @@ data class ReviewEntity(
         commentCount = review.commentCount
         rating = review.rating
         writeUserId = review.writeUserId
+        writeUserEntity = UserEntity(review.writeUser!!)
         status = review.status
     }
 
@@ -58,6 +65,7 @@ data class ReviewEntity(
             it.loveCount = this.loveCount
             it.commentCount = this.commentCount
             it.rating = this.rating
+            it.writeUser = this.writeUserEntity.toDomain()
             it.writeUserId = this.writeUserId
             it.status = this.status
         }

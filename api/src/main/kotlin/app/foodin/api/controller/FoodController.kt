@@ -1,7 +1,10 @@
 package app.foodin.api.controller
 
 import app.foodin.common.result.ResponseResult
+
 import app.foodin.common.utils.getAuthenticatedUserInfo
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import app.foodin.core.service.FoodService
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter

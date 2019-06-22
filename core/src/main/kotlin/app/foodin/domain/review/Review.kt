@@ -4,16 +4,21 @@ import app.foodin.common.enums.Status
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserInfoDTO
 import app.foodin.domain.writable.UserWritable
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.modelmapper.ModelMapper
 
 data class Review(
     override var id: Long = 0,
     var foodId: Long
 ) : StatusDomain(id), UserWritable {
+    @JsonIgnore
     override var writeUser: User? = null
 
     override var writeUserId: Long? = null
+
+    fun getWriteUserInfo() = writeUser?.let { UserInfoDTO(it) }
 
     var food: Food? = null
 
