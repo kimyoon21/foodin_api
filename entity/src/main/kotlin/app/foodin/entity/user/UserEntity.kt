@@ -3,8 +3,10 @@ package app.foodin.entity.user
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.enums.UserAuthority
+import app.foodin.common.utils.DateHelper
 import app.foodin.common.utils.isProxyObjectInit
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserUpdateReq
 import app.foodin.entity.common.BaseEntity
 import app.foodin.entity.common.toDomainList
 import app.foodin.entity.foodCategory.FoodCategoryEntity
@@ -148,6 +150,20 @@ data class UserEntity(
             it.credentialsExpired = this.credentialsExpired
             it.accountExpired = this.accountExpired
             it.accountLocked = this.accountLocked
+        }
+    }
+
+    fun mergeFromUpdateReq(req: UserUpdateReq) {
+        req?.let {
+            this.realName = it.realName ?: this.realName
+            this.nickName = it.nickName
+            if (it.loginPw != null && it.loginPw.equals(it.loginPwCheck)) {
+                this.loginPw = it.loginPw
+            }
+            this.gender = it.gender
+            val birthFullDay = it.birthday?.let { day -> DateHelper.parse(day) }
+            this.birth = Birth(birthFullDay)
+            this.profileImageUri = it.profileImageUri
         }
     }
 }

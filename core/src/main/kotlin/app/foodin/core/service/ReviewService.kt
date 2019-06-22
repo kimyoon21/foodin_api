@@ -1,7 +1,7 @@
 package app.foodin.core.service
 
 import app.foodin.common.exception.CommonException
-import app.foodin.common.exception.EX_ALREADY_EXISTS_WHAT
+import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
@@ -23,7 +23,7 @@ class ReviewService(
     private val logger = LoggerFactory.getLogger(ReviewService::class.java)
 
     fun update(reviewId: Long, req: ReviewReq): Review {
-        val review = gateway.findById(reviewId) ?: throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
+        val review = gateway.findById(reviewId) ?: throw CommonException(EX_NOT_EXISTS, "word.review")
         review.setFromRequestDTO(req)
         return saveFrom(review)
     }

@@ -1,8 +1,11 @@
 package app.foodin.entity.user
 
 import app.foodin.common.enums.SnsType
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserUpdateReq
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -28,6 +31,13 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
 
     override fun saveFrom(user: User): User {
         return userRepository.save(UserEntity(user)).toDomain()
+    }
+
+    override fun updateFrom(userId: Long, req: UserUpdateReq): User {
+
+        val userEntity = userRepository.findById(userId).orElseThrow { throw CommonException(EX_NOT_EXISTS, "word.user") }
+        userEntity.mergeFromUpdateReq(req)
+        return userEntity.toDomain()
     }
 
     override fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User? {

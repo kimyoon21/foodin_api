@@ -5,7 +5,7 @@ import app.foodin.common.enums.SnsType
 import app.foodin.common.utils.DateHelper
 import javax.validation.constraints.Size
 
-class UserRegDTO(
+class UserCreateReq(
     val email: String,
     val realName: String,
     val snsType: SnsType

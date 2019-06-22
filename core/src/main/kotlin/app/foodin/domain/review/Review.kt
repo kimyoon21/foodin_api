@@ -3,6 +3,7 @@ package app.foodin.domain.review
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
+import app.foodin.domain.food.FoodInfoDTO
 import app.foodin.domain.user.User
 import app.foodin.domain.user.UserInfoDTO
 import app.foodin.domain.writable.UserWritable
@@ -20,7 +21,7 @@ data class Review(
 
     fun getWriteUserInfo() = writeUser?.let { UserInfoDTO(it) }
 
-    var food: Food? = null
+    var food: FoodInfoDTO? = null
 
     var price: Int? = null
 
@@ -43,7 +44,7 @@ data class Review(
         this.writeUserId = writer.id
         this.writeUser = writer
         this.foodId = food.id
-        this.food = food
+        this.food = food.toDto()
         this.status = Status.APPROVED
     }
 
