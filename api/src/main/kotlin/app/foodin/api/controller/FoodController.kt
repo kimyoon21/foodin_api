@@ -43,7 +43,7 @@ class FoodController(
     fun getOne(@PathVariable id: Long): ResponseResult {
 
         val result = ResponseResult(foodService.findById(id))
-        if(getAuthenticatedUserInfo().hasUserRole()) {
+        if (getAuthenticatedUserInfo().hasUserRole()) {
             // review 및 love 여부 체크
             foodService.checkReviewAndLove(listOf(result.data as Food), getAuthenticatedUserInfo().id)
         }

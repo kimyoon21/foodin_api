@@ -12,6 +12,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "review")
 data class ReviewEntity(
+        // TODO 푸드를 엔티티로 연결하고, 리뷰에도 푸드카테고리 필터 가능하게
     val foodId: Long
 ) : StatusEntity<Review>() {
 

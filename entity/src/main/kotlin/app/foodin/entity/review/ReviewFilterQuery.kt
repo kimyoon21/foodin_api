@@ -13,11 +13,14 @@ class ReviewFilterQuery(
         and(
                 hasContentsLike(it.name),
                 hasTagLike(it.tag),
+                // TODO
+//                inListFilter(ReviewEntity::categoryId, it.categoryIdList),
                 querysToSpecification(
                         hasContentsLike(it.query),
                         hasTagLike(it.query)
                 ),
                 equalFilter(ReviewEntity::foodId, it.foodId)
+
         )
     }
 

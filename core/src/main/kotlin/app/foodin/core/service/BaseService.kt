@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 abstract class BaseService<T : BaseDomain, F : BaseFilter> {
-    constructor()
 
     abstract val gateway: BaseGateway<T, F>
 

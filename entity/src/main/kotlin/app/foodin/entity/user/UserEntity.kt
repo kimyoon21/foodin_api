@@ -1,11 +1,18 @@
 package app.foodin.entity.user
 
-import app.foodin.common.enums.UserAuthority
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
+import app.foodin.common.enums.UserAuthority
+import app.foodin.common.utils.isProxyObjectInit
 import app.foodin.domain.user.User
 import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.common.toDomainList
+import app.foodin.entity.foodCategory.FoodCategoryEntity
+import org.hibernate.annotations.BatchSize
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import java.sql.Timestamp
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -53,6 +60,14 @@ data class UserEntity(
 
     var mainBadgeId: Long? = null
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinTable(name = "user_food_category",
+            joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+            inverseJoinColumns = [JoinColumn(name = "food_category_id", referencedColumnName = "id")])
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 20)
+    var userFoodCategoryEntityList: MutableList<FoodCategoryEntity> = mutableListOf()
+
     /*** for UserDetails */
 
     var agreePolicy: Boolean = false
@@ -87,6 +102,7 @@ data class UserEntity(
         followingCount = user.followingCount
         followerCount = user.followerCount
         mainBadgeId = user.mainBadgeId
+        userFoodCategoryEntityList = user.userFoodCategoryList.map { FoodCategoryEntity(it) }.toCollection(LinkedList())
 
         agreePolicy = user.agreePolicy
         agreeMarketing = user.agreeMarketing
@@ -120,6 +136,10 @@ data class UserEntity(
             it.followingCount = this.followingCount
             it.followerCount = this.followerCount
             it.mainBadgeId = this.mainBadgeId
+
+            if (isProxyObjectInit(this.userFoodCategoryEntityList)) {
+                it.userFoodCategoryList = this.userFoodCategoryEntityList.toDomainList()
+            }
 
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
