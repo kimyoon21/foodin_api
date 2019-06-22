@@ -21,6 +21,7 @@ class ReviewFilterQuery(
                         hasTagLike(filter.query)
                 ),
                 equalFilter(ReviewEntity::foodId, filter.foodId)
+
         )
     }
 
