@@ -1,7 +1,6 @@
 package app.foodin.domain.review
 
 import app.foodin.core.annotation.KotlinNoArgConstructor
-import com.fasterxml.jackson.annotation.JsonUnwrapped
 import java.io.Serializable
 
 /***
@@ -12,14 +11,12 @@ data class ReviewCreateReq(
     val foodId: Long,
     val writeUserId: Long,
 
-    @field:JsonUnwrapped
     var reviewReq: ReviewReq
 ) : Serializable
 
 @KotlinNoArgConstructor
 data class ReviewUpdateReq(
 
-    @field:JsonUnwrapped
     var reviewReq: ReviewReq
 ) : Serializable
 
