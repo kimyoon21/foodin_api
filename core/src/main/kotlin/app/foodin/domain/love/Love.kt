@@ -1,4 +1,4 @@
-package app.foodin.domain.foodLove
+package app.foodin.domain.love
 
 import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.food.Food

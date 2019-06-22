@@ -2,11 +2,10 @@ package app.foodin.core.service
 
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
-import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.gateway.LoveGateway
-import app.foodin.domain.foodLove.Love
-import app.foodin.domain.foodLove.LoveFilter
-import app.foodin.domain.foodLove.LoveReq
+import app.foodin.domain.love.Love
+import app.foodin.domain.love.LoveFilter
+import app.foodin.domain.love.LoveReq
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,7 +21,6 @@ class LoveService(override val gateway: LoveGateway) : BaseService<Love,
         if (loveReq.foodId == null && loveReq.recipeId == null && loveReq.reviewId == null) {
             throw CommonException(EX_NEED, "word.targetId")
         }
-        loveReq.userId = getAuthenticatedUserInfo().id
 
         val loveFilter = LoveFilter(loveReq)
         val page = findAll(loveFilter, Pageable.unpaged())
