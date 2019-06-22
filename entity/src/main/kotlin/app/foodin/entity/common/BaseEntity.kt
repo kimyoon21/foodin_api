@@ -14,11 +14,17 @@ abstract class BaseEntity<D : BaseDomain> {
 
     @field:CreationTimestamp
     @Column(nullable = false, updatable = false)
-    lateinit var createdTime: Timestamp
+    var createdTime: Timestamp? = null
 
     @field:UpdateTimestamp
     @Column(nullable = false)
-    lateinit var updatedTime: Timestamp
+    var updatedTime: Timestamp? = null
 
     abstract fun toDomain(): D
+
+    fun setBaseFields(baseDomain:D){
+        this.id = baseDomain.id
+        this.createdTime = baseDomain.createdTime
+        this.updatedTime = baseDomain.updatedTime
+    }
 }

@@ -10,7 +10,7 @@ open class StatusDomain(
     var status: Status = Status.APPROVED
 ) : BaseDomain(id), Serializable {
 
-    fun setDefaultValues(id: Long, createdTime: Timestamp, updatedTime: Timestamp, status: Status) {
+    fun setDefaultValues(id: Long, createdTime: Timestamp?, updatedTime: Timestamp?, status: Status) {
         setDefaultValues(id, createdTime, updatedTime)
         this.status = status
     }

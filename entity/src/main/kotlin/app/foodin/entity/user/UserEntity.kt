@@ -87,6 +87,7 @@ data class UserEntity(
     var accountLocked: Boolean = false
 
     constructor(user: User) : this(user.email, user.realName, user.snsType) {
+        setBaseFields(user)
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
