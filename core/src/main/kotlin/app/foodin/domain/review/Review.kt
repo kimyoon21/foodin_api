@@ -1,6 +1,7 @@
 package app.foodin.domain.review
 
 import app.foodin.common.enums.Status
+import app.foodin.domain.comment.Commentable
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodInfoDTO
@@ -13,7 +14,7 @@ import org.modelmapper.ModelMapper
 data class Review(
     override var id: Long = 0,
     var foodId: Long
-) : StatusDomain(id), UserWritable {
+) : StatusDomain(id), UserWritable , Commentable {
     @JsonIgnore
     override var writeUser: User? = null
 
