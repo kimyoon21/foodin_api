@@ -24,7 +24,6 @@ class ImageUploadService(
     fun uploadImages(type: EntityType, uploadImages: List<MultipartFile?>): List<ImageInfo?> {
         val imageInfoList = ArrayList<ImageInfo?>(uploadImages.size)
         val asyncResultList = ArrayList<Future<ImageInfo>>()
-        var success = true
         logger.info(" ########## upload images 전체 시작! ###########")
         val startTime = System.currentTimeMillis()
         var cnt = 0

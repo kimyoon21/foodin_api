@@ -155,7 +155,7 @@ data class UserEntity(
     }
 
     fun mergeFromUpdateReq(req: UserUpdateReq) {
-        req?.let {
+        req.let {
             this.realName = it.realName ?: this.realName
             this.nickName = it.nickName
             if (it.loginPw != null && it.loginPw.equals(it.loginPwCheck)) {

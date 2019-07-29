@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper
 data class Review(
     override var id: Long = 0,
     var foodId: Long
-) : StatusDomain(id), UserWritable , Commentable {
+) : StatusDomain(id), UserWritable, Commentable {
     @JsonIgnore
     override var writeUser: User? = null
 

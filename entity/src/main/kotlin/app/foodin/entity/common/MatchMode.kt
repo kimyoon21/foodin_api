@@ -1,6 +1,6 @@
 package app.foodin.entity.common
 
-enum class MathMode {
+enum class MatchMode {
     ANYWHERE,
     PRE,
     POST

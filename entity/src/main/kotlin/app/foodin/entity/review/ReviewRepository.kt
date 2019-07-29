@@ -7,6 +7,9 @@ import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
@@ -14,11 +17,17 @@ import org.springframework.stereotype.Repository
 interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
     fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): ReviewEntity?
     fun findAllByWriteUserId(userId: Long): List<ReviewEntity>
+    @Modifying
+    @Query("UPDATE ReviewEntity set commentCount = commentCount + 1 where id = :id")
+    fun addCommentCount(@Param("id") id: Long)
 }
 
 @Component
 class JpaReviewRepository(private val repository: ReviewRepository) :
         BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
+    override fun addCommentCount(id: Long) {
+        repository.addCommentCount(id)
+    }
 
     override fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review? {
         return repository.findByWriteUserIdAndFoodId(writeUserId, foodId)?.toDomain()

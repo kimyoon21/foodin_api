@@ -6,13 +6,13 @@ import app.foodin.domain.comment.CommentReq
 import app.foodin.domain.user.User
 
 data class ReviewComment(
-        override var id: Long = 0,
-        var reviewId: Long
-) : BaseComment<Review>(id,reviewId) {
+    override var id: Long = 0,
+    var reviewId: Long
+) : BaseComment<Review>(id, reviewId) {
 
     var review: Review? = null
 
-    var reviewWriterId: Long? = null
+    var reviewWriteUserId: Long? = null
 
     constructor(review: Review, writer: User, commentReq: CommentReq) :
             this(reviewId = review.id) {
@@ -20,8 +20,7 @@ data class ReviewComment(
         this.writeUserId = writer.id
         this.writeUser = writer
         this.review = review
-        this.reviewWriterId = review.writeUserId
+        this.reviewWriteUserId = review.writeUserId
         this.status = Status.APPROVED
     }
-
 }

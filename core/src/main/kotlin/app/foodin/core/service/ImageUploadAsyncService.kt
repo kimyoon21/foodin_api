@@ -112,7 +112,7 @@ class ImageUploadAsyncService {
         s3Client.deleteObject(DeleteObjectRequest(bucketName, filePath))
         logger.info("delete completed. $bucketName/$filePath")
 //        TODO()
-        var targetUrl: String? = null
+//        var targetUrl: String? = null
         // size별 이미지 삭제.
 //        for (postFix in IMG_TYPE_POST_FIXS) {
 //            targetUrl = uri.replace(".", postFix + ".")

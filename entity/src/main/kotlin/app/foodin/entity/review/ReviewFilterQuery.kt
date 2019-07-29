@@ -27,8 +27,8 @@ class ReviewFilterQuery(
 
     companion object {
 
-        fun hasContentsLike(contents: String?): Specification<ReviewEntity>? = likeFilter(ReviewEntity::contents, contents, MathMode.ANYWHERE)
+        fun hasContentsLike(contents: String?): Specification<ReviewEntity>? = likeFilter(ReviewEntity::contents, contents, MatchMode.ANYWHERE)
 
-        fun hasTagLike(tag: String?): Specification<ReviewEntity>? = likeFilter(ReviewEntity::tags, tag, MathMode.ANYWHERE)
+        fun hasTagLike(tag: String?): Specification<ReviewEntity>? = likeFilter(ReviewEntity::tags, tag, MatchMode.ANYWHERE)
     }
 }

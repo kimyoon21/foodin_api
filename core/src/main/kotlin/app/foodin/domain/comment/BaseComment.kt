@@ -50,6 +50,5 @@ open class BaseComment<P : Commentable>(
             it.status = Status.APPROVED
         }
         return entity
-
     }
 }

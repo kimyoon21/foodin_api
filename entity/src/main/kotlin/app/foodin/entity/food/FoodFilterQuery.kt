@@ -36,8 +36,8 @@ class FoodFilterQuery(
             FoodEntity::sellerNames.like("%$sellerName%")
         }
 
-        fun hasNameLike(name: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::name, name, MathMode.ANYWHERE)
+        fun hasNameLike(name: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::name, name, MatchMode.ANYWHERE)
 
-        fun hasTagLike(tag: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::tags, tag, MathMode.ANYWHERE)
+        fun hasTagLike(tag: String?): Specification<FoodEntity>? = likeFilter(FoodEntity::tags, tag, MatchMode.ANYWHERE)
     }
 }

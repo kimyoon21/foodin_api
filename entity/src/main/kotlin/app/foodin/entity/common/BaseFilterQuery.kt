@@ -21,11 +21,11 @@ fun <E, R> equalFilter(property: KProperty1<E, R>, value: R?): Specification<E>?
     property.equal(it)
 }
 
-fun <E> likeFilter(property: KProperty1<E, String?>, value: String?, mathMode: MathMode): Specification<E>? = value.hasValueLet {
-    when (mathMode) {
-        MathMode.ANYWHERE -> property.like("%$value%")
-        MathMode.PRE -> property.like("$value%")
-        MathMode.POST -> property.like("%$value")
+fun <E> likeFilter(property: KProperty1<E, String?>, value: String?, matchMode: MatchMode): Specification<E>? = value.hasValueLet {
+    when (matchMode) {
+        MatchMode.ANYWHERE -> property.like("%$value%")
+        MatchMode.PRE -> property.like("$value%")
+        MatchMode.POST -> property.like("%$value")
     }
 }
 

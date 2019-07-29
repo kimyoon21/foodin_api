@@ -15,7 +15,7 @@ interface FoodRegRequestRepository : BaseRepositoryInterface<FoodRegRequestEntit
 class JpaFoodRegRequestRepository(private val repository: FoodRegRequestRepository) :
         BaseRepository<FoodRegRequest, FoodRegRequestEntity, FoodRegRequestFilter>(repository),
         FoodRegRequestGateway {
-    override fun saveFrom(foodRegRequest: FoodRegRequest): FoodRegRequest {
+    override fun saveFrom(t: FoodRegRequest): FoodRegRequest {
                 TODO("not implemented")
     }
 }

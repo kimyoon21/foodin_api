@@ -80,8 +80,8 @@ class CustomUserDetailsService(
         return userGateway.saveFrom(userCreateReq.toUser())
     }
 
-    override fun update(userId: Long, req: UserUpdateReq): User {
-        return userGateway.updateFrom(userId, req)
+    override fun update(userId: Long, userUpdateReq: UserUpdateReq): User {
+        return userGateway.updateFrom(userId, userUpdateReq)
     }
 
     override fun findByEmail(email: String): User? {

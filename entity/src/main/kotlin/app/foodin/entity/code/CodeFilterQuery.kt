@@ -12,6 +12,6 @@ data class CodeFilterQuery(
     override fun toSpecification(): Specification<CodeEntity> = filter.let { and(
             equalFilter(CodeEntity::code, it.code),
             equalFilter(CodeEntity::codeType, it.code),
-            likeFilter(CodeEntity::codeName, it.codeName, MathMode.ANYWHERE)
+            likeFilter(CodeEntity::codeName, it.codeName, MatchMode.ANYWHERE)
     ) }
 }
