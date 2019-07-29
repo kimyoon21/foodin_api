@@ -14,8 +14,8 @@ import javax.persistence.*
 @AttributeOverride(name = "parentId", column = Column(name = "review_id"))
 @AssociationOverride(name = "parent", joinColumns = [JoinColumn(name = "review_id", insertable = false, updatable = false)])
 data class ReviewCommentEntity(
-        override var parentId: Long,
-        override var writeUserId: Long
+    override var parentId: Long,
+    override var writeUserId: Long
 ) : BaseCommentEntity<ReviewComment, Review, ReviewEntity>(parentId, writeUserId) {
 
     constructor(reviewComment: ReviewComment) : this(reviewComment.reviewId, reviewComment.writeUserId!!) {

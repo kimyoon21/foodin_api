@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @MappedSuperclass
 abstract class BaseCommentEntity<D : StatusDomain, PD : StatusDomain, P : StatusEntity<PD>>(
-        var parentId: Long,
+    var parentId: Long,
     @Column(name = "write_user_id")
     var writeUserId: Long
 ) : StatusEntity<D>() {

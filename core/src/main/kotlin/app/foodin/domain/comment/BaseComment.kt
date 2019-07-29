@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne
 
 open class BaseComment<P : Commentable>(
     override var id: Long = 0,
-    @JsonIgnore
     var parentId: Long
 ) : StatusDomain(id), UserWritable {
 
