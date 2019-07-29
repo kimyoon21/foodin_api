@@ -8,7 +8,7 @@ import java.io.Serializable
  */
 @KotlinNoArgConstructor
 data class CommentCreateReq(
-    val parentId: Long,
+    var parentId: Long,
     val writeUserId: Long,
     var commentReq: CommentReq
 ) : Serializable

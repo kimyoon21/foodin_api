@@ -56,3 +56,12 @@ inline fun <T, R> T?.hasValueLet(block: (T) -> R): R? {
         null
     }
 }
+
+inline fun <T : Long, R> T?.hasIdLet(block: (T) -> R): R? {
+
+    return if (this!! > 0) {
+        block(this)
+    } else {
+        null
+    }
+}
