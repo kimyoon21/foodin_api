@@ -22,9 +22,15 @@ abstract class BaseEntity<D : BaseDomain> {
 
     abstract fun toDomain(): D
 
-    fun setBaseFields(baseDomain: D) {
+    final fun setBaseFieldsFrom(baseDomain: D) {
         this.id = baseDomain.id
         this.createdTime = baseDomain.createdTime
         this.updatedTime = baseDomain.updatedTime
+    }
+
+    final fun setDomainBaseFieldsFromEntity(baseDomain: D) {
+        baseDomain.id = this.id
+        baseDomain.createdTime = this.createdTime
+        baseDomain.updatedTime = this.updatedTime
     }
 }
