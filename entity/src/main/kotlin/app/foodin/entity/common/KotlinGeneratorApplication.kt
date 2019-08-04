@@ -8,6 +8,7 @@ import app.foodin.domain.BaseFilter
 import app.foodin.domain.common.BaseDomain
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
@@ -266,8 +267,11 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .returns(domainClass)
                             .addModifiers(KModifier.OVERRIDE)
                             .addCode("""
-        TODO("not implemented")
-        |""".trimMargin())
+                                |return $domainPascal(id).also {
+            setDomainBaseFieldsFromEntity(it)
+            TODO("not implemented")
+        }
+        """.trimMargin())
                             .build())
 
                     .build())
@@ -322,6 +326,8 @@ fun makeEntityModuleFiles(domainCamel: String) {
      */
     val baseRepositoryInterface = BaseRepositoryInterface::class.asClassName()
     val baseRepositoryClass = BaseRepository::class.asClassName()
+    val pageClass = Page::class.asClassName()
+    val filterQueryClass = ClassName("app.foodin.entity.$domainCamel", "${domainPascal}FilterQuery")
 
     val repositoryFile = FileSpec.builder("app.foodin.entity.$domainCamel", "${domainPascal}Repository")
             .addType(TypeSpec.interfaceBuilder("${domainPascal}Repository")
@@ -343,13 +349,24 @@ fun makeEntityModuleFiles(domainCamel: String) {
                     .superclass(baseRepositoryClass.parameterizedBy(domainClass, entityClass, filterClass))
                     .addSuperclassConstructorParameter("repository")
                     .addSuperinterface(gatewayClass)
+                    .addFunction(FunSpec.builder("findAllByFilter")
+                            .returns(pageClass.parameterizedBy(domainClass))
+                            .addParameter("pageable", Pageable::class)
+                            .addParameter("filter", filterClass)
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addStatement("""
+        return findAll(%T(filter), pageable)
+        |""".trimMargin(),filterQueryClass)
+                    .build())
+
+
                     .addFunction(FunSpec.builder("saveFrom")
                             .returns(domainClass)
                             .addParameter("$domainCamel", domainClass)
                             .addModifiers(KModifier.OVERRIDE)
-                            .addCode("""
-        TODO("not implemented")
-        |""".trimMargin())
+                            .addStatement("""
+        return repository.saveAndFlush(%T(t)).toDomain()
+        |""".trimMargin(),entityClass)
                             .build())
                     .build())
 
