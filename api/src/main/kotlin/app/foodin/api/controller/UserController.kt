@@ -22,6 +22,11 @@ import java.security.Principal
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
+
+/***
+ * 유저 로그인, 가입, 수정 등의 작업
+ * 로그아웃은 로컬에서 그냥 jwt 토큰을 날려버리도록
+ */
 @RestController
 @RequestMapping("/user")
 @Loggable(result = true, param = true)
