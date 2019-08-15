@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class TagService(override val gateway: TagGateway) : BaseService<Tag, TagFilter>() {
 
     fun saveFrom(tagList: List<Tag>): List<Tag> {
-        val createTagList : MutableList<Tag> = mutableListOf()
+        val createTagList: MutableList<Tag> = mutableListOf()
         for (tag in tagList) {
             createTagList.add(gateway.saveFrom(tag))
         }

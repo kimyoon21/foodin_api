@@ -356,9 +356,8 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .addModifiers(KModifier.OVERRIDE)
                             .addStatement("""
         return findAll(%T(filter), pageable)
-        |""".trimMargin(),filterQueryClass)
+        |""".trimMargin(), filterQueryClass)
                     .build())
-
 
                     .addFunction(FunSpec.builder("saveFrom")
                             .returns(domainClass)
@@ -366,7 +365,7 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .addModifiers(KModifier.OVERRIDE)
                             .addStatement("""
         return repository.saveAndFlush(%T(t)).toDomain()
-        |""".trimMargin(),entityClass)
+        |""".trimMargin(), entityClass)
                             .build())
                     .build())
 

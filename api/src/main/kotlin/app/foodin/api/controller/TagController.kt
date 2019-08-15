@@ -21,7 +21,7 @@ class TagController(val tagService: TagService) {
     }
 
     @PostMapping(consumes = ["application/json"])
-    fun registerList(@RequestBody tagListReq:TagListReq): ResponseResult {
+    fun registerList(@RequestBody tagListReq: TagListReq): ResponseResult {
                 return ResponseResult(tagService.saveFrom(tagListReq.tagList))
     }
     data class TagListReq(val tagList: List<Tag>)
