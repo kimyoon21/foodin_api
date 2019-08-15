@@ -54,7 +54,7 @@ data class LoveEntity(
                 reviewId = this.reviewId,
                 recipeId = this.recipeId,
                 userId = this.userId).also {
-            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
+            setDomainBaseFieldsFromEntity(it)
             it.food = this.food?.toDomain()
             it.review = this.review?.toDomain()
             it.recipe = this.recipe?.toDomain()

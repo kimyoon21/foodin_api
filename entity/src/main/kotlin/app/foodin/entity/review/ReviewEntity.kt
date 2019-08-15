@@ -46,7 +46,7 @@ data class ReviewEntity(
     lateinit var writeUserEntity: UserEntity
 
     constructor(review: Review) : this(review.foodId) {
-        setBaseFields(review)
+        setBaseFieldsFrom(review)
         price = review.price
         contents = review.contents
         tags = review.tagList.listToTags()
@@ -62,7 +62,7 @@ data class ReviewEntity(
 
     override fun toDomain(): Review {
         return Review(foodId = this.foodId).also {
-            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
+            setDomainBaseFieldsFromEntity(it)
             it.food = this.food?.toDto()
             it.price = this.price
             it.contents = this.contents
