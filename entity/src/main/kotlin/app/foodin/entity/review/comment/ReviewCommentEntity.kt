@@ -19,7 +19,7 @@ data class ReviewCommentEntity(
 ) : BaseCommentEntity<ReviewComment, Review, ReviewEntity>(parentId, writeUserId) {
 
     constructor(reviewComment: ReviewComment) : this(reviewComment.reviewId, reviewComment.writeUserId!!) {
-        setBaseFields(reviewComment)
+        setBaseFieldsFromDomain(reviewComment)
         writeUserEntity = UserEntity(reviewComment.writeUser!!)
         contents = reviewComment.contents
         imageUris = reviewComment.imageUriList.listToCsv()
@@ -28,7 +28,7 @@ data class ReviewCommentEntity(
 
     override fun toDomain(): ReviewComment {
         return ReviewComment(this.id, parentId).also {
-            it.setDefaultValues(this.id, this.createdTime, this.updatedTime)
+            setDomainBaseFieldsFromEntity(it)
             it.contents = this.contents
             it.imageUriList = this.imageUris.csvToList()
             it.writeUser = this.writeUserEntity.toDomain()

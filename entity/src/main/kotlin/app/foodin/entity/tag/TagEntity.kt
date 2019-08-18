@@ -14,7 +14,7 @@ data class TagEntity(val name: String) : BaseEntity<Tag>() {
     var useCount = 0
 
     constructor(tag: Tag) : this(tag.name) {
-        setBaseFieldsFrom(tag)
+        setBaseFieldsFromDomain(tag)
         this.useCount = tag.useCount
     }
 

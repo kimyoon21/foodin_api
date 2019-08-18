@@ -87,7 +87,7 @@ data class UserEntity(
     var accountLocked: Boolean = false
 
     constructor(user: User) : this(user.email, user.realName, user.snsType) {
-        setBaseFieldsFrom(user)
+        setBaseFieldsFromDomain(user)
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
@@ -118,9 +118,7 @@ data class UserEntity(
 
     override fun toDomain(): User {
         return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
-            it.id = this.id
-            it.createdTime = this.createdTime
-            it.updatedTime = this.updatedTime
+            setDomainBaseFieldsFromEntity(it)
             it.snsUserId = this.snsUserId
             it.loginPw = this.loginPw
             it.birthFullDay = this.birth?.birthFullDay

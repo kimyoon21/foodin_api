@@ -17,4 +17,5 @@ open class BaseDomain(
         this.createdTime = createdTime
         this.updatedTime = updatedTime
     }
+
 }

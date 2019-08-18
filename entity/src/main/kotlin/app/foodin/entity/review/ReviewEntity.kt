@@ -46,7 +46,7 @@ data class ReviewEntity(
     lateinit var writeUserEntity: UserEntity
 
     constructor(review: Review) : this(review.foodId) {
-        setBaseFieldsFrom(review)
+        setBaseFieldsFromDomain(review)
         price = review.price
         contents = review.contents
         tags = review.tagList.listToTags()
