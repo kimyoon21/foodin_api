@@ -6,7 +6,7 @@ import app.foodin.common.extension.listToCsv
 import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodInfoDTO
+import app.foodin.domain.food.FoodInfoDto
 import app.foodin.entity.common.BaseEntity
 import org.modelmapper.ModelMapper
 import javax.persistence.Entity
@@ -96,7 +96,7 @@ data class FoodEntity(
         }
     }
 
-    fun toDto(): FoodInfoDTO {
-        return ModelMapper().map(this, FoodInfoDTO::class.java)
+    fun toDto(): FoodInfoDto {
+        return ModelMapper().map(this, FoodInfoDto::class.java)
     }
 }

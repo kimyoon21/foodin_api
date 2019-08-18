@@ -52,7 +52,7 @@ data class Food(
     var hasReview = false
     var hasRecipe = false
 
-    fun toDto(): FoodInfoDTO {
-        return ModelMapper().map(this, FoodInfoDTO::class.java)
+    fun toDto(): FoodInfoDto {
+        return ModelMapper().map(this, FoodInfoDto::class.java)
     }
 }

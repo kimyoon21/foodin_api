@@ -2,7 +2,7 @@ package app.foodin.domain.user
 
 import app.foodin.domain.badge.Badge
 
-data class UserInfoDTO(
+data class UserInfoDto(
     val id: Long,
     val username: String,
     val nickName: String?,

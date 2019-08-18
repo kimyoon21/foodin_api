@@ -3,7 +3,7 @@ package app.foodin.domain.user
 import app.foodin.common.enums.SnsType
 import java.sql.Timestamp
 
-class UserLoginResultDTO(
+class UserLoginResultDto(
     val id: Long,
     val email: String,
     val realName: String,

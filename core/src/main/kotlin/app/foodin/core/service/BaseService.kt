@@ -1,5 +1,7 @@
 package app.foodin.core.service
 
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.common.exception.NotExistsException
 import app.foodin.core.gateway.BaseGateway
 import app.foodin.domain.BaseFilter
@@ -25,5 +27,11 @@ abstract class BaseService<T : BaseDomain, F : BaseFilter> {
 
     fun deleteById(id: Long): Boolean {
         return gateway.deleteById(id)
+    }
+
+    fun update(id: Long, req: Any): T {
+        val domian = gateway.findById(id) ?: throw CommonException(EX_NOT_EXISTS, "word.entity")
+        domian.setFromRequest(req)
+        return saveFrom(domian)
     }
 }

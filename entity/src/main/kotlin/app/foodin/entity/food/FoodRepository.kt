@@ -3,7 +3,7 @@ package app.foodin.entity.food
 import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.food.FoodInfoDTO
+import app.foodin.domain.food.FoodInfoDto
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
@@ -54,7 +54,7 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) :
         foodRepository.addReviewCount(id)
     }
 
-    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDTO>? {
+    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
         return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 

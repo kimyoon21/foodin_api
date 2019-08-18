@@ -3,7 +3,7 @@ package app.foodin.domain.comment
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.user.User
-import app.foodin.domain.user.UserInfoDTO
+import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritable
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.modelmapper.ModelMapper
@@ -24,7 +24,7 @@ open class BaseComment<P : Commentable>(
 
     override var writeUserId: Long? = null
 
-    fun getWriteUserInfo() = writeUser?.let { UserInfoDTO(it) }
+    fun getWriteUserInfo() = writeUser?.let { UserInfoDto(it) }
 
     var contents: String? = null
 

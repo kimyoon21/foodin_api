@@ -8,7 +8,7 @@ import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.common.EntityType
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.food.FoodInfoDTO
+import app.foodin.domain.food.FoodInfoDto
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -36,7 +36,7 @@ class FoodService(
         }
     }
 
-    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDTO>? {
+    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
         return gateway.findNameAll(filter = filter, pageable = pageable)
     }
 

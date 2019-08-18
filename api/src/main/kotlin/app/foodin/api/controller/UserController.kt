@@ -118,11 +118,11 @@ class UserController(
 
     @PostMapping(value = ["/login/email"])
     fun emailLogin(
-        @RequestBody @Valid emailLoginDTO: EmailLoginDTO,
-        errors: Errors
+            @RequestBody @Valid emailLoginDto: EmailLoginDto,
+            errors: Errors
     ): ResponseResult {
 
-        return ResponseResult(userService.emailLogin(emailLoginDTO))
+        return ResponseResult(userService.emailLogin(emailLoginDto))
     }
 
     /***
@@ -134,24 +134,24 @@ class UserController(
      */
     @PostMapping(value = ["/login/sns"])
     fun checkUserInfoByAccessToken(
-        @RequestBody snsTokenDTO: SnsTokenDTO,
-        errors: Errors
+            @RequestBody snsTokenDto: SnsTokenDto,
+            errors: Errors
     ): ResponseResult {
         // TODO 필드가 null 이거나 맞지 않는 타입일 때 아무런 메시지 없이 400 에러 발생함.
         if (errors.hasErrors()) {
             throw FieldErrorException(errors)
         }
         // 해당 auth server 에 info 체크
-        if (!userService.checkValidUserInfo(snsTokenDTO)) {
+        if (!userService.checkValidUserInfo(snsTokenDto)) {
             throw CommonException("인증정보가 일치하지 않습니다.")
         }
 
         // 가입되어 있는지 체크
-        val user = userService.findBySnsTypeAndSnsUserId(snsTokenDTO.snsType, snsTokenDTO.snsUserId)
+        val user = userService.findBySnsTypeAndSnsUserId(snsTokenDto.snsType, snsTokenDto.snsUserId)
                 ?: return ResponseResult("go_to_register")
 
         // 로그인 처리
-        return ResponseResult(userService.snsLogin(snsTokenDTO, user))
+        return ResponseResult(userService.snsLogin(snsTokenDto, user))
     }
 
     /**

@@ -10,7 +10,7 @@ import app.foodin.core.service.ReviewService
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewCreateReq
 import app.foodin.domain.review.ReviewFilter
-import app.foodin.domain.review.ReviewReq
+import app.foodin.domain.review.ReviewUpdateReq
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -37,8 +37,8 @@ class ReviewController(
     }
 
     @PutMapping(value = ["/{id}"])
-    fun update(@PathVariable id: Long, @RequestBody reviewReq: ReviewReq): ResponseTypeResult<Review> {
-        return ResponseTypeResult(reviewService.update(id, reviewReq))
+    fun update(@PathVariable id: Long, @RequestBody reviewUpdateReq: ReviewUpdateReq): ResponseTypeResult<Review> {
+        return ResponseTypeResult(reviewService.update(id, reviewUpdateReq))
     }
 
     @PostMapping(consumes = ["application/json"])

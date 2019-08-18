@@ -3,7 +3,7 @@ package app.foodin.domain.food
 import app.foodin.core.annotation.KotlinNoArgConstructor
 
 @KotlinNoArgConstructor
-data class FoodInfoDTO(
+data class FoodInfoDto(
     var id: Long,
     var name: String,
     var mainImageUri: String?,

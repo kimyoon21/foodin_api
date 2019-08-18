@@ -33,11 +33,11 @@ interface UserService {
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
     fun saveFrom(userCreateReq: UserCreateReq): User
     fun update(userId: Long, userUpdateReq: UserUpdateReq): User
-    fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO
+    fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDto
     fun findAll(): List<User>
-    fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO
-    fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO
-    fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean
+    fun emailLogin(emailLoginDto: EmailLoginDto): UserLoginResultDto
+    fun snsLogin(snsTokenDto: SnsTokenDto, user: User): UserLoginResultDto
+    fun checkValidUserInfo(snsTokenDto: SnsTokenDto): Boolean
     fun findById(id: Long): User
 }
 
@@ -64,12 +64,12 @@ class CustomUserDetailsService(
                 ?: throw UsernameNotFoundException("User not found")
     }
 
-    override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDTO {
+    override fun loggedIn(user: User, token: String, refreshToken: String, expiration: Date): UserLoginResultDto {
 
         val expireTime = Timestamp(expiration.time)
         sessionLogGateway.saveFrom(SessionLog(userId = user.id, token = token, expireTime = expireTime))
 
-        return UserLoginResultDTO(user, token, refreshToken, expireTime)
+        return UserLoginResultDto(user, token, refreshToken, expireTime)
     }
 
     override fun findById(id: Long): User {
@@ -92,14 +92,14 @@ class CustomUserDetailsService(
         return userGateway.findBySnsTypeAndSnsUserId(snsType, uid)
     }
 
-    override fun emailLogin(emailLoginDTO: EmailLoginDTO): UserLoginResultDTO {
+    override fun emailLogin(emailLoginDto: EmailLoginDto): UserLoginResultDto {
         val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
         val tokenUri = registration.providerDetails.tokenUri
 
         val restTemplate = RestTemplate()
         val headers = createBasicAuthHeaders("foo", "bar")
         headers.contentType = MediaType.APPLICATION_JSON
-        val requestUriParam = "?grant_type=password&client_id=foo&scope=read&username=EMAIL::${emailLoginDTO.email}&password=${emailLoginDTO.loginPw}"
+        val requestUriParam = "?grant_type=password&client_id=foo&scope=read&username=EMAIL::${emailLoginDto.email}&password=${emailLoginDto.loginPw}"
 
         val entity = HttpEntity(null, headers)
         try {
@@ -112,7 +112,7 @@ class CustomUserDetailsService(
 
             response.body?.let {
                 // user 정보 가져오기
-                val user = findByEmail(emailLoginDTO.email) ?: throw CommonException("잘못된 이메일")
+                val user = findByEmail(emailLoginDto.email) ?: throw CommonException("잘못된 이메일")
 
                 // 로그인 처리
                 return loggedIn(user, it.value, it.refreshToken.value, it.expiration)
@@ -122,7 +122,7 @@ class CustomUserDetailsService(
         }
     }
 
-    override fun snsLogin(snsTokenDTO: SnsTokenDTO, user: User): UserLoginResultDTO {
+    override fun snsLogin(snsTokenDto: SnsTokenDto, user: User): UserLoginResultDto {
         // 로그인 처리
         val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
         val tokenUri = registration.providerDetails.tokenUri
@@ -131,7 +131,7 @@ class CustomUserDetailsService(
         val headers = createBasicAuthHeaders("foo", "bar")
         headers.contentType = MediaType.APPLICATION_JSON
         val requestUriParam = "?grant_type=password&client_id=foo&scope=read" +
-                "&username=${snsTokenDTO.snsType}::${snsTokenDTO.snsUserId}&password=${snsTokenDTO.snsUserId}"
+                "&username=${snsTokenDto.snsType}::${snsTokenDto.snsUserId}&password=${snsTokenDto.snsUserId}"
 
         val entity = HttpEntity(null, headers)
         try {
@@ -152,15 +152,15 @@ class CustomUserDetailsService(
         }
     }
 
-    private fun getSnsUserInfo(snsTokenDTO: SnsTokenDTO): ResponseResult {
+    private fun getSnsUserInfo(snsTokenDto: SnsTokenDto): ResponseResult {
 
-        val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDTO.snsType.toString().toLowerCase())
+        val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDto.snsType.toString().toLowerCase())
         val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
 
         val restTemplate = RestTemplate()
 
         val headers = HttpHeaders()
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer ${snsTokenDTO.accessToken}")
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer ${snsTokenDto.accessToken}")
 
         try {
             val entity = HttpEntity(null, headers)
@@ -180,12 +180,12 @@ class CustomUserDetailsService(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun checkValidUserInfo(snsTokenDTO: SnsTokenDTO): Boolean {
-        val resultMap = getSnsUserInfo(snsTokenDTO).data as Map<String, Any>
-        return when (snsTokenDTO.snsType) {
+    override fun checkValidUserInfo(snsTokenDto: SnsTokenDto): Boolean {
+        val resultMap = getSnsUserInfo(snsTokenDto).data as Map<String, Any>
+        return when (snsTokenDto.snsType) {
             SnsType.KAKAO -> {
                 val kakaoUserId = resultMap["id"] ?: throw CommonException("INVALID_KAKAO_RESULT")
-                snsTokenDTO.snsUserId == kakaoUserId.toString()
+                snsTokenDto.snsUserId == kakaoUserId.toString()
             }
 //            SnsType.NAVER ->{}
 //            SnsType.FACEBOOK ->{}
