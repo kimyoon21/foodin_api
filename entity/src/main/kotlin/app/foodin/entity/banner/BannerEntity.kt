@@ -7,7 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "banner")
+@Table(name = "banners")
 data class BannerEntity(
     var imageUri: String,
     var bannerType: BannerType

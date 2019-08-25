@@ -7,7 +7,7 @@ import javax.persistence.Table
 import javax.persistence.UniqueConstraint
 
 @Entity
-@Table(name = "tag", uniqueConstraints = [UniqueConstraint(columnNames = ["name"])])
+@Table(name = "tags", uniqueConstraints = [UniqueConstraint(columnNames = ["name"])])
 
 data class TagEntity(val name: String) : BaseEntity<Tag>() {
 

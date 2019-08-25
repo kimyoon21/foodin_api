@@ -6,7 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "seller")
+@Table(name = "sellers")
 data class SellerEntity(
     var name: String
 ) : BaseEntity<Seller>() {

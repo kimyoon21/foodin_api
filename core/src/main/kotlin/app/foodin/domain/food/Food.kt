@@ -47,6 +47,8 @@ data class Food(
 
     var status: Status? = null
 
+    var foundUserList : List<User> = listOf()
+
     // for my
     var hasLoved = false
     var hasReview = false

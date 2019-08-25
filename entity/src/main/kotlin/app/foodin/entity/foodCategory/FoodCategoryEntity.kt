@@ -9,7 +9,7 @@ import javax.persistence.ManyToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "food_category")
+@Table(name = "food_categories")
 data class FoodCategoryEntity(
     var groupName: String,
     var filterName: String,

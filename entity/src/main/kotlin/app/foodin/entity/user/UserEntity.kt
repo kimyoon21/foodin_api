@@ -18,7 +18,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 data class UserEntity(
     var email: String,
     var realName: String,
@@ -63,7 +63,7 @@ data class UserEntity(
     var mainBadgeId: Long? = null
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    @JoinTable(name = "user_food_category",
+    @JoinTable(name = "user_food_categories",
             joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "food_category_id", referencedColumnName = "id")])
     @Fetch(FetchMode.SELECT)

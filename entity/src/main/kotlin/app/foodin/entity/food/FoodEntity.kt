@@ -8,12 +8,15 @@ import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodInfoDto
 import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.user.UserEntity
 import org.modelmapper.ModelMapper
 import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "food")
+@Table(name = "foods")
 data class FoodEntity(
     var name: String,
     var categoryId: Long
@@ -49,7 +52,9 @@ data class FoodEntity(
 
     var ratingAvg: Float? = null
 
-    var writeUserId: Long? = null
+    @ManyToOne
+    @JoinColumn(name = "write_user_id")
+    var writeUser: UserEntity? = null
 
     var status: Status? = null
 
@@ -70,7 +75,7 @@ data class FoodEntity(
         reviewCount = food.reviewCount
         recipeCount = food.recipeCount
         ratingAvg = food.ratingAvg
-        writeUserId = food.writeUserId
+        writeUser = food.writeUser?.let { UserEntity(it) }
         status = food.status
     }
 
@@ -91,7 +96,7 @@ data class FoodEntity(
             it.reviewCount = this.reviewCount
             it.recipeCount = this.recipeCount
             it.ratingAvg = this.ratingAvg
-            it.writeUserId = this.writeUserId
+            it.writeUser = this.writeUser?.toDomain()
             it.status = this.status
         }
     }

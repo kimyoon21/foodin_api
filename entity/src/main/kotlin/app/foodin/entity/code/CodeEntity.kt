@@ -6,7 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "code")
+@Table(name = "codes")
 data class CodeEntity(
     var code: String,
     var codeName: String,

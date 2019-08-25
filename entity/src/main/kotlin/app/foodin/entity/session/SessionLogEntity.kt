@@ -6,7 +6,7 @@ import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
-@Table(name = "session_log")
+@Table(name = "session_logs")
 data class SessionLogEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

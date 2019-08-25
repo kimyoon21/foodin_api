@@ -12,7 +12,7 @@ import org.hibernate.annotations.Where
 import javax.persistence.*
 
 @Entity
-@Table(name = "review")
+@Table(name = "reviews")
 data class ReviewEntity(
         // TODO 푸드를 엔티티로 연결하고, 리뷰에도 푸드카테고리 필터 가능하게
     @Column(name = "food_id")

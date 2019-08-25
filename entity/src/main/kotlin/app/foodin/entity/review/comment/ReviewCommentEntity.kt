@@ -10,7 +10,7 @@ import app.foodin.entity.user.UserEntity
 import javax.persistence.*
 
 @Entity
-@Table(name = "review_comment")
+@Table(name = "review_comments")
 @AttributeOverride(name = "parentId", column = Column(name = "review_id"))
 @AssociationOverride(name = "parent", joinColumns = [JoinColumn(name = "review_id", insertable = false, updatable = false)])
 data class ReviewCommentEntity(

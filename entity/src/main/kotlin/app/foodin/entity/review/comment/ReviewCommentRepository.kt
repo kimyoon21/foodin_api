@@ -3,7 +3,6 @@ package app.foodin.entity.review.comment
 import app.foodin.core.gateway.ReviewCommentGateway
 import app.foodin.domain.comment.CommentFilter
 import app.foodin.domain.review.ReviewComment
-import app.foodin.entity.comment.ReviewCommentFilterQuery
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page

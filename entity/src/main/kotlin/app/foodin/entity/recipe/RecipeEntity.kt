@@ -6,7 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "recipe")
+@Table(name = "recipes")
 data class RecipeEntity(val writeUserId: Long) : StatusEntity<Recipe>() {
 
     constructor(recipe: Recipe) : this(recipe.writeUserId ?: 0) {
