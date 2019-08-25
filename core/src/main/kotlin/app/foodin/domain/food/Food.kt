@@ -3,7 +3,9 @@ package app.foodin.domain.food
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritable
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.modelmapper.ModelMapper
 
 data class Food(
@@ -13,9 +15,17 @@ data class Food(
 
 ) : BaseDomain(id), UserWritable {
 
+    @JsonIgnore
     override var writeUser: User? = null
 
     override var writeUserId: Long? = null
+
+    fun getWriteUserInfo() : UserInfoDto? {
+        return writeUser?.let {
+            UserInfoDto(it)
+        }
+    }
+
 
     var companyId: Long? = null
 
@@ -47,7 +57,7 @@ data class Food(
 
     var status: Status? = null
 
-    var foundUserList : List<User> = listOf()
+    var foundUserList : List<UserInfoDto> = listOf()
 
     // for my
     var hasLoved = false

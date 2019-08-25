@@ -1,14 +1,12 @@
 package app.foodin.core.service
 
 import app.foodin.common.extension.hasValue
-import app.foodin.core.gateway.FoodCategoryGateway
-import app.foodin.core.gateway.FoodGateway
-import app.foodin.core.gateway.LoveGateway
-import app.foodin.core.gateway.ReviewGateway
+import app.foodin.core.gateway.*
 import app.foodin.domain.common.EntityType
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodInfoDto
+import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -16,14 +14,16 @@ import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
 
 @Service
 @Transactional
 class FoodService(
-    override val gateway: FoodGateway,
-    val foodCategoryGateway: FoodCategoryGateway,
-    val loveGateway: LoveGateway,
-    val reviewGateway: ReviewGateway
+        override val gateway: FoodGateway,
+        val foodCategoryGateway: FoodCategoryGateway,
+        val loveGateway: LoveGateway,
+        val reviewGateway: ReviewGateway,
+        val foodFoundUserGateway: FoodFoundUserGateway
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
@@ -58,5 +58,13 @@ class FoodService(
                 food.hasReview = true
             }
         }
+    }
+
+    fun findFoodFoundUsers(foodId: Long): List<UserInfoDto> {
+        return foodFoundUserGateway.findAllByFoodId(foodId).stream() .map { x -> UserInfoDto(x.user) }.distinct().collect(Collectors.toList())
+    }
+
+    fun findUserFoundFoods(userId: Long): List<FoodInfoDto> {
+        return foodFoundUserGateway.findAllByUserId(userId).stream().map{ x -> FoodInfoDto(x.food) }.distinct().collect(Collectors.toList())
     }
 }
