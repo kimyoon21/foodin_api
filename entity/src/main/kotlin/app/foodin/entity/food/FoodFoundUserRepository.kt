@@ -12,11 +12,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface FoodFoundUserRepository : BaseRepositoryInterface<FoodFoundUserEntity> {
-    fun findAllByFoodId(@Param("id") id: Long) : List<FoodFoundUserEntity>
+    fun findAllByFoodId(@Param("id") id: Long): List<FoodFoundUserEntity>
 
-    fun findAllByUserId(@Param("id") id: Long) : List<FoodFoundUserEntity>
-
-
+    fun findAllByUserId(@Param("id") id: Long): List<FoodFoundUserEntity>
 }
 
 @Component

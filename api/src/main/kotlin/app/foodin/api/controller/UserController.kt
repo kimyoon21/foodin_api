@@ -22,7 +22,6 @@ import java.security.Principal
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
-
 /***
  * 유저 로그인, 가입, 수정 등의 작업
  * 로그아웃은 로컬에서 그냥 jwt 토큰을 날려버리도록
@@ -118,8 +117,8 @@ class UserController(
 
     @PostMapping(value = ["/login/email"])
     fun emailLogin(
-            @RequestBody @Valid emailLoginDto: EmailLoginDto,
-            errors: Errors
+        @RequestBody @Valid emailLoginDto: EmailLoginDto,
+        errors: Errors
     ): ResponseResult {
 
         return ResponseResult(userService.emailLogin(emailLoginDto))
@@ -134,8 +133,8 @@ class UserController(
      */
     @PostMapping(value = ["/login/sns"])
     fun checkUserInfoByAccessToken(
-            @RequestBody snsTokenDto: SnsTokenDto,
-            errors: Errors
+        @RequestBody snsTokenDto: SnsTokenDto,
+        errors: Errors
     ): ResponseResult {
         // TODO 필드가 null 이거나 맞지 않는 타입일 때 아무런 메시지 없이 400 에러 발생함.
         if (errors.hasErrors()) {

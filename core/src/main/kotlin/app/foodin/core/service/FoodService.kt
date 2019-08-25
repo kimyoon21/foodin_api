@@ -20,13 +20,13 @@ import java.util.stream.Collectors
 @Service
 @Transactional
 class FoodService(
-        override val gateway: FoodGateway,
-        val foodCategoryGateway: FoodCategoryGateway,
-        val loveGateway: LoveGateway,
-        val reviewGateway: ReviewGateway,
-        val foodFoundUserGateway: FoodFoundUserGateway,
-        val sellerGateway: SellerGateway,
-        val userGateway: UserGateway
+    override val gateway: FoodGateway,
+    val foodCategoryGateway: FoodCategoryGateway,
+    val loveGateway: LoveGateway,
+    val reviewGateway: ReviewGateway,
+    val foodFoundUserGateway: FoodFoundUserGateway,
+    val sellerGateway: SellerGateway,
+    val userGateway: UserGateway
 
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 
@@ -79,7 +79,5 @@ class FoodService(
                 ?: throw CommonException(EX_NOT_EXISTS, "word.seller")
         val user = userGateway.findById(getAuthenticatedUserInfo().id)
         return foodFoundUserGateway.saveFrom(FoodFoundUser(food = food, seller = seller, user = user!!))
-
-
     }
 }

@@ -29,13 +29,13 @@ class SellerController(val sellerService: SellerService) {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = ["/{id}"], consumes = ["application/json"])
-    fun update(@PathVariable id : Long, @RequestBody seller: Seller): ResponseResult {
-        return ResponseResult(sellerService.update(id,seller))
+    fun update(@PathVariable id: Long, @RequestBody seller: Seller): ResponseResult {
+        return ResponseResult(sellerService.update(id, seller))
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = ["/{id}"])
-    fun delete(@PathVariable id : Long): ResponseResult {
+    fun delete(@PathVariable id: Long): ResponseResult {
         return ResponseResult(sellerService.deleteById(id))
     }
 }

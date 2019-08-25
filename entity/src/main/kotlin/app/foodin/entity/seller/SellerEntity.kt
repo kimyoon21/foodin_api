@@ -15,13 +15,13 @@ data class SellerEntity(
 
     var spotCount: Int = 0
 
-    var summary : String? = null
+    var summary: String? = null
 
-    var iconImageUri : String? = null
+    var iconImageUri: String? = null
 
     var profileImageUri: String? = null
 
-    constructor(seller: Seller) : this(seller.name){
+    constructor(seller: Seller) : this(seller.name) {
         setBaseFieldsFromDomain(seller)
         this.foodCount = seller.foodCount
         this.spotCount = seller.spotCount

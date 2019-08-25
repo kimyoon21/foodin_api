@@ -20,12 +20,11 @@ data class Food(
 
     override var writeUserId: Long? = null
 
-    fun getWriteUserInfo() : UserInfoDto? {
+    fun getWriteUserInfo(): UserInfoDto? {
         return writeUser?.let {
             UserInfoDto(it)
         }
     }
-
 
     var companyId: Long? = null
 
@@ -57,7 +56,7 @@ data class Food(
 
     var status: Status? = null
 
-    var foundUserList : List<UserInfoDto> = listOf()
+    var foundUserList: List<UserInfoDto> = listOf()
 
     // for my
     var hasLoved = false

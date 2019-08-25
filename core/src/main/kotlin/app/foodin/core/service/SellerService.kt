@@ -8,7 +8,4 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class SellerService(override val gateway: SellerGateway) : BaseService<Seller, SellerFilter>(){
-
-
-}
+class SellerService(override val gateway: SellerGateway) : BaseService<Seller, SellerFilter>()

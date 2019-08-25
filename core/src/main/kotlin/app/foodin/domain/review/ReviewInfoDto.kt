@@ -4,7 +4,7 @@ import app.foodin.common.enums.Status
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.User
 // TODO 리스트에서 쓰기엔 domain 과 거의 동일, 어디에 쓰일지 확실해지면 다시 적용
-data class ReviewInfoDto (
+data class ReviewInfoDto(
     var id: Long = 0,
 
     val food: Food,

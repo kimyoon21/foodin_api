@@ -53,7 +53,7 @@ data class Review(
     }
 
     override fun setFromRequest(request: Any) {
-        if(request is ReviewReq){
+        if (request is ReviewReq) {
             request.let {
                 this.imageUriList = it.imageUriList
                 this.tagList = it.tagList
@@ -62,7 +62,7 @@ data class Review(
                 this.rating = it.rating
                 this.price = it.price
             }
-        }else{
+        } else {
             throw CommonException(EX_INVALID_REQUEST)
         }
     }

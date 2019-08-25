@@ -65,9 +65,11 @@ class FoodController(
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PostMapping( value = ["/{id}/found"], consumes = ["application/json"])
-    fun found(@RequestBody foodFoundUserReq: FoodFoundUserReq,
-              @PathVariable id : Long): ResponseResult {
+    @PostMapping(value = ["/{id}/found"], consumes = ["application/json"])
+    fun found(
+        @RequestBody foodFoundUserReq: FoodFoundUserReq,
+        @PathVariable id: Long
+    ): ResponseResult {
         foodFoundUserReq.foodId = id
         return ResponseResult(foodService.saveFoundUser(foodFoundUserReq))
     }

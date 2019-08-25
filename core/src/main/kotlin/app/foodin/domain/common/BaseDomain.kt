@@ -18,6 +18,5 @@ abstract class BaseDomain(
         this.updatedTime = updatedTime
     }
 
-    open fun setFromRequest(requestDto: Any){}
-
+    open fun setFromRequest(requestDto: Any) {}
 }
