@@ -1,11 +1,12 @@
 package app.foodin.core.service
 
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.common.extension.hasValue
+import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.gateway.*
 import app.foodin.domain.common.EntityType
-import app.foodin.domain.food.Food
-import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.food.FoodInfoDto
+import app.foodin.domain.food.*
 import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
@@ -23,7 +24,10 @@ class FoodService(
         val foodCategoryGateway: FoodCategoryGateway,
         val loveGateway: LoveGateway,
         val reviewGateway: ReviewGateway,
-        val foodFoundUserGateway: FoodFoundUserGateway
+        val foodFoundUserGateway: FoodFoundUserGateway,
+        val sellerGateway: SellerGateway,
+        val userGateway: UserGateway
+
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
@@ -61,10 +65,21 @@ class FoodService(
     }
 
     fun findFoodFoundUsers(foodId: Long): List<UserInfoDto> {
-        return foodFoundUserGateway.findAllByFoodId(foodId).stream() .map { x -> UserInfoDto(x.user) }.distinct().collect(Collectors.toList())
+        return foodFoundUserGateway.findAllByFoodId(foodId).stream().map { x -> UserInfoDto(x.user) }.distinct().collect(Collectors.toList())
     }
 
     fun findUserFoundFoods(userId: Long): List<FoodInfoDto> {
-        return foodFoundUserGateway.findAllByUserId(userId).stream().map{ x -> FoodInfoDto(x.food) }.distinct().collect(Collectors.toList())
+        return foodFoundUserGateway.findAllByUserId(userId).stream().map { x -> FoodInfoDto(x.food) }.distinct().collect(Collectors.toList())
+    }
+
+    fun saveFoundUser(foodFoundUserReq: FoodFoundUserReq): FoodFoundUser {
+
+        val food = findById(foodFoundUserReq.foodId)
+        val seller = sellerGateway.findById(foodFoundUserReq.sellerId)
+                ?: throw CommonException(EX_NOT_EXISTS, "word.seller")
+        val user = userGateway.findById(getAuthenticatedUserInfo().id)
+        return foodFoundUserGateway.saveFrom(FoodFoundUser(food = food, seller = seller, user = user!!))
+
+
     }
 }

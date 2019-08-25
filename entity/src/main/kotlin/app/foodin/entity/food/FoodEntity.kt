@@ -59,7 +59,7 @@ data class FoodEntity(
     var status: Status? = null
 
     constructor(food: Food) : this(food.name, food.categoryId) {
-
+        setBaseFieldsFromDomain(food)
         companyId = food.companyId
         companyName = food.companyName
         categoryId = food.categoryId

@@ -5,6 +5,7 @@ import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.FoodService
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
+import app.foodin.domain.food.FoodFoundUserReq
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -61,5 +62,13 @@ class FoodController(
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody food: Food): ResponseResult {
         return ResponseResult(foodService.saveFrom(food))
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping( value = ["/{id}/found"], consumes = ["application/json"])
+    fun found(@RequestBody foodFoundUserReq: FoodFoundUserReq,
+              @PathVariable id : Long): ResponseResult {
+        foodFoundUserReq.foodId = id
+        return ResponseResult(foodService.saveFoundUser(foodFoundUserReq))
     }
 }
