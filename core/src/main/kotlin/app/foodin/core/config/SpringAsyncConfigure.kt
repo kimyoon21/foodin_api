@@ -1,6 +1,7 @@
 package app.foodin.core.config
 
 import app.foodin.common.exception.CustomAsyncExceptionHandler
+import app.foodin.common.utils.CustomTaskDecorator
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.AsyncConfigurer
@@ -17,7 +18,8 @@ class SpringAsyncConfig : AsyncConfigurer {
             it.corePoolSize = 5
             it.maxPoolSize = 30
             it.setQueueCapacity(10)
-            it.setThreadNamePrefix("Executor-")
+            it.setThreadNamePrefix("Async-Executor-")
+            it.setTaskDecorator(CustomTaskDecorator())
             it.initialize()
         }
     }
