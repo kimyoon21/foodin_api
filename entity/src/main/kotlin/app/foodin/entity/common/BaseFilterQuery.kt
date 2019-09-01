@@ -1,6 +1,7 @@
 package app.foodin.entity.common
 
 import app.foodin.common.extension.hasValueLet
+import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.domain.common.BaseDomain
 import org.springframework.data.jpa.domain.Specification
 import kotlin.reflect.KProperty1
@@ -16,6 +17,7 @@ interface BaseFilterQuery<D : BaseDomain, E : BaseEntity<D>> {
 
     fun toSpecification(): Specification<E>
 }
+
 
 fun <E, R> equalFilter(property: KProperty1<E, R>, value: R?): Specification<E>? = value.hasValueLet {
     property.equal(it)
@@ -39,4 +41,11 @@ fun <E, R : Any> inListFilter(property: KProperty1<E, R?>, values: Collection<R>
 
 fun <E, R : Any> filterIfHasValue(value: R, specification: Specification<E>): Specification<E>? = value.hasValueLet {
    specification
+}
+
+fun <E>equalUserIdFilterWhenUserPrivateDomain(property: KProperty1<E, Long?>) : Specification<E>? {
+    if (getAuthenticatedUserInfo().hasOnlyUserRole()) {
+        return equalFilter(property, getAuthenticatedUserInfo().id)
+    }
+    return null
 }

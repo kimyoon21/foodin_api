@@ -20,7 +20,8 @@ class ReviewFilterQuery(
                         hasContentsLike(filter.query),
                         hasTagLike(filter.query)
                 ),
-                equalFilter(ReviewEntity::foodId, filter.foodId)
+                equalFilter(ReviewEntity::foodId, filter.foodId),
+                equalFilter(ReviewEntity::writeUserId, filter.writeUserId)
 
         )
     }

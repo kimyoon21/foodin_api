@@ -22,6 +22,10 @@ import javax.persistence.Table
 
 class KotlinGeneratorApplication
 
+/****
+ * https://github.com/square/kotlinpoet
+ * 참고
+ */
 fun main(args: Array<String>) {
 
     var domainName: String = args[0]
@@ -102,7 +106,7 @@ fun makeApiModuleFiles(domainCamel: String) {
         return ResponseResult(${domainCamel}Service.findById(id))
         |""".trimMargin())
                             .build())
-                    .addFunction(FunSpec.builder("register")
+                    .addFunction(FunSpec.builder("create")
                             .addAnnotation(AnnotationSpec.builder(PostMapping::class)
                                     .addMember("consumes = [%S]", "application/json")
                                     .build())
@@ -114,8 +118,24 @@ fun makeApiModuleFiles(domainCamel: String) {
         return ResponseResult(${domainCamel}Service.saveFrom($domainCamel))
         |""".trimMargin())
                             .build())
-
+            .addFunction(FunSpec.builder("delete")
+                    .addAnnotation(AnnotationSpec.builder(DeleteMapping::class)
+                            .addMember("value = [%S]", "/{id}")
+                            .addMember("consumes = [%S]", "application/json")
+                            .build())
+                    .returns(ResponseResult::class)
+                    .addParameter(ParameterSpec.builder("id", Long::class)
+                            .addAnnotation(PathVariable::class)
+                            .build())
+                    .addParameter(ParameterSpec.builder(domainCamel, domainClass)
+                            .addAnnotation(RequestBody::class)
+                            .build())
+                    .addCode("""
+        return ResponseResult(${domainCamel}Service.deleteById(id))
+        |""".trimMargin())
                     .build())
+
+            .build())
 
             .build()
 
@@ -190,11 +210,15 @@ fun makeCoreModuleFiles(domainCamel: String) {
                     .addModifiers(KModifier.DATA)
                     .primaryConstructor(FunSpec.constructorBuilder()
                             .addParameter(ParameterSpec.builder("id", Long::class).defaultValue("0L").build())
+                            .addParameter(ParameterSpec.builder("field1", String::class).build())
                             .build())
                     .addProperty(PropertySpec.builder("id", Long::class)
                             .initializer("id")
                             .mutable()
                             .addModifiers(KModifier.OVERRIDE)
+                            .build())
+                    .addProperty(PropertySpec.builder("field1", String::class)
+                            .mutable()
                             .build())
                     .superclass(baseDomainClass).addSuperclassConstructorParameter("id")
 
@@ -263,11 +287,17 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .build())
                     .superclass(baseEntityClass.parameterizedBy(domainClass))
                     .addModifiers(KModifier.DATA)
+                    // 생성자에 슈퍼 부르기
+                    .addFunction(FunSpec.constructorBuilder()
+                            .callThisConstructor("field1 = $domainCamel.field1")
+                            .addParameter("$domainCamel", domainClass)
+                            .addStatement("setBaseFieldsFromDomain($domainCamel)", "greeting", "greeting")
+                            .build())
                     .addFunction(FunSpec.builder("toDomain")
                             .returns(domainClass)
                             .addModifiers(KModifier.OVERRIDE)
                             .addCode("""
-                                |return $domainPascal(id).also {
+                                |return $domainPascal(id,field1).also {
             setDomainBaseFieldsFromEntity(it)
             TODO("not implemented")
         }
@@ -364,8 +394,8 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .addParameter("$domainCamel", domainClass)
                             .addModifiers(KModifier.OVERRIDE)
                             .addStatement("""
-        return repository.saveAndFlush(%T(%T)).toDomain()
-        |""".trimMargin(), entityClass, domainCamel)
+        return repository.saveAndFlush(%T($domainCamel)).toDomain()
+        |""".trimMargin(), entityClass)
                             .build())
                     .build())
 

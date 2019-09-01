@@ -5,6 +5,7 @@ import app.foodin.common.enums.UserAuthority
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_AUTH_FAILED
 import app.foodin.common.utils.MDCUtils.USER_INFO_MDC
+import app.foodin.domain.user.User
 
 data class CustomJwtUserInfo(
     val id: Long = 0,
@@ -18,8 +19,16 @@ data class CustomJwtUserInfo(
         return roles.indexOf(UserAuthority.ROLE_USER) >= 0
     }
 
+    fun hasOnlyUserRole(): Boolean{
+        return roles.size == 1 && hasUserRole()
+    }
+
     fun hasAdminRole(): Boolean {
         return roles.indexOf(UserAuthority.ROLE_ADMIN) >= 0
+    }
+
+    fun toUser(): User {
+        return User(this.id,username,realName,snsType?:SnsType.EMAIL)
     }
 }
 
