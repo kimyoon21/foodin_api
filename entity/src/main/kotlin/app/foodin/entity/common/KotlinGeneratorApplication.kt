@@ -351,8 +351,8 @@ fun makeEntityModuleFiles(domainCamel: String) {
                     .addSuperinterface(gatewayClass)
                     .addFunction(FunSpec.builder("findAllByFilter")
                             .returns(pageClass.parameterizedBy(domainClass))
-                            .addParameter("pageable", Pageable::class)
                             .addParameter("filter", filterClass)
+                            .addParameter("pageable", Pageable::class)
                             .addModifiers(KModifier.OVERRIDE)
                             .addStatement("""
         return findAll(%T(filter), pageable)
@@ -364,8 +364,8 @@ fun makeEntityModuleFiles(domainCamel: String) {
                             .addParameter("$domainCamel", domainClass)
                             .addModifiers(KModifier.OVERRIDE)
                             .addStatement("""
-        return repository.saveAndFlush(%T(t)).toDomain()
-        |""".trimMargin(), entityClass)
+        return repository.saveAndFlush(%T(%T)).toDomain()
+        |""".trimMargin(), entityClass, domainCamel)
                             .build())
                     .build())
 
