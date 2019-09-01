@@ -15,6 +15,7 @@ data class NoticeEntity(val title: String,
                         @Enumerated(value = EnumType.STRING)
                         val type: NoticeType,
                         val categoryTags: String?) : BaseEntity<Notice>() {
+
     constructor(notice: Notice) : this(title = notice.title, contents = notice.contents,
             type = notice.type, categoryTags = notice.categoryTags) {
         setBaseFieldsFromDomain(notice)
