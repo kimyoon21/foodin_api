@@ -11,7 +11,7 @@ class NoticeFilterQuery(val filter: NoticeFilter) : BaseFilterQuery<Notice, Noti
         and(
                 or(likeFilter(NoticeEntity::contents, it.query, MatchMode.ANYWHERE),
                         likeFilter(NoticeEntity::title, it.query, MatchMode.ANYWHERE)),
-                equalFilter(NoticeEntity::type,it.type),
+                equalFilter(NoticeEntity::type, it.type),
                 tagFilter(NoticeEntity::categoryTags, it.categoryTag)
         )
     }

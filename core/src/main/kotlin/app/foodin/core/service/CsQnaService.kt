@@ -13,28 +13,26 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class CsQnaService(override val gateway: CsQnaGateway) : BaseService<CsQna, CsQnaFilter>(){
+class CsQnaService(override val gateway: CsQnaGateway) : BaseService<CsQna, CsQnaFilter>() {
 
     fun create(createReq: CsQnaCreateReq): CsQna {
-        val qna = CsQna(question = createReq.question,writeUser = getAuthenticatedUserInfo().toUser(),answer = null)
+        val qna = CsQna(question = createReq.question, writeUser = getAuthenticatedUserInfo().toUser(), answer = null)
         return gateway.saveFrom(qna)
     }
 
-    fun update(id: Long,updateReq: CsQnaUpdateReq): CsQna {
+    fun update(id: Long, updateReq: CsQnaUpdateReq): CsQna {
         val oldQna = findById(id)
         oldQna.answer = updateReq.answer
         return gateway.saveFrom(oldQna)
     }
 
-    fun delete(id: Long) : Boolean {
+    fun delete(id: Long): Boolean {
         return findById(id).let {
-            if(getAuthenticatedUserInfo().id != it.writeUser.id) {
+            if (getAuthenticatedUserInfo().id != it.writeUser.id) {
                 throw CommonException(EX_ACCESS_DENIED)
             }
             deleteById(id)
             true
         }
     }
-
-
 }

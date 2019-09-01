@@ -18,7 +18,6 @@ interface BaseFilterQuery<D : BaseDomain, E : BaseEntity<D>> {
     fun toSpecification(): Specification<E>
 }
 
-
 fun <E, R> equalFilter(property: KProperty1<E, R>, value: R?): Specification<E>? = value.hasValueLet {
     property.equal(it)
 }
@@ -43,7 +42,7 @@ fun <E, R : Any> filterIfHasValue(value: R, specification: Specification<E>): Sp
    specification
 }
 
-fun <E>equalUserIdFilterWhenUserPrivateDomain(property: KProperty1<E, Long?>) : Specification<E>? {
+fun <E> equalUserIdFilterWhenUserPrivateDomain(property: KProperty1<E, Long?>): Specification<E>? {
     if (getAuthenticatedUserInfo().hasOnlyUserRole()) {
         return equalFilter(property, getAuthenticatedUserInfo().id)
     }

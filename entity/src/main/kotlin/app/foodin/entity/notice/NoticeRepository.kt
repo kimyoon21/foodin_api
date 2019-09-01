@@ -23,6 +23,5 @@ class JpaNoticeRepository(private val repository: NoticeRepository) : BaseReposi
 
     override fun saveFrom(notice: Notice): Notice {
                 return repository.saveAndFlush(NoticeEntity(notice)).toDomain()
-
     }
 }

@@ -30,6 +30,6 @@ class NoticeController(val noticeService: NoticeService) {
     @PreAuthorize(value = onlyAdmin)
     @PutMapping(value = ["/{id}"], consumes = ["application/json"])
     fun update(@PathVariable id: Long, @RequestBody notice: Notice): ResponseResult {
-        return ResponseResult(noticeService.update(id,notice))
+        return ResponseResult(noticeService.update(id, notice))
     }
 }

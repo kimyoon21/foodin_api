@@ -14,7 +14,7 @@ data class BannerEntity(
     var imageUri: String,
     @Enumerated(value = EnumType.STRING)
     var bannerType: BannerType,
-    var actionUri : String
+    var actionUri: String
 
 ) : BaseEntity<Banner>() {
     var seq: Int = Integer.MAX_VALUE

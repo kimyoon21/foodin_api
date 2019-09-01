@@ -7,15 +7,16 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "cs_qna")
-data class CsQnaEntity(val question: String,
-                       val answer: String?,
-                       @ManyToOne
-                       @JoinColumn(name = "write_user_id")
-                       val writeUser: UserEntity) : BaseEntity<CsQna>() {
+data class CsQnaEntity(
+    val question: String,
+    val answer: String?,
+    @ManyToOne
+    @JoinColumn(name = "write_user_id")
+    val writeUser: UserEntity
+) : BaseEntity<CsQna>() {
 
     @Column(name = "write_user_id", insertable = false, updatable = false)
-    var writeUserId : Long = 0
-
+    var writeUserId: Long = 0
 
     constructor(csQna: CsQna) : this(question = csQna.question,
             answer = csQna.answer,
@@ -23,6 +24,6 @@ data class CsQnaEntity(val question: String,
         setBaseFieldsFromDomain(csQna)
     }
 
-    override fun toDomain(): CsQna = CsQna(id,question,answer, writeUser.toDomain()).also {
+    override fun toDomain(): CsQna = CsQna(id, question, answer, writeUser.toDomain()).also {
                 setDomainBaseFieldsFromEntity(it)
-            }}
+            } }

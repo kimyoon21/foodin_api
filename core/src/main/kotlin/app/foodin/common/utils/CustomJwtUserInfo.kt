@@ -19,7 +19,7 @@ data class CustomJwtUserInfo(
         return roles.indexOf(UserAuthority.ROLE_USER) >= 0
     }
 
-    fun hasOnlyUserRole(): Boolean{
+    fun hasOnlyUserRole(): Boolean {
         return roles.size == 1 && hasUserRole()
     }
 
@@ -28,7 +28,7 @@ data class CustomJwtUserInfo(
     }
 
     fun toUser(): User {
-        return User(this.id,username,realName,snsType?:SnsType.EMAIL)
+        return User(this.id, username, realName, snsType ?: SnsType.EMAIL)
     }
 }
 

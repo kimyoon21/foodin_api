@@ -5,12 +5,12 @@ import java.io.Serializable
 
 @KotlinNoArgConstructor
 data class CsQnaCreateReq(
-        val question: String,
-        val categoryTagList : List<String>
+    val question: String,
+    val categoryTagList: List<String>
 ) : Serializable
 
 @KotlinNoArgConstructor
 data class CsQnaUpdateReq(
 
-        var answer: String
+    var answer: String
 ) : Serializable

@@ -18,11 +18,9 @@ class JpaCsQnaRepository(private val repository: CsQnaRepository) : BaseReposito
         CsQnaEntity, CsQnaFilter>(repository), CsQnaGateway {
     override fun findAllByFilter(filter: CsQnaFilter, pageable: Pageable): Page<CsQna> {
                 return findAll(CsQnaFilterQuery(filter), pageable)
-
     }
 
     override fun saveFrom(csQna: CsQna): CsQna {
                 return repository.saveAndFlush(CsQnaEntity(csQna)).toDomain()
-
     }
 }

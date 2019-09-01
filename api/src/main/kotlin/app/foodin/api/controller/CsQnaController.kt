@@ -31,10 +31,10 @@ class CsQnaController(val csQnaService: CsQnaService) {
     @PreAuthorize(onlyAdmin)
     @PutMapping(value = ["/{id}"], consumes = ["application/json"])
     fun update(@PathVariable id: Long, @RequestBody csQna: CsQnaUpdateReq): ResponseResult {
-        return ResponseResult(csQnaService.update(id,csQna))
+        return ResponseResult(csQnaService.update(id, csQna))
     }
 
-    @DeleteMapping(value = ["/{id}"],consumes = ["application/json"])
+    @DeleteMapping(value = ["/{id}"], consumes = ["application/json"])
     fun delete(@PathVariable id: Long): ResponseResult {
         return ResponseResult(csQnaService.delete(id))
     }
