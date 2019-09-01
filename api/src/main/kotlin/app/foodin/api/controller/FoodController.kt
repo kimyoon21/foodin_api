@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.FoodService
@@ -58,7 +59,7 @@ class FoodController(
      * admin 만 바로 등록이 가능
      * 유저는 foodReqRequest 사용
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody food: Food): ResponseResult {
         return ResponseResult(foodService.saveFrom(food))

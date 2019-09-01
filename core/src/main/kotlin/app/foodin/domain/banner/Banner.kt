@@ -5,7 +5,8 @@ import app.foodin.domain.common.BaseDomain
 data class Banner(
     override var id: Long = 0,
     var imageUri: String,
-    var bannerType: BannerType
+    var bannerType: BannerType,
+    var actionUri: String
 
 ) : BaseDomain(id) {
     var seq: Int = Integer.MAX_VALUE

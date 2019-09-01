@@ -29,6 +29,10 @@ fun <E> likeFilter(property: KProperty1<E, String?>, value: String?, matchMode: 
     }
 }
 
+fun <E> tagFilter(property: KProperty1<E, String?>, tag: String?): Specification<E>? = tag.hasValueLet {
+        property.like("%$tag %")
+}
+
 fun <E, R : Any> inListFilter(property: KProperty1<E, R?>, values: Collection<R>): Specification<E>? = values.hasValueLet {
     property.`in`(values)
 }

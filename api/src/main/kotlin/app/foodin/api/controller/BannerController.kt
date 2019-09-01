@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
 import app.foodin.core.service.BannerService
@@ -30,14 +31,14 @@ class BannerController(
         return ResponseResult(bannerService.findById(id))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
 
         return ResponseTypeResult(bannerService.saveFrom(banner))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PutMapping(consumes = ["application/json"])
     fun update(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
         // TODO

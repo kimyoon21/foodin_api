@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.service.SellerService
 import app.foodin.domain.seller.Seller
@@ -21,19 +22,19 @@ class SellerController(val sellerService: SellerService) {
                 return ResponseResult(sellerService.findById(id))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody seller: Seller): ResponseResult {
                 return ResponseResult(sellerService.saveFrom(seller))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PutMapping(value = ["/{id}"], consumes = ["application/json"])
     fun update(@PathVariable id: Long, @RequestBody seller: Seller): ResponseResult {
         return ResponseResult(sellerService.update(id, seller))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @DeleteMapping(value = ["/{id}"])
     fun delete(@PathVariable id: Long): ResponseResult {
         return ResponseResult(sellerService.deleteById(id))

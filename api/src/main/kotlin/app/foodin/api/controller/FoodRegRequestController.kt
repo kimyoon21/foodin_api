@@ -1,5 +1,6 @@
 package app.foodin.api.controller
 
+import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.service.FoodRegRequestService
 import app.foodin.domain.foodRegRequest.FoodRegRequest
@@ -26,13 +27,13 @@ class FoodRegRequestController(val foodRegRequestService: FoodRegRequestService)
         return ResponseResult(foodRegRequestService.saveFrom(foodRegRequest))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PutMapping(value = ["/{id}"], consumes = ["application/json"])
     fun approveToFood(@PathVariable id: Long): ResponseResult {
         return ResponseResult(foodRegRequestService.approveToFood(id))
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize(onlyAdmin)
     @PutMapping(value = ["/{id}/{foodId}"], consumes = ["application/json"])
     fun mergeToFood(
         @PathVariable id: Long,
