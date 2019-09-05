@@ -8,7 +8,8 @@ import javax.validation.constraints.Size
 class UserCreateReq(
     val email: String,
     val realName: String,
-    val snsType: SnsType
+    val snsType: SnsType,
+    val nickName: String
 ) {
 
     var loginPw: String? = null
@@ -26,7 +27,7 @@ class UserCreateReq(
 
     fun toUser(): User {
         User(0, this.email, this.realName, this.snsType).let {
-
+            it.nickName = this.nickName
             it.loginPw = this.loginPw
             it.snsUserId = this.snsUserId
             it.agreePolicy = this.agreePolicy

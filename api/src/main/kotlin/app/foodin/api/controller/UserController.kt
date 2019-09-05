@@ -40,13 +40,21 @@ class UserController(
 
     @PutMapping("/{id}")
     fun update(
-        @ApiParam(value = "Authentication Request") @RequestBody @Valid userUpdateReq: UserUpdateReq,
+        @ApiParam(value = "User 정보 수정") @RequestBody @Valid userUpdateReq: UserUpdateReq,
         @PathVariable("id") userId: Long,
         @ApiIgnore errors: Errors
     ): ResponseResult {
         logger.info("authRequest: $userUpdateReq")
 
         return ResponseResult(userService.update(userId, userUpdateReq))
+    }
+
+    @GetMapping("/check-email")
+    fun checkEmail(
+        @ApiParam(value = "Email 중복 체크") @RequestParam email: String
+    ): ResponseResult {
+        checkRegisteredEmail(email)
+        return ResponseResult()
     }
 
     @PostMapping("/register")
