@@ -127,9 +127,6 @@ fun makeApiModuleFiles(domainCamel: String) {
                     .addParameter(ParameterSpec.builder("id", Long::class)
                             .addAnnotation(PathVariable::class)
                             .build())
-                    .addParameter(ParameterSpec.builder(domainCamel, domainClass)
-                            .addAnnotation(RequestBody::class)
-                            .build())
                     .addCode("""
         return ResponseResult(${domainCamel}Service.deleteById(id))
         |""".trimMargin())

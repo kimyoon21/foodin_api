@@ -6,7 +6,6 @@ import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.recipe.RecipeEntity
 import app.foodin.entity.review.ReviewEntity
 import app.foodin.entity.user.UserEntity
-import org.hibernate.annotations.Where
 import javax.persistence.*
 
 @Entity
@@ -24,22 +23,18 @@ data class LoveEntity(
 
     @ManyToOne
     @JoinColumn(name = "food_id", insertable = false, updatable = false)
-    @Where(clause = "status = 1")
     var food: FoodEntity? = null
 
     @ManyToOne
     @JoinColumn(name = "review_id", insertable = false, updatable = false)
-    @Where(clause = "status = 1")
     var review: ReviewEntity? = null
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
-    @Where(clause = "status = 1")
     var recipe: RecipeEntity? = null
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @Where(clause = "enable = 1")
     var user: UserEntity? = null
 
     constructor(love: Love) : this(
