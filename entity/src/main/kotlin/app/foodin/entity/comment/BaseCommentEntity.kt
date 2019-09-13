@@ -21,5 +21,6 @@ abstract class BaseCommentEntity<D : StatusDomain, PD : StatusDomain, P : Status
 
     var contents: String? = null
 
+    @Column(columnDefinition = "TEXT")
     var imageUris: String? = null
 }

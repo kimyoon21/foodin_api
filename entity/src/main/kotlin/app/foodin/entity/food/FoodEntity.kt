@@ -10,10 +10,7 @@ import app.foodin.domain.food.FoodInfoDto
 import app.foodin.entity.common.BaseEntity
 import app.foodin.entity.user.UserEntity
 import org.modelmapper.ModelMapper
-import javax.persistence.Entity
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "foods")
@@ -40,6 +37,7 @@ data class FoodEntity(
 
     var mainImageUri: String? = null
 
+    @Column(columnDefinition = "TEXT")
     var imageUris: String? = null
 
     var loveCount: Int = 0

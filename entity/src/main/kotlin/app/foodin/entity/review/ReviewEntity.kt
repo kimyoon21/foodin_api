@@ -30,6 +30,7 @@ data class ReviewEntity(
 
     var mainImageUri: String? = null
 
+    @Column(columnDefinition = "TEXT")
     var imageUris: String? = null
 
     var loveCount: Int = 0
