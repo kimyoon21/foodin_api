@@ -4,7 +4,6 @@ import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
 import app.foodin.common.exception.NotExistsException
-import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
 import app.foodin.core.gateway.SessionLogGateway
@@ -44,9 +43,9 @@ interface UserService {
 @Service
 @Transactional
 class CustomUserDetailsService(
-    private val userGateway: UserGateway,
-    private val sessionLogGateway: SessionLogGateway,
-    private val clientRegistrationRepository: ClientRegistrationRepository
+        private val userGateway: UserGateway,
+        private val sessionLogGateway: SessionLogGateway,
+        private val clientRegistrationRepository: ClientRegistrationRepository
 ) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)
@@ -152,11 +151,12 @@ class CustomUserDetailsService(
         }
     }
 
-    private fun getSnsUserInfo(snsTokenDto: SnsTokenDto): ResponseResult {
+    private fun getSnsUserInfo(snsTokenDto: SnsTokenDto): MutableMap<out Any?, out Any?> {
 
         val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDto.snsType.toString().toLowerCase())
         val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
-
+//        아쉽게도 snsId 가 중첩결과물 안에 있으면 가져오기가 넘 빡셈.
+//        val snsIdKey = registration.providerDetails.userInfoEndpoint.userNameAttributeName
         val restTemplate = RestTemplate()
 
         val headers = HttpHeaders()
@@ -168,10 +168,12 @@ class CustomUserDetailsService(
                     userInfoEndpointUri,
                     HttpMethod.GET,
                     entity,
-                    Map::class.java
+                    MutableMap::class.java
             )
+
             response.body?.let {
-                return ResponseResult(it)
+                // snsUserId 필드 하나 만들어서 id 세팅
+                return it
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
             logger.error(ex.responseBodyAsString, ex)
@@ -181,14 +183,20 @@ class CustomUserDetailsService(
 
     @Suppress("UNCHECKED_CAST")
     override fun checkValidUserInfo(snsTokenDto: SnsTokenDto): Boolean {
-        val resultMap = getSnsUserInfo(snsTokenDto).data as Map<String, Any>
+        val resultMap = getSnsUserInfo(snsTokenDto) as Map<String, Any>
         return when (snsTokenDto.snsType) {
             SnsType.KAKAO -> {
                 val kakaoUserId = resultMap["id"] ?: throw CommonException("INVALID_KAKAO_RESULT")
                 snsTokenDto.snsUserId == kakaoUserId.toString()
             }
-//            SnsType.NAVER ->{}
-//            SnsType.FACEBOOK ->{}
+            SnsType.NAVER -> {
+                val naverUserId = (resultMap["response"] as Map<String, String>)["id"] ?: throw CommonException("INVALID_NAVER_RESULT")
+                snsTokenDto.snsUserId == naverUserId
+            }
+            SnsType.FACEBOOK ->{
+                val facebookUserId = resultMap["id"] ?: throw CommonException("INVALID_NAVER_RESULT")
+                snsTokenDto.snsUserId == facebookUserId
+            }
             SnsType.EMAIL -> {
                 throw CommonException("EMAIL 은 /email/login 사용")
             }
