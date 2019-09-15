@@ -43,9 +43,9 @@ interface UserService {
 @Service
 @Transactional
 class CustomUserDetailsService(
-        private val userGateway: UserGateway,
-        private val sessionLogGateway: SessionLogGateway,
-        private val clientRegistrationRepository: ClientRegistrationRepository
+    private val userGateway: UserGateway,
+    private val sessionLogGateway: SessionLogGateway,
+    private val clientRegistrationRepository: ClientRegistrationRepository
 ) : UserService, UserDetailsService {
 
     private val logger = LoggerFactory.getLogger(CustomUserDetailsService::class.java)
@@ -193,7 +193,7 @@ class CustomUserDetailsService(
                 val naverUserId = (resultMap["response"] as Map<String, String>)["id"] ?: throw CommonException("INVALID_NAVER_RESULT")
                 snsTokenDto.snsUserId == naverUserId
             }
-            SnsType.FACEBOOK ->{
+            SnsType.FACEBOOK -> {
                 val facebookUserId = resultMap["id"] ?: throw CommonException("INVALID_NAVER_RESULT")
                 snsTokenDto.snsUserId == facebookUserId
             }
