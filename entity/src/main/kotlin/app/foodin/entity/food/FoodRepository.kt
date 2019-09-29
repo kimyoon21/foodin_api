@@ -54,7 +54,7 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) :
         foodRepository.addReviewCount(id)
     }
 
-    override fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
+    override fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
         return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 

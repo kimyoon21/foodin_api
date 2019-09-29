@@ -12,9 +12,9 @@ data class CommentLove(
 //                       val recipeComment: RecipeComment? = null,
     @JsonIgnore
     val user: User
-) : BaseDomain(id){
+) : BaseDomain(id) {
 
-    fun getUserInfo() : UserInfoDto{
+    fun getUserInfo(): UserInfoDto {
         return UserInfoDto(user)
     }
 }

@@ -1,6 +1,7 @@
 package app.foodin.api.controller
 
 import app.foodin.common.extension.onlyAdmin
+import app.foodin.common.extension.onlyUser
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.FoodService
@@ -26,13 +27,13 @@ class FoodController(
         return ResponseResult(foodService.findAll(filter, pageable))
     }
 
-    @GetMapping(value = ["/name"])
-    fun getName(
+    @GetMapping(value = ["/dto"])
+    fun getAllWithDto(
         pageable: Pageable,
         filter: FoodFilter
     ): ResponseResult {
 
-        return ResponseResult(foodService.findNameAll(filter, pageable))
+        return ResponseResult(foodService.findDto(filter, pageable))
     }
 
     @GetMapping(value = ["/categoryFilter"])
@@ -65,7 +66,7 @@ class FoodController(
         return ResponseResult(foodService.saveFrom(food))
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize(onlyUser)
     @PostMapping(value = ["/{id}/found"], consumes = ["application/json"])
     fun found(
         @RequestBody foodFoundUserReq: FoodFoundUserReq,

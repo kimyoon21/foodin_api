@@ -3,12 +3,11 @@ package app.foodin.core.service
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.core.gateway.ReviewGateway
-import app.foodin.domain.review.Review
-import app.foodin.domain.review.ReviewCreateReq
-import app.foodin.domain.review.ReviewFilter
-import app.foodin.domain.review.ReviewReq
+import app.foodin.domain.review.*
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,5 +50,9 @@ class ReviewService(
     @Async
     fun addCommentCount(id: Long) {
         gateway.addCommentCount(id)
+    }
+
+    fun findDto(filter: ReviewFilter, pageable: Pageable): Page<ReviewInfoDto> {
+        return gateway.findDtoBy(filter, pageable)
     }
 }

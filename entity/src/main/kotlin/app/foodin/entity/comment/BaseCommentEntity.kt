@@ -15,7 +15,7 @@ abstract class BaseCommentEntity<D : StatusDomain, PD : StatusDomain, P : Status
     @ManyToOne(fetch = FetchType.LAZY)
     lateinit var parent: P
 
-    var loveCount : Int = 0
+    var loveCount: Int = 0
 
     @ManyToOne
     @JoinColumn(name = "write_user_id", insertable = false, updatable = false)

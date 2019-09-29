@@ -3,6 +3,7 @@ package app.foodin.entity.review
 import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewFilter
+import app.foodin.domain.review.ReviewInfoDto
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
@@ -42,4 +43,8 @@ class JpaReviewRepository(private val repository: ReviewRepository) :
     }
 
     override fun getByUserId(userId: Long): List<Review> = repository.findAllByWriteUserId(userId).map(ReviewEntity::toDomain)
+
+    override fun findDtoBy(filter: ReviewFilter, pageable: Pageable): Page<ReviewInfoDto> {
+        return repository.findAll(ReviewFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
+    }
 }

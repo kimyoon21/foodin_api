@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity>{
+interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity> {
     @Modifying
     @Query("UPDATE ReviewCommentEntity set loveCount = loveCount + 1 where id = :id")
     fun addLoveCount(@Param("id") id: Long)

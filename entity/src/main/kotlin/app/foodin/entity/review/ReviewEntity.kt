@@ -5,10 +5,12 @@ import app.foodin.common.extension.listToCsv
 import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.review.Review
+import app.foodin.domain.review.ReviewInfoDto
 import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
 import org.hibernate.annotations.Where
+import org.modelmapper.ModelMapper
 import javax.persistence.*
 
 @Entity
@@ -77,5 +79,9 @@ data class ReviewEntity(
             it.writeUserId = this.writeUserId
             it.status = this.status
         }
+    }
+
+    fun toDto(): ReviewInfoDto {
+        return ModelMapper().map(this, ReviewInfoDto::class.java)
     }
 }

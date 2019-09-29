@@ -40,8 +40,8 @@ class FoodService(
         }
     }
 
-    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
-        return gateway.findNameAll(filter = filter, pageable = pageable)
+    fun findDto(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
+        return gateway.findDtoBy(filter = filter, pageable = pageable)
     }
 
     fun findByCategoryFilterName(categoryFilterName: String, pageable: Pageable): Page<Food>? {

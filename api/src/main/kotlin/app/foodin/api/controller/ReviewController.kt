@@ -30,6 +30,15 @@ class ReviewController(
         return ResponseResult(reviewService.findAll(filter, pageable))
     }
 
+    @GetMapping(value = ["/dto"])
+    fun getAllWithDto(
+        pageable: Pageable,
+        filter: ReviewFilter
+    ): ResponseResult {
+
+        return ResponseResult(reviewService.findDto(filter, pageable))
+    }
+
     @GetMapping(value = ["/{id}"])
     fun getOne(@PathVariable id: Long): ResponseResult {
 

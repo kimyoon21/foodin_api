@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/comment-love"])
-class CommentLoveController(val commentLoveService: CommentLoveService,
-                            val reviewCommentService: ReviewCommentService) {
+class CommentLoveController(
+    val commentLoveService: CommentLoveService,
+    val reviewCommentService: ReviewCommentService
+) {
     @GetMapping
     fun getAll(pageable: Pageable, filter: CommentLoveFilter): ResponseResult {
                 return ResponseResult(commentLoveService.findAll(filter, pageable))

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable
 
 interface FoodGateway : BaseGateway<Food, FoodFilter> {
     fun findByName(name: String): Food?
-    fun findNameAll(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>?
+    fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>?
     fun addLoveCount(id: Long)
     fun addRatingCount(id: Long)
     fun addReviewCount(id: Long)
