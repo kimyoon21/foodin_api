@@ -34,6 +34,7 @@ data class ReviewCommentEntity(
             it.writeUser = this.writeUserEntity.toDomain()
             it.writeUserId = this.writeUserId
             it.status = this.status
+            it.loveCount = this.loveCount
         }
     }
 }

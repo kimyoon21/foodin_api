@@ -30,6 +30,8 @@ open class BaseComment<P : Commentable>(
 
     var imageUriList: MutableList<String> = mutableListOf()
 
+    var loveCount: Int = 0
+
     constructor(parent: P, writer: User, commentReq: CommentReq) : this(parentId = parent.id) {
         this.parent = parent
         setFromRequestDTO(commentReq)
@@ -46,9 +48,8 @@ open class BaseComment<P : Commentable>(
     }
 
     fun createFromReq(commentCreateReq: CommentCreateReq): BaseComment<out Commentable> {
-        val entity = ModelMapper().map(commentCreateReq, BaseComment::class.java).also {
+        return ModelMapper().map(commentCreateReq, BaseComment::class.java).also {
             it.status = Status.APPROVED
         }
-        return entity
     }
 }

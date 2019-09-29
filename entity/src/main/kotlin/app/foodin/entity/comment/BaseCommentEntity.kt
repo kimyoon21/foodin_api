@@ -7,13 +7,15 @@ import javax.persistence.*
 
 @MappedSuperclass
 abstract class BaseCommentEntity<D : StatusDomain, PD : StatusDomain, P : StatusEntity<PD>>(
-    var parentId: Long,
+    open var parentId: Long,
     @Column(name = "write_user_id")
-    var writeUserId: Long
+    open var writeUserId: Long
 ) : StatusEntity<D>() {
 
     @ManyToOne(fetch = FetchType.LAZY)
     lateinit var parent: P
+
+    var loveCount : Int = 0
 
     @ManyToOne
     @JoinColumn(name = "write_user_id", insertable = false, updatable = false)

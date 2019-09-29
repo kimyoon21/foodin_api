@@ -7,15 +7,26 @@ import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity>
+interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity>{
+    @Modifying
+    @Query("UPDATE ReviewCommentEntity set loveCount = loveCount + 1 where id = :id")
+    fun addLoveCount(@Param("id") id: Long)
+}
 
 @Component
 class JpaReviewCommentRepository(private val repository: ReviewCommentRepository) :
         BaseRepository<ReviewComment, ReviewCommentEntity, CommentFilter>(repository), ReviewCommentGateway {
+    override fun addLoveCount(id: Long) {
+        repository.addLoveCount(id)
+    }
+
     override fun saveFrom(t: ReviewComment): ReviewComment {
         return repository.saveAndFlush(ReviewCommentEntity(t)).toDomain()
     }

@@ -37,4 +37,8 @@ class ReviewCommentService(
         reviewComment.setFromRequestDTO(updateReq.commentReq)
         return saveFrom(reviewComment)
     }
+
+    fun addLoveCount(id: Long) {
+        gateway.addLoveCount(id)
+    }
 }

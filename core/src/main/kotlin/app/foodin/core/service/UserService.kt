@@ -72,7 +72,7 @@ class CustomUserDetailsService(
     }
 
     override fun findById(id: Long): User {
-        return userGateway.findById(id) ?: throw NotExistsException(msgArgs = "유저")
+        return userGateway.findById(id) ?: throw NotExistsException(msgArgs = *arrayOf("유저"))
     }
 
     override fun saveFrom(userCreateReq: UserCreateReq): User {
