@@ -9,7 +9,6 @@ import app.foodin.domain.review.ReviewInfoDto
 import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
-import org.hibernate.annotations.Where
 import org.modelmapper.ModelMapper
 import javax.persistence.*
 
@@ -45,7 +44,6 @@ data class ReviewEntity(
 
     @ManyToOne
     @JoinColumn(name = "write_user_id", insertable = false, updatable = false)
-    @Where(clause = "enable = 1")
     lateinit var writeUserEntity: UserEntity
 
     constructor(review: Review) : this(review.foodId) {

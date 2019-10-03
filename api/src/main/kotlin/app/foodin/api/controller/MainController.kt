@@ -67,7 +67,7 @@ class MainController(
     @GetMapping(value = ["/food/loveCount"])
     fun getFoodOrderByLoveCount(
         pageable: Pageable,
-        foodCategoryIdList: List<Long>?
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val foodFilter = FoodFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
@@ -77,7 +77,7 @@ class MainController(
     @GetMapping(value = ["/review/loveCount"])
     fun getReviewOfMyTaste(
         pageable: Pageable,
-        foodCategoryIdList: List<Long>?
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val reviewFilter = ReviewFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())

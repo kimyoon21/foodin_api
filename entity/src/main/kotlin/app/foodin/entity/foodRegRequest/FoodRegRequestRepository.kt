@@ -16,6 +16,6 @@ class JpaFoodRegRequestRepository(private val repository: FoodRegRequestReposito
         BaseRepository<FoodRegRequest, FoodRegRequestEntity, FoodRegRequestFilter>(repository),
         FoodRegRequestGateway {
     override fun saveFrom(t: FoodRegRequest): FoodRegRequest {
-                TODO("not implemented")
+        return repository.saveAndFlush(FoodRegRequestEntity(t)).toDomain()
     }
 }

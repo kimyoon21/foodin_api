@@ -33,7 +33,7 @@ class FoodRegRequestService(
     fun applyFoodRegRequestToFood(foodRegRequest: FoodRegRequest, food: Food): Food {
         food.let {
 
-            it.companyId = foodRegRequest.companyId
+            it.companyName = foodRegRequest.companyName
             if (it.minPrice == null || it.minPrice!! > foodRegRequest.price) {
                 it.minPrice = foodRegRequest.price
             }
@@ -44,10 +44,10 @@ class FoodRegRequestService(
                 it.summary = foodRegRequest.summary
             }
             if (it.mainImageUri == null) {
-                it.mainImageUri = foodRegRequest.mainPhotoUri
+                it.mainImageUri = foodRegRequest.mainImageUri
             }
             it.tagList.addAll(foodRegRequest.tagList)
-            it.imageUriList.addAll(foodRegRequest.photoList)
+            it.imageUriList.addAll(foodRegRequest.imageUriList)
 
             return it
         }

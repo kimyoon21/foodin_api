@@ -1,7 +1,9 @@
 package app.foodin.api.controller
 
 import app.foodin.common.extension.onlyAdmin
+import app.foodin.common.extension.onlyUser
 import app.foodin.common.result.ResponseResult
+import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.FoodRegRequestService
 import app.foodin.domain.foodRegRequest.FoodRegRequest
 import app.foodin.domain.foodRegRequest.FoodRegRequestFilter
@@ -22,8 +24,10 @@ class FoodRegRequestController(val foodRegRequestService: FoodRegRequestService)
                 return ResponseResult(foodRegRequestService.findById(id))
     }
 
+    @PreAuthorize(onlyUser)
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody foodRegRequest: FoodRegRequest): ResponseResult {
+        foodRegRequest.writeUser = getAuthenticatedUserInfo().toUser()
         return ResponseResult(foodRegRequestService.saveFrom(foodRegRequest))
     }
 

@@ -9,19 +9,19 @@ data class FoodRegRequest(
     val name: String,
     val categoryId: Long
 ) : BaseDomain(id) {
-    var companyId: Long? = null
+    var companyName: String? = null
 
     var price: Int = 0
 
     var summary: String? = null
 
-    var tagList: List<String> = listOf()
+    var tagList: MutableList<String> = mutableListOf()
 
-    var mainPhotoUri: String? = null
+    var mainImageUri: String? = null
 
-    var photoList: List<String> = listOf()
+    var imageUriList: MutableList<String> = mutableListOf()
 
     var status: Status = Status.WAIT
 
-    var user: User? = null
+    var writeUser: User? = null
 }
