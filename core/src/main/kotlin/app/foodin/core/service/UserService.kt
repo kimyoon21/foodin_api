@@ -155,8 +155,6 @@ class CustomUserDetailsService(
 
         val registration = clientRegistrationRepository.findByRegistrationId(snsTokenDto.snsType.toString().toLowerCase())
         val userInfoEndpointUri = registration.providerDetails.userInfoEndpoint.uri
-//        아쉽게도 snsId 가 중첩결과물 안에 있으면 가져오기가 넘 빡셈.
-//        val snsIdKey = registration.providerDetails.userInfoEndpoint.userNameAttributeName
         val restTemplate = RestTemplate()
 
         val headers = HttpHeaders()
@@ -172,7 +170,6 @@ class CustomUserDetailsService(
             )
 
             response.body?.let {
-                // snsUserId 필드 하나 만들어서 id 세팅
                 return it
             } ?: throw CommonException("SNS 정보 오류")
         } catch (ex: HttpClientErrorException) {
@@ -194,7 +191,7 @@ class CustomUserDetailsService(
                 snsTokenDto.snsUserId == naverUserId
             }
             SnsType.FACEBOOK -> {
-                val facebookUserId = resultMap["id"] ?: throw CommonException("INVALID_NAVER_RESULT")
+                val facebookUserId = resultMap["id"] ?: throw CommonException("INVALID_FACEBOOK_RESULT")
                 snsTokenDto.snsUserId == facebookUserId
             }
             SnsType.EMAIL -> {
