@@ -22,6 +22,14 @@ fun <E, R> equalFilter(property: KProperty1<E, R>, value: R?): Specification<E>?
     property.equal(it)
 }
 
+fun <E> isNullFilter(property: KProperty1<E, *>, value: Boolean?): Specification<E>? = value.hasValueLet {
+    property.isNull()
+}
+
+fun <E> isNotNullFilter(property: KProperty1<E, *>, value: Boolean?): Specification<E>? = value.hasValueLet {
+    property.isNotNull()
+}
+
 fun <E> likeFilter(property: KProperty1<E, String?>, value: String?, matchMode: MatchMode): Specification<E>? = value.hasValueLet {
     when (matchMode) {
         MatchMode.ANYWHERE -> property.like("%$value%")

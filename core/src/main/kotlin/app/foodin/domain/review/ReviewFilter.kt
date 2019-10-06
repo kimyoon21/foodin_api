@@ -8,5 +8,6 @@ data class ReviewFilter(
     val tag: String? = null,
     val sellerNameList: List<String> = listOf(),
     val writeUserId: Long? = null,
-    val foodId: Long? = null
+    val foodId: Long? = null,
+    val hasImage: Boolean? = null
 ) : BaseFilter()

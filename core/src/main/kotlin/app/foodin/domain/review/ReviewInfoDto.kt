@@ -7,6 +7,8 @@ data class ReviewInfoDto(
 
     val foodId: Long? = null,
 
+    var foodName : String? = null,
+
     var writeUserId: Long? = null,
 
     var status: Status? = null,
