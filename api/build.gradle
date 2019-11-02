@@ -13,5 +13,7 @@ dependencies {
     // Swagger UI
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
-
+    compile 'io.jsonwebtoken:jjwt-api:0.10.7'
+    compile 'io.jsonwebtoken:jjwt-impl:0.10.7',
+            'io.jsonwebtoken:jjwt-jackson:0.10.7'
 }

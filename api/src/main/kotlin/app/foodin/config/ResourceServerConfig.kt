@@ -36,6 +36,7 @@ class ResourceServerConfig(
                 .antMatchers("/food.html").permitAll()
 //                .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/test/**").permitAll() // 테스트로 auth 다 풀어버린
+                .antMatchers("/apple-auth/**").permitAll() // 테스트로 auth 다 풀어버린
                 .antMatchers("/code/**").permitAll() // TODO 임시로
                 .antMatchers("/image/**").permitAll() // TODO 임시로
                 .antMatchers("/user/check-email").permitAll()
@@ -45,4 +46,5 @@ class ResourceServerConfig(
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
     }
+
 }

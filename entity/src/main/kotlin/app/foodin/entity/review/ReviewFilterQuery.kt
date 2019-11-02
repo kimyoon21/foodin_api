@@ -20,7 +20,7 @@ class ReviewFilterQuery(
                         hasContentsLike(filter.query),
                         hasTagLike(filter.query)
                 ),
-                isNotNullFilter(ReviewEntity::mainImageUri,filter.hasImage),
+                isNotNullFilter(ReviewEntity::mainImageUri, filter.hasImage),
                 equalFilter(ReviewEntity::foodId, filter.foodId),
                 equalFilter(ReviewEntity::writeUserId, filter.writeUserId)
 

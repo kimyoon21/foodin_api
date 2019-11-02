@@ -6,5 +6,6 @@ enum class SnsType {
     NAVER,
     FACEBOOK,
     GOOGLE,
-    EMAIL
+    EMAIL,
+    APPLE
 }

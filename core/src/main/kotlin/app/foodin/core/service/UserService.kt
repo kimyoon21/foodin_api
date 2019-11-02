@@ -122,7 +122,7 @@ class CustomUserDetailsService(
     }
 
     override fun snsLogin(snsTokenDto: SnsTokenDto, user: User): UserLoginResultDto {
-        // 로그인 처리
+        // sns 로그인 처리도 endpoint email 사용
         val registration = clientRegistrationRepository.findByRegistrationId(SnsType.EMAIL.name.toLowerCase())
         val tokenUri = registration.providerDetails.tokenUri
 
@@ -180,6 +180,12 @@ class CustomUserDetailsService(
 
     @Suppress("UNCHECKED_CAST")
     override fun checkValidUserInfo(snsTokenDto: SnsTokenDto): Boolean {
+
+        // apple 우회
+        if (SnsType.APPLE == snsTokenDto.snsType) {
+            return SnsTokenDto(snsTokenDto.accessToken).snsUserId == snsTokenDto.snsUserId
+        }
+
         val resultMap = getSnsUserInfo(snsTokenDto) as Map<String, Any>
         return when (snsTokenDto.snsType) {
             SnsType.KAKAO -> {

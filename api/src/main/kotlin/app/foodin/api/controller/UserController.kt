@@ -79,6 +79,10 @@ class UserController(
                     .throwNullOrEmpty { FieldErrorException(userCreateReq::snsUserId.name, "{ex.need}", "{word.uid}") }
                     .let {
 
+                        // 검증
+                        if (userCreateReq.accessToken != null && !userService.checkValidUserInfo(SnsTokenDto(it, userCreateReq.snsType, userCreateReq.accessToken!!))) {
+                            throw CommonException("인증정보가 일치하지 않습니다.")
+                        }
                         checkRegisteredUid(userCreateReq.snsType, it)
                         // sns 인경우 비번 세팅
                         userCreateReq.loginPw = BCryptPasswordEncoder().encode("${userCreateReq.snsUserId}")
@@ -140,7 +144,7 @@ class UserController(
      * 5. 있으면 로그인 시키고 jwtToken 내려줌
      */
     @PostMapping(value = ["/login/sns"])
-    fun checkUserInfoByAccessToken(
+    fun snsLogin(
         @RequestBody snsTokenDto: SnsTokenDto,
         errors: Errors
     ): ResponseResult {

@@ -24,6 +24,8 @@ class UserCreateReq(
     var birthday: String? = null
 
     var gender: Gender? = null
+    // 검증용 (저장x)
+    var accessToken: String? = null
 
     fun toUser(): User {
         User(0, this.email, this.realName, this.snsType).let {
