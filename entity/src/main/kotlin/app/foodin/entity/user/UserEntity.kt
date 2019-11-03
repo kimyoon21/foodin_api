@@ -72,7 +72,7 @@ data class UserEntity(
     @BatchSize(size = 20)
     var userFoodCategoryEntityList: MutableList<FoodCategoryEntity> = mutableListOf()
 
-    var userFoodFilterStr : String? = null
+    var userFoodFilterStr: String? = null
 
     /*** for UserDetails */
 

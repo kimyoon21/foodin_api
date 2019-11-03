@@ -11,10 +11,6 @@ import java.util.*
 import javax.crypto.spec.SecretKeySpec
 import javax.xml.bind.DatatypeConverter
 
-
-
-
-
 class JwtCreator {
 
     // Sample method to construct a JWT
@@ -26,7 +22,7 @@ class JwtCreator {
 
         fun createJWT(id: String, issuer: String, audience: String, keyId: String, subject: String, ttlMillis: Long): String {
 
-            val SECRET_KEY = JwtCreator::class.java.getResource("/client_key.txt").readText(Charset.forName("UTF-8"));
+            val SECRET_KEY = JwtCreator::class.java.getResource("/client_key.txt").readText(Charset.forName("UTF-8"))
 //            val SECRET_KEY = "MIGTAgEA49AwEHBHkwdwIBAQQgQUwc+DG9Q7pDILxY" +
 //                    "o784B53QXHTK1xehRANCAARot6TCmCoPXUCH" +
 //                    "ASXvLNyQ0y7iJb5PQRzN2kg/+zWNYdRt0HT17n" +
@@ -48,7 +44,7 @@ class JwtCreator {
                     .setAudience(audience)
                     .setSubject(subject)
                     .setIssuer(issuer)
-                    .signWith(privateKey,SignatureAlgorithm.ES256)
+                    .signWith(privateKey, SignatureAlgorithm.ES256)
                     .setHeaderParam("kid", keyId)
 
             // if it has been specified, let's add the expiration
@@ -70,13 +66,13 @@ class JwtCreator {
                     .parseClaimsJwt(jwt).getBody()
         }
 
-        fun  keyToValue( pkcs8key : ByteArray) : PrivateKey
+        fun keyToValue(pkcs8key: ByteArray): PrivateKey
         {
 
-            val spec = PKCS8EncodedKeySpec(pkcs8key);
-            val factory = KeyFactory.getInstance("EC");
-            val privateKey = factory.generatePrivate(spec);
-            return privateKey;
+            val spec = PKCS8EncodedKeySpec(pkcs8key)
+            val factory = KeyFactory.getInstance("EC")
+            val privateKey = factory.generatePrivate(spec)
+            return privateKey
         }
     }
 }

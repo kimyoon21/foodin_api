@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 
-
-
 @RestController
 @RequestMapping("/apple-auth")
-class AppleAuthController(
-) {
+class AppleAuthController() {
 
     private val logger = LoggerFactory.getLogger(AppleAuthController::class.java)
 
@@ -58,12 +55,10 @@ class AppleAuthController(
             logger.error(ex.responseBodyAsString, ex)
             throw CommonException("token 및 sns 정보가 정확하지 않습니다.", ex)
         }
-
-
     }
 }
 
 data class AppleAuthResult(
-        val code: String,
-        val id_token: String
+    val code: String,
+    val id_token: String
 )

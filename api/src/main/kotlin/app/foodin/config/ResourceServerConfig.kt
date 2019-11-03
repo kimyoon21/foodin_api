@@ -46,5 +46,4 @@ class ResourceServerConfig(
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
     }
-
 }
