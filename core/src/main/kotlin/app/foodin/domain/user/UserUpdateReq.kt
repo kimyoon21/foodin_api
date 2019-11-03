@@ -19,4 +19,6 @@ class UserUpdateReq {
     var gender: Gender? = null
 
     var profileImageUri: String? = null
+
+    var userFoodFilterList: List<String> = listOf()
 }

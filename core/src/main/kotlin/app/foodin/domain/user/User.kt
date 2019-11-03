@@ -73,6 +73,8 @@ class User(
 
     var userFoodCategoryList: List<FoodCategory> = listOf()
 
+    var userFoodFilterList: List<String> = listOf()
+
     /*** for UserDetails */
     // auth csv
     var authoritiesStr: String? = UserAuthority.ROLE_USER.name

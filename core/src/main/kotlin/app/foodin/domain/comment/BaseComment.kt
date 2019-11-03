@@ -28,7 +28,7 @@ open class BaseComment<P : Commentable>(
 
     var contents: String? = null
 
-    var imageUriList: MutableList<String> = mutableListOf()
+    var imageUriList: List<String> = listOf()
 
     var loveCount: Int = 0
 

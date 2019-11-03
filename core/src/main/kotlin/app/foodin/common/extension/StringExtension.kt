@@ -10,27 +10,27 @@ import app.foodin.common.exception.CommonException
  *  .let { checkRegisteredEmail(it) }
  * ```
  */
-fun String?.csvToList(): MutableList<String> {
+fun String?.csvToList(): List<String> {
     return if (this.hasValue()) {
         this!!.split(",").map { it.trim() }.filter { it.hasValue() }.toMutableList()
     } else {
-        mutableListOf()
+        listOf()
     }
 }
 
-fun MutableList<String>.listToCsv(): String {
+fun List<String>.listToCsv(): String {
     return this.filter { it.trim().hasValue() }.joinToString(",")
 }
 
-fun String?.tagsToList(): MutableList<String> {
+fun String?.tagsToList(): List<String> {
     return if (this.hasValue()) {
         this!!.split(" ").map { it.trim() }.filter { it.hasValue() }.toMutableList()
     } else {
-        mutableListOf()
+        listOf()
     }
 }
 
-fun MutableList<String>.listToTags(): String {
+fun List<String>.listToTags(): String {
     return this.filter { it.trim().hasValue() }.joinToString(" ")
 }
 

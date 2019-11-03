@@ -30,7 +30,7 @@ data class Food(
 
     var companyName: String? = null
 
-    var sellerNameList: MutableList<String> = mutableListOf()
+    var sellerNameList: List<String> = listOf()
 
     var minPrice: Int? = 0
 
@@ -38,11 +38,11 @@ data class Food(
 
     var summary: String? = null
 
-    var tagList: MutableList<String> = mutableListOf()
+    var tagList: List<String> = listOf()
 
     var mainImageUri: String? = null
 
-    var imageUriList: MutableList<String> = mutableListOf()
+    var imageUriList: List<String> = listOf()
 
     var loveCount: Int = 0
 

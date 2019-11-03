@@ -31,11 +31,11 @@ data class Review(
 
     var contents: String? = null
 
-    var tagList: MutableList<String> = mutableListOf()
+    var tagList: List<String> = listOf()
 
     var mainImageUri: String? = null
 
-    var imageUriList: MutableList<String> = mutableListOf()
+    var imageUriList: List<String> = listOf()
 
     var loveCount: Int = 0
 

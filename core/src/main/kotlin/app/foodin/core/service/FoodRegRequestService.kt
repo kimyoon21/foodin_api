@@ -46,8 +46,8 @@ class FoodRegRequestService(
             if (it.mainImageUri == null) {
                 it.mainImageUri = foodRegRequest.mainImageUri
             }
-            it.tagList.addAll(foodRegRequest.tagList)
-            it.imageUriList.addAll(foodRegRequest.imageUriList)
+            it.tagList = it.tagList + foodRegRequest.tagList
+            it.imageUriList = it.imageUriList + foodRegRequest.imageUriList
 
             return it
         }

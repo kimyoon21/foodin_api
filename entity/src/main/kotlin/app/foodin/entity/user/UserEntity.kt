@@ -3,6 +3,8 @@ package app.foodin.entity.user
 import app.foodin.common.enums.Gender
 import app.foodin.common.enums.SnsType
 import app.foodin.common.enums.UserAuthority
+import app.foodin.common.extension.csvToList
+import app.foodin.common.extension.listToCsv
 import app.foodin.common.utils.DateHelper
 import app.foodin.common.utils.isProxyObjectInit
 import app.foodin.domain.user.User
@@ -70,6 +72,8 @@ data class UserEntity(
     @BatchSize(size = 20)
     var userFoodCategoryEntityList: MutableList<FoodCategoryEntity> = mutableListOf()
 
+    var userFoodFilterStr : String? = null
+
     /*** for UserDetails */
 
     var agreePolicy: Boolean = false
@@ -106,7 +110,7 @@ data class UserEntity(
         followerCount = user.followerCount
         mainBadgeId = user.mainBadgeId
         userFoodCategoryEntityList = user.userFoodCategoryList.map { FoodCategoryEntity(it) }.toCollection(LinkedList())
-
+        userFoodFilterStr = user.userFoodFilterList.listToCsv()
         agreePolicy = user.agreePolicy
         agreeMarketing = user.agreeMarketing
         authoritiesStr = user.authoritiesStr
@@ -141,6 +145,7 @@ data class UserEntity(
             if (isProxyObjectInit(this.userFoodCategoryEntityList)) {
                 it.userFoodCategoryList = this.userFoodCategoryEntityList.toDomainList()
             }
+            it.userFoodFilterList = this.userFoodFilterStr.csvToList()
 
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
@@ -163,6 +168,7 @@ data class UserEntity(
             val birthFullDay = it.birthday?.let { day -> DateHelper.parse(day) }
             this.birth = Birth(birthFullDay)
             this.profileImageUri = it.profileImageUri
+            this.userFoodFilterStr = it.userFoodFilterList.listToCsv()
         }
     }
 }
