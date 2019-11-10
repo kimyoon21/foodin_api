@@ -5,6 +5,8 @@ import app.foodin.domain.common.EntityType
 import app.foodin.domain.love.Love
 import app.foodin.domain.love.LoveFilter
 import app.foodin.entity.common.*
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -15,6 +17,11 @@ interface LoveRepository : BaseRepositoryInterface<LoveEntity>
 @Component
 class JpaLoveRepository(private val repository: LoveRepository) :
         BaseRepository<Love, LoveEntity, LoveFilter>(repository), LoveGateway {
+
+    override fun findAllByFilter(filter: LoveFilter, pageable: Pageable): Page<Love> {
+        return findAll(LoveFilterQuery(filter), pageable)
+    }
+
     /****
      * userId 와 type 을 통해 유저가 해당 food,review 등을 좋아했는지 여부를 체크
      */
