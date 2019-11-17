@@ -14,6 +14,8 @@ data class ReviewComment(
 
     var reviewWriteUserId: Long? = null
 
+    var hasLoved: Boolean = false
+
     constructor(review: Review, writer: User, commentReq: CommentReq) :
             this(reviewId = review.id) {
         setFromRequestDTO(commentReq)
