@@ -21,7 +21,7 @@ import java.util.stream.Collectors
 class ReviewCommentController(
     private val reviewCommentService: ReviewCommentService,
     private val reviewService: ReviewService,
-            private val commentLoveService: CommentLoveService
+    private val commentLoveService: CommentLoveService
 ) {
 
     @GetMapping
@@ -32,9 +32,9 @@ class ReviewCommentController(
     ): ResponseResult {
         filter.parentId = rid
         val result = reviewCommentService.findAll(filter, pageable)
-        if(getAuthenticatedUserInfo().hasUserRole()) {
+        if (getAuthenticatedUserInfo().hasUserRole()) {
             val idList = result.get().map { it.id }.collect(Collectors.toList())
-            val lovedList = commentLoveService.findAllByUserIdAndReviewCommentIdIn(getAuthenticatedUserInfo().id,idList)
+            val lovedList = commentLoveService.findAllByUserIdAndReviewCommentIdIn(getAuthenticatedUserInfo().id, idList)
             result.get().forEach { comment ->
                 run {
                     if (lovedList.stream().filter { x -> comment.id == x.reviewComment?.id }.findFirst().isPresent) {

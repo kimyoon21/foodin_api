@@ -20,14 +20,13 @@ class AppleAuthController() {
 
     @PostMapping
     fun callbackFromWeb(@ModelAttribute appleResult: AppleAuthResult): ResponseResult {
-        return handling(appleResult,"")
+        return handling(appleResult, "")
     }
 
     @PostMapping("/app")
     fun callbackFromApp(@RequestBody appleResult: AppleAuthResult): ResponseResult {
         return handling(appleResult, "/app")
     }
-
 
     fun handling(appleResult: AppleAuthResult, path: String): ResponseResult {
         val clientId = "app.foodin.client"
@@ -65,6 +64,6 @@ class AppleAuthController() {
 }
 
 data class AppleAuthResult(
-        val code: String,
-        val id_token: String
+    val code: String,
+    val id_token: String
 )

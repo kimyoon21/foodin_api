@@ -43,6 +43,6 @@ class CommentLoveService(
     }
 
     fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLove> {
-        return gateway.findAllByUserIdAndReviewCommentIdIn(userId,reviewCommentIds)
+        return gateway.findAllByUserIdAndReviewCommentIdIn(userId, reviewCommentIds)
     }
 }

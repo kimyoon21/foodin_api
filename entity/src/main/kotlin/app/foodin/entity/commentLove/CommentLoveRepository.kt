@@ -27,7 +27,7 @@ class JpaCommentLoveRepository(private val repository: CommentLoveRepository) :
     }
 
     override fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLove> {
-        return repository.findAllByUserIdAndReviewCommentIdIn(userId,reviewCommentIds).toDomainList()
+        return repository.findAllByUserIdAndReviewCommentIdIn(userId, reviewCommentIds).toDomainList()
     }
 
     override fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLove? {
