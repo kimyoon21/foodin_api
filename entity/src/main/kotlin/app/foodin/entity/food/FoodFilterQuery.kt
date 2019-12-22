@@ -22,7 +22,7 @@ class FoodFilterQuery(
                             hasNameLike(q),
                             hasTagLike(q),
                             hasSellerName(q),
-                            where { equal(it.join(FoodEntity::category).get(FoodCategoryEntity::filterName),q) }
+                            where { equal(it.join(FoodEntity::category).get(FoodCategoryEntity::filterName), q) }
                     )
                 }
         )

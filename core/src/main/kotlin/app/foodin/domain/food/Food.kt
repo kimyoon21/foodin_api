@@ -16,7 +16,7 @@ data class Food(
 
 ) : BaseDomain(id), UserWritable {
 
-    var category : FoodCategory? = null
+    var category: FoodCategory? = null
 
     @JsonIgnore
     override var writeUser: User? = null

@@ -20,13 +20,13 @@ import java.util.stream.Collectors
 @Service
 @Transactional
 class FoodService(
-        override val gateway: FoodGateway,
-        val foodCategoryGateway: FoodCategoryGateway,
-        val loveGateway: LoveGateway,
-        val reviewGateway: ReviewGateway,
-        val foodFoundUserGateway: FoodFoundUserGateway,
-        val sellerGateway: SellerGateway,
-        val userGateway: UserGateway
+    override val gateway: FoodGateway,
+    val foodCategoryGateway: FoodCategoryGateway,
+    val loveGateway: LoveGateway,
+    val reviewGateway: ReviewGateway,
+    val foodFoundUserGateway: FoodFoundUserGateway,
+    val sellerGateway: SellerGateway,
+    val userGateway: UserGateway
 
 ) : BaseService<Food, FoodFilter>(), UserWritableInterface {
 

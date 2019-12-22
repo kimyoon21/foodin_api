@@ -23,7 +23,7 @@ data class FoodCategoryEntity(
 
     constructor(foodCategory: FoodCategory) : this(foodCategory.groupName,
             foodCategory.filterName,
-            foodCategory.detailName){
+            foodCategory.detailName) {
         setBaseFieldsFromDomain(foodCategory)
     }
 

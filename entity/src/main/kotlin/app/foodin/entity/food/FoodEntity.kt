@@ -16,11 +16,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "foods")
 data class FoodEntity(
-        var name: String,
+    var name: String,
 
-        @ManyToOne
-        @JoinColumn(name = "category_id")
-        var category: FoodCategoryEntity
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    var category: FoodCategoryEntity
 ) : BaseEntity<Food>() {
     @Column(name = "category_id", updatable = false, insertable = false)
     var categoryId: Long = category.id
