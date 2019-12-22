@@ -1,9 +1,11 @@
 package app.foodin.entity.review
 
+import app.foodin.common.extension.hasValueLet
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewFilter
 import app.foodin.entity.common.*
 import app.foodin.entity.food.FoodEntity
+import app.foodin.entity.foodCategory.FoodCategoryEntity
 import org.springframework.data.jpa.domain.Specification
 
 class ReviewFilterQuery(
@@ -16,10 +18,13 @@ class ReviewFilterQuery(
                 hasTagLike(filter.tag),
                 // 푸드카테고리도 리뷰에 적용
                 filterIfHasValue(filter.categoryIdList, where { it.join(ReviewEntity::food).get(FoodEntity::categoryId).`in`(filter.categoryIdList) }),
-                querysToSpecification(
-                        hasContentsLike(filter.query),
-                        hasTagLike(filter.query)
-                ),
+                filter.query.hasValueLet { q ->
+                    querysToSpecification(
+                            hasContentsLike(filter.query),
+                            hasTagLike(filter.query),
+                            where { equal(it.join(ReviewEntity::food).join(FoodEntity::category).get(FoodCategoryEntity::filterName), q) }
+                    )
+                },
                 isNotNullFilter(ReviewEntity::mainImageUri, filter.hasImage),
                 equalFilter(ReviewEntity::foodId, filter.foodId),
                 equalFilter(ReviewEntity::writeUserId, filter.writeUserId)
