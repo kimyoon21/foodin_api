@@ -99,3 +99,10 @@ spring:
 server:
   address: 127.0.0.1
   port: ${PORT:5000}
+
+---
+spring:
+  profiles: prod
+server:
+  address: 127.0.0.1
+  port: ${PORT:5000}
