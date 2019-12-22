@@ -23,15 +23,15 @@ data class FoodCategoryEntity(
 
     constructor(foodCategory: FoodCategory) : this(foodCategory.groupName,
             foodCategory.filterName,
-            foodCategory.detailName)
+            foodCategory.detailName){
+        setBaseFieldsFromDomain(foodCategory)
+    }
 
     override fun toDomain(): FoodCategory {
         return FoodCategory(groupName = this.groupName,
                 filterName = this.filterName,
                 detailName = this.detailName).also {
-            it.id = this.id
-            it.createdTime = this.createdTime
-            it.updatedTime = this.updatedTime
+            setDomainBaseFieldsFromEntity(it)
             it.foodCount = this.foodCount
         }
     }

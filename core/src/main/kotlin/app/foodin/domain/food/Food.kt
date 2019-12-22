@@ -2,6 +2,7 @@ package app.foodin.domain.food
 
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.domain.user.User
 import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritable
@@ -14,6 +15,8 @@ data class Food(
     var categoryId: Long
 
 ) : BaseDomain(id), UserWritable {
+
+    var category : FoodCategory? = null
 
     @JsonIgnore
     override var writeUser: User? = null

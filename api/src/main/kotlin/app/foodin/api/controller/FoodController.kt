@@ -4,6 +4,7 @@ import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.extension.onlyUser
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.getAuthenticatedUserInfo
+import app.foodin.core.service.FoodCategoryService
 import app.foodin.core.service.FoodService
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/food")
 class FoodController(
-    private val foodService: FoodService
+    private val foodService: FoodService,
+    private val foodCategoryService: FoodCategoryService
 ) {
 
     @GetMapping
@@ -63,6 +65,7 @@ class FoodController(
     @PreAuthorize(onlyAdmin)
     @PostMapping(consumes = ["application/json"])
     fun register(@RequestBody food: Food): ResponseResult {
+        food.category = foodCategoryService.findById(food.categoryId)
         return ResponseResult(foodService.saveFrom(food))
     }
 

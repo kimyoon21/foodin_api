@@ -4,6 +4,7 @@ import app.foodin.common.extension.hasValueLet
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import app.foodin.entity.common.*
+import app.foodin.entity.foodCategory.FoodCategoryEntity
 import org.springframework.data.jpa.domain.Specification
 
 class FoodFilterQuery(
@@ -20,7 +21,8 @@ class FoodFilterQuery(
                     querysToSpecification(
                             hasNameLike(q),
                             hasTagLike(q),
-                            hasSellerName(q)
+                            hasSellerName(q),
+                            where { equal(it.join(FoodEntity::category).get(FoodCategoryEntity::filterName),q) }
                     )
                 }
         )
