@@ -26,7 +26,6 @@ class CommentLoveService(
         if (commentLoveReq.reviewCommentId == null) {
             throw CommonException(EX_NEED, "word.targetId")
         }
-
         val oldCommentLove = gateway.findByReviewCommentIdAndUserId(commentLoveReq.reviewCommentId, getAuthenticatedUserInfo().id)
         return if (oldCommentLove == null) {
             val reviewComment = reviewCommentGateway.findById(commentLoveReq.reviewCommentId) ?: throw NotExistsException("word.reviewComment")

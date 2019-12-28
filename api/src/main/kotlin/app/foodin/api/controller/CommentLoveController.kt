@@ -1,5 +1,7 @@
 package app.foodin.api.controller
 
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_NEED
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.service.CommentLoveService
 import app.foodin.core.service.ReviewCommentService
@@ -26,9 +28,12 @@ class CommentLoveController(
 
     @PostMapping(consumes = ["application/json"])
     fun createOrDelete(@RequestBody commentLoveReq: CommentLoveReq): ResponseResult {
+
         val commentLove = commentLoveService.addOrDelete(commentLoveReq)
         if (commentLove?.reviewComment != null) {
-            reviewCommentService.addLoveCount(commentLove.reviewComment!!.id)
+            reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!,1)
+        } else{
+            reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!,-1)
         }
         return ResponseResult(commentLove)
     }

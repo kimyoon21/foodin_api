@@ -68,9 +68,24 @@ class ReviewCommentController(
         val result = ResponseTypeResult(reviewCommentService.save(commentCreateReq))
         result.data?.let {
             // count 증가 async
-            reviewService.addCommentCount(it.reviewId)
+            reviewService.addCommentCount(it.reviewId,1)
         }
 
         return result
+    }
+
+    @DeleteMapping(value = ["/{id}"])
+    fun delete(
+            @PathVariable rid: Long,
+            @PathVariable id: Long
+    ): ResponseTypeResult<ReviewComment> {
+        val result = ResponseTypeResult(reviewCommentService.deleteById(id))
+        result.data?.let {
+            // count 증가 async
+            if(it){
+                reviewService.addCommentCount(rid,-1)
+            }
+        }
+        return ResponseTypeResult()
     }
 }

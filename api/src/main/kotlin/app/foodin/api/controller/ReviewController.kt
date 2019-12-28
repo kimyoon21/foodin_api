@@ -58,11 +58,23 @@ class ReviewController(
             throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = *arrayOf("유저"))
         }
         val result = ResponseTypeResult(reviewService.save(reviewCreateReq))
-        result.data?.let {
+        result.data?.also {
             // count 증가 async
-            foodService.addReviewAndRatingCount(it.foodId, !it.contents.isNullOrBlank())
+            foodService.addReviewAndRatingCount(it.foodId, !it.contents.isNullOrBlank(),1)
         }
 
         return result
     }
+
+    @DeleteMapping(value = ["/{id}"])
+    fun update(@PathVariable id: Long): ResponseTypeResult<Boolean> {
+        val review = reviewService.findById(id)
+        val result = ResponseTypeResult(reviewService.deleteById(id))
+        result.data?.let {
+            // count 증가 async
+            foodService.addReviewAndRatingCount(review.foodId, !review.contents.isNullOrBlank(),-1)
+        }
+        return result
+    }
+
 }
