@@ -6,13 +6,14 @@ import app.foodin.common.utils.DateHelper
 import javax.validation.constraints.Size
 
 class UserCreateReq(
-    val email: String,
     val realName: String,
     val snsType: SnsType,
     val nickName: String
 ) {
 
     var loginPw: String? = null
+
+    val email: String? = null
 
     var snsUserId: String? = null
 
@@ -28,9 +29,10 @@ class UserCreateReq(
     var accessToken: String? = null
 
     fun toUser(): User {
-        User(0, this.email, this.realName, this.snsType).let {
+        User(0, makeLoginId(), this.realName, this.snsType).let {
             it.nickName = this.nickName
             it.loginPw = this.loginPw
+            it.email = this.email
             it.snsUserId = this.snsUserId
             it.agreePolicy = this.agreePolicy
             it.agreeMarketing = this.agreeMarketing
@@ -40,5 +42,9 @@ class UserCreateReq(
 
             return it
         }
+    }
+
+    private fun makeLoginId(): String {
+        return snsType.name + ":" + snsUserId
     }
 }

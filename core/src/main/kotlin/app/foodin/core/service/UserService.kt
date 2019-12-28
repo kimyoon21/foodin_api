@@ -28,6 +28,7 @@ import java.sql.Timestamp
 import java.util.*
 
 interface UserService {
+    fun findByLoginId(loginId: String): User?
     fun findByEmail(email: String): User?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): User?
     fun saveFrom(userCreateReq: UserCreateReq): User
@@ -81,6 +82,10 @@ class CustomUserDetailsService(
 
     override fun update(userId: Long, userUpdateReq: UserUpdateReq): User {
         return userGateway.updateFrom(userId, userUpdateReq)
+    }
+
+    override fun findByLoginId(loginId: String): User? {
+        return userGateway.findByLoginId(loginId)
     }
 
     override fun findByEmail(email: String): User? {

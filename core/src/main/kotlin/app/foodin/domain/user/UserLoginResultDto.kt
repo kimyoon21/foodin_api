@@ -5,7 +5,7 @@ import java.sql.Timestamp
 
 class UserLoginResultDto(
     val id: Long,
-    val email: String,
+    val email: String?,
     val realName: String,
     val nickName: String,
     val snsType: SnsType,

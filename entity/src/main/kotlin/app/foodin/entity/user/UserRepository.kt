@@ -14,11 +14,16 @@ import java.util.*
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findByEmail(email: String): UserEntity?
+    fun findByLoginId(logindId: String): UserEntity?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): UserEntity?
 }
 
 @Component
 class JpaUserRepository(private val userRepository: UserRepository) : UserGateway {
+    override fun findByLoginId(loginId: String): User? {
+        return userRepository.findByLoginId(loginId)?.toDomain()
+    }
+
     override fun findById(id: Long): User? {
         return userRepository.findById(id).orElse(null)?.toDomain()
     }

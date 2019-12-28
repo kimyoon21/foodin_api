@@ -17,12 +17,14 @@ import javax.persistence.Enumerated
 
 class User(
     override var id: Long = 0,
-    val email: String,
+    @get:JsonIgnore
+    var loginId: String,
     var realName: String,
     val snsType: SnsType
 
 ) : BaseDomain(id), UserDetails {
 
+    var email: String? = null
     /****
      * sns 타입 email 아니면, snsType snsUserId 를 조합해서 생성
      */
@@ -87,7 +89,7 @@ class User(
 
     var accountLocked: Boolean = false
 
-    override fun getUsername() = email
+    override fun getUsername() = loginId
     @JsonIgnore
     override fun getPassword() = loginPw
 

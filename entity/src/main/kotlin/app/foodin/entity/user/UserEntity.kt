@@ -22,12 +22,14 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 data class UserEntity(
-    var email: String,
+    var loginId: String,
     var realName: String,
     @Enumerated(EnumType.STRING)
     var snsType: SnsType
 
 ) : BaseEntity<User>() {
+
+    var email: String? = null
 
     var snsUserId: String? = null
 
@@ -90,8 +92,9 @@ data class UserEntity(
 
     var accountLocked: Boolean = false
 
-    constructor(user: User) : this(user.email, user.realName, user.snsType) {
+    constructor(user: User) : this(user.loginId, user.realName, user.snsType) {
         setBaseFieldsFromDomain(user)
+        email = user.email
         snsUserId = user.snsUserId
         loginPw = user.loginPw
         birth = Birth(user.birthFullDay)
@@ -121,8 +124,9 @@ data class UserEntity(
     }
 
     override fun toDomain(): User {
-        return User(email = this.email, realName = this.realName, snsType = this.snsType).also {
+        return User(loginId = this.loginId, realName = this.realName, snsType = this.snsType).also {
             setDomainBaseFieldsFromEntity(it)
+            it.email = this.email
             it.snsUserId = this.snsUserId
             it.loginPw = this.loginPw
             it.birthFullDay = this.birth?.birthFullDay

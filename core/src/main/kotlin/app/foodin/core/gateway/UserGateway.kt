@@ -11,4 +11,5 @@ interface UserGateway {
     fun updateFrom(userId: Long, req: UserUpdateReq): User
     fun findAll(): List<User>
     fun findById(id: Long): User?
+    fun findByLoginId(loginId: String): User?
 }

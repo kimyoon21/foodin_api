@@ -68,12 +68,6 @@ class UserController(
             throw FieldErrorException(errors)
         }
 
-        userCreateReq.email
-                .throwNullOrEmpty { FieldErrorException(userCreateReq::email.name, "{ex.need}", "{word.email}") }
-                .let {
-                    checkRegisteredEmail(it)
-                }
-
         if (userCreateReq.snsType != SnsType.EMAIL) {
             userCreateReq.snsUserId
                     .throwNullOrEmpty { FieldErrorException(userCreateReq::snsUserId.name, "{ex.need}", "{word.uid}") }
@@ -117,7 +111,7 @@ class UserController(
     @GetMapping(value = ["/me"])
     fun getMe(authentication: Authentication, httpServletRequest: HttpServletRequest): ResponseResult {
         val userInfo = authentication.principal as CustomJwtUserInfo
-        return ResponseResult(userService.findByEmail(userInfo.username))
+        return ResponseResult(userService.findByLoginId(userInfo.username))
     }
 
     @GetMapping(value = [""])
