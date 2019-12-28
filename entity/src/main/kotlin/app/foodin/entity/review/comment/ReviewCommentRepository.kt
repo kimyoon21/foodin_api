@@ -16,15 +16,15 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity> {
     @Modifying
-    @Query("UPDATE ReviewCommentEntity set loveCount = loveCount + 1 where id = :id")
-    fun addLoveCount(@Param("id") id: Long)
+    @Query("UPDATE ReviewCommentEntity set loveCount = loveCount + :count where id = :id")
+    fun addLoveCount(@Param("id") id: Long, @Param("count") count: Int)
 }
 
 @Component
 class JpaReviewCommentRepository(private val repository: ReviewCommentRepository) :
         BaseRepository<ReviewComment, ReviewCommentEntity, CommentFilter>(repository), ReviewCommentGateway {
-    override fun addLoveCount(id: Long) {
-        repository.addLoveCount(id)
+    override fun addLoveCount(id: Long, count: Int) {
+        repository.addLoveCount(id,count)
     }
 
     override fun saveFrom(t: ReviewComment): ReviewComment {

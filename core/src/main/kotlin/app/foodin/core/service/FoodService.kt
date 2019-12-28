@@ -33,10 +33,10 @@ class FoodService(
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 
     @Async
-    fun addReviewAndRatingCount(id: Long, hasContents: Boolean) {
-        gateway.addRatingCount(id)
+    fun addReviewAndRatingCount(id: Long, hasContents: Boolean, count:Int) {
+        gateway.addRatingCount(id,count)
         if (hasContents) {
-            gateway.addReviewCount(id)
+            gateway.addReviewCount(id,count)
         }
     }
 

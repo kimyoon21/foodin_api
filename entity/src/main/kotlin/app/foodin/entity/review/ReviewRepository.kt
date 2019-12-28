@@ -19,15 +19,21 @@ interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
     fun findByWriteUserIdAndFoodId(userId: Long, foodId: Long): ReviewEntity?
     fun findAllByWriteUserId(userId: Long): List<ReviewEntity>
     @Modifying
-    @Query("UPDATE ReviewEntity set commentCount = commentCount + 1 where id = :id")
-    fun addCommentCount(@Param("id") id: Long)
+    @Query("UPDATE ReviewEntity set commentCount = commentCount + :count where id = :id")
+    fun addCommentCount(@Param("id") id: Long, @Param("count") count: Int)
+    @Query("UPDATE ReviewEntity set loveCount = loveCount + :count where id = :id")
+    fun addLoveCount(@Param("id") id: Long, @Param("count") count: Int)
 }
 
 @Component
 class JpaReviewRepository(private val repository: ReviewRepository) :
         BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
-    override fun addCommentCount(id: Long) {
-        repository.addCommentCount(id)
+    override fun addLoveCount(id: Long, count: Int) {
+        repository.addLoveCount(id,count)
+    }
+
+    override fun addCommentCount(id: Long, count:Int) {
+        repository.addCommentCount(id,count)
     }
 
     override fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review? {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable
 interface ReviewGateway : BaseGateway<Review, ReviewFilter> {
     fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review?
     fun getByUserId(userId: Long): List<Review>
-    fun addCommentCount(id: Long)
+    fun addCommentCount(id: Long, count:Int)
     fun findDtoBy(filter: ReviewFilter, pageable: Pageable): Page<ReviewInfoDto>
+    fun addLoveCount(id: Long, count: Int)
 }

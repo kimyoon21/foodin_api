@@ -48,8 +48,8 @@ class ReviewService(
     }
 
     @Async
-    fun addCommentCount(id: Long) {
-        gateway.addCommentCount(id)
+    fun addCommentCount(id: Long, count:Int) {
+        gateway.addCommentCount(id,count)
     }
 
     fun findDto(filter: ReviewFilter, pageable: Pageable): Page<ReviewInfoDto> {
