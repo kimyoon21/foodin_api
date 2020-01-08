@@ -21,6 +21,7 @@ interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
     @Modifying
     @Query("UPDATE ReviewEntity set commentCount = commentCount + :count where id = :id")
     fun addCommentCount(@Param("id") id: Long, @Param("count") count: Int)
+    @Modifying
     @Query("UPDATE ReviewEntity set loveCount = loveCount + :count where id = :id")
     fun addLoveCount(@Param("id") id: Long, @Param("count") count: Int)
 }
