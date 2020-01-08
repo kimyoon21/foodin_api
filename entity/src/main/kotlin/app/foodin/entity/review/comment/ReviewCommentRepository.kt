@@ -24,7 +24,7 @@ interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity>
 class JpaReviewCommentRepository(private val repository: ReviewCommentRepository) :
         BaseRepository<ReviewComment, ReviewCommentEntity, CommentFilter>(repository), ReviewCommentGateway {
     override fun addLoveCount(id: Long, count: Int) {
-        repository.addLoveCount(id,count)
+        repository.addLoveCount(id, count)
     }
 
     override fun saveFrom(t: ReviewComment): ReviewComment {

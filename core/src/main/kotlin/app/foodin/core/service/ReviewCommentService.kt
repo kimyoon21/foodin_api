@@ -38,7 +38,7 @@ class ReviewCommentService(
         return saveFrom(reviewComment)
     }
 
-    fun addLoveCount(id: Long, count:Int) {
-        gateway.addLoveCount(id,count)
+    fun addLoveCount(id: Long, count: Int) {
+        gateway.addLoveCount(id, count)
     }
 }

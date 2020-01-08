@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class LoveService(override val gateway: LoveGateway,
-                  val foodGateway: FoodGateway,
-                  val reviewGateway: ReviewGateway) : BaseService<Love,
+class LoveService(
+    override val gateway: LoveGateway,
+    val foodGateway: FoodGateway,
+    val reviewGateway: ReviewGateway
+) : BaseService<Love,
         LoveFilter>() {
     /***
      * 좋아요 부재시 추가, 존재시 삭제
@@ -33,7 +35,6 @@ class LoveService(override val gateway: LoveGateway,
             saveFrom(love)
             addLoveCount(loveReq, 1)
             love
-
         } else {
             deleteById(page.content[0].id)
             addLoveCount(loveReq, -1)

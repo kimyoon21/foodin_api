@@ -30,11 +30,11 @@ interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
 class JpaReviewRepository(private val repository: ReviewRepository) :
         BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
     override fun addLoveCount(id: Long, count: Int) {
-        repository.addLoveCount(id,count)
+        repository.addLoveCount(id, count)
     }
 
-    override fun addCommentCount(id: Long, count:Int) {
-        repository.addCommentCount(id,count)
+    override fun addCommentCount(id: Long, count: Int) {
+        repository.addCommentCount(id, count)
     }
 
     override fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review? {

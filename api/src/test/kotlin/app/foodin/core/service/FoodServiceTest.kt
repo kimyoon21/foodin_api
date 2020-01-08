@@ -25,7 +25,7 @@ class FoodServiceTest {
 
         val foodEntity = foodRepository.findAll().first()
         val old = foodEntity.copy()
-        foodService.addReviewAndRatingCount(foodEntity.id, true,1)
+        foodService.addReviewAndRatingCount(foodEntity.id, true, 1)
         foodRepository.flush()
 
         assertEquals(old.reviewCount + 1, foodEntity.reviewCount)

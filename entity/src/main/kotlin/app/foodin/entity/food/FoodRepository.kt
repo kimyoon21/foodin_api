@@ -29,29 +29,29 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
 
     @Modifying
     @Query("UPDATE FoodEntity f set f.loveCount = f.loveCount + :count where f.id = :id")
-    fun addLoveCount(@Param("id") id: Long, @Param("count") count : Int)
+    fun addLoveCount(@Param("id") id: Long, @Param("count") count: Int)
     @Modifying
     @Query("UPDATE FoodEntity f set f.ratingCount = f.ratingCount + :count where f.id = :id")
-    fun addRatingCount(@Param("id") id: Long, @Param("count") count : Int)
+    fun addRatingCount(@Param("id") id: Long, @Param("count") count: Int)
     @Modifying
     @Query("UPDATE FoodEntity f set f.reviewCount = f.reviewCount + :count where f.id = :id")
-    fun addReviewCount(@Param("id") id: Long, @Param("count") count : Int)
+    fun addReviewCount(@Param("id") id: Long, @Param("count") count: Int)
 }
 
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) :
         BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
 
-    override fun addLoveCount(id: Long,count:Int) {
-        foodRepository.addLoveCount(id,count)
+    override fun addLoveCount(id: Long, count: Int) {
+        foodRepository.addLoveCount(id, count)
     }
 
-    override fun addRatingCount(id: Long,count:Int) {
-        foodRepository.addRatingCount(id,count)
+    override fun addRatingCount(id: Long, count: Int) {
+        foodRepository.addRatingCount(id, count)
     }
 
-    override fun addReviewCount(id: Long,count:Int) {
-        foodRepository.addReviewCount(id,count)
+    override fun addReviewCount(id: Long, count: Int) {
+        foodRepository.addReviewCount(id, count)
     }
 
     override fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {

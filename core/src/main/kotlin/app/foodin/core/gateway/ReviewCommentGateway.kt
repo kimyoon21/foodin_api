@@ -4,5 +4,5 @@ import app.foodin.domain.comment.CommentFilter
 import app.foodin.domain.review.ReviewComment
 
 interface ReviewCommentGateway : BaseGateway<ReviewComment, CommentFilter> {
-    fun addLoveCount(id: Long, count:Int)
+    fun addLoveCount(id: Long, count: Int)
 }
