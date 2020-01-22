@@ -45,7 +45,7 @@ class ImageUploadAsyncService {
 
     private val clientRegion = Regions.AP_NORTHEAST_2
     private val bucketName = "app.foodin.images"
-    private val accessKey = "AKIAITKXECDSZWUMZZBA"
+    private val accessKey = "AKIAJYYWGN3UZ663VECQ"
     private val secretKey = "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"
     private val cfDomain = "https://image.foodin.app"
 
