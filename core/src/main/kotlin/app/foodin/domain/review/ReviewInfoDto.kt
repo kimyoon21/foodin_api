@@ -5,7 +5,7 @@ import app.foodin.common.enums.Status
 data class ReviewInfoDto(
     var id: Long = 0,
 
-    val foodId: Long? = null,
+    var foodId: Long? = null,
 
     var foodName: String? = null,
 

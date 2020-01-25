@@ -21,7 +21,7 @@ data class ReviewEntity(
 ) : StatusEntity<Review>() {
     @ManyToOne
     @JoinColumn(name = "food_id", insertable = false, updatable = false)
-    var food: FoodEntity? = null
+    var foodEntity: FoodEntity? = null
 
     var price: Int? = null
 
@@ -64,7 +64,7 @@ data class ReviewEntity(
     override fun toDomain(): Review {
         return Review(foodId = this.foodId).also {
             setDomainBaseFieldsFromEntity(it)
-            it.food = this.food?.toDto()
+            it.food = this.foodEntity?.toDto()
             it.price = this.price
             it.contents = this.contents
             it.tagList = this.tags.tagsToList()
@@ -81,7 +81,7 @@ data class ReviewEntity(
 
     fun toDto(): ReviewInfoDto {
         return ModelMapper().map(this, ReviewInfoDto::class.java).also {
-            it.foodName = this.food?.name
+            it.foodName = this.foodEntity?.name
         }
     }
 }

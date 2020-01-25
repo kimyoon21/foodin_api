@@ -17,12 +17,12 @@ class ReviewFilterQuery(
                 hasContentsLike(filter.name),
                 hasTagLike(filter.tag),
                 // 푸드카테고리도 리뷰에 적용
-                filterIfHasValue(filter.categoryIdList, where { it.join(ReviewEntity::food).get(FoodEntity::categoryId).`in`(filter.categoryIdList) }),
+                filterIfHasValue(filter.categoryIdList, where { it.join(ReviewEntity::foodEntity).get(FoodEntity::categoryId).`in`(filter.categoryIdList) }),
                 filter.query.hasValueLet { q ->
                     querysToSpecification(
                             hasContentsLike(filter.query),
                             hasTagLike(filter.query),
-                            where { equal(it.join(ReviewEntity::food).join(FoodEntity::category).get(FoodCategoryEntity::filterName), q) }
+                            where { equal(it.join(ReviewEntity::foodEntity).join(FoodEntity::category).get(FoodCategoryEntity::filterName), q) }
                     )
                 },
                 isNotNullFilter(ReviewEntity::mainImageUri, filter.hasImage),
