@@ -7,8 +7,8 @@ spring:
     file: spring.pid
   servlet:
     multipart:
-      max-file-size: 3MB
-      max-request-size: 20MB
+      max-file-size: 5MB
+      max-request-size: 25MB
 #  jackson:
 #    deserialization:
 #      accept-empty-string-as-null-object: true  TODO 작동시켜줘..

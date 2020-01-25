@@ -4,14 +4,14 @@ import app.foodin.common.enums.SnsType
 import java.sql.Timestamp
 
 class UserLoginResultDto(
-        val id: Long,
-        val email: String?,
-        val realName: String,
-        val nickName: String,
-        val snsType: SnsType,
-        var accessToken: String,
-        var refreshToken: String,
-        var expireTime: Timestamp
+    val id: Long,
+    val email: String?,
+    val realName: String,
+    val nickName: String,
+    val snsType: SnsType,
+    var accessToken: String,
+    var refreshToken: String,
+    var expireTime: Timestamp
 
 ) {
 
