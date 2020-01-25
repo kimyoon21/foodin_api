@@ -39,3 +39,8 @@ create table oauth_refresh_token (
 create table oauth_code (
   code VARCHAR(255), authentication BLOB
 );
+
+-- foo bar 기본 oauth client 생성
+INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`)
+VALUES
+	('foo', '', '$2a$10$b0UBAzf18dGzGbS60n1t9ujnhU2T.rsF34HU2r3u5ncGfxWI13F9G', 'read,write', 'authorization_code,password,implicit,refresh_token,client_credentials', NULL, 'ROLE_YOUR_CLIENT', 2147483647, 2147483647, NULL, NULL);
