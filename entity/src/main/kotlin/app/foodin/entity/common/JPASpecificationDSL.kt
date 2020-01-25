@@ -1,7 +1,6 @@
 package app.foodin.entity.common
 
 import org.springframework.data.jpa.domain.Specification
-import org.springframework.data.jpa.domain.Specifications
 import javax.persistence.criteria.*
 import kotlin.reflect.KProperty1
 
@@ -13,7 +12,7 @@ fun <R> Path<*>.get(prop: KProperty1<*, R?>): Path<R> = this.get<R>(prop.name)
 
 // Version of Specification.where that makes the CriteriaBuilder implicit
 fun <T> where(makePredicate: CriteriaBuilder.(Root<T>) -> Predicate): Specification<T> =
-        Specification.where<T> { root, _, criteriaBuilder -> criteriaBuilder.makePredicate(root) }
+        Specification { root, _, criteriaBuilder -> criteriaBuilder.makePredicate(root) }
 
 // helper function for defining Specification that take a Path to a property and send it to a CriteriaBuilder
 private fun <T, R> KProperty1<T, R?>.spec(makePredicate: CriteriaBuilder.(path: Path<R>) -> Predicate): Specification<T> =
@@ -28,9 +27,7 @@ fun <T, R> KProperty1<T, R?>.notEqual(x: R): Specification<T> = spec { notEqual(
 fun <T, R : Any> KProperty1<T, R?>.`in`(values: Collection<R>): Specification<T> =
         if (values.isNotEmpty()) spec { path ->
             `in`(path).apply { values.forEach { this.value(it) } }
-        } else {
-            emptySpecification()
-        }
+        } else Specification.where(null)!!
 
 // Comparison
 fun <T> KProperty1<T, Number?>.le(x: Number) = spec { le(it, x) }
@@ -69,34 +66,36 @@ fun <T> KProperty1<T, String?>.notLike(x: String): Specification<T> = spec { not
 fun <T> KProperty1<T, String?>.notLike(x: String, escapeChar: Char): Specification<T> = spec { notLike(it, x, escapeChar) }
 
 // And
-infix fun <T> Specification<T>.and(other: Specification<T>): Specification<T> = this.and(other)
+infix fun <T> Specification<T>.and(other: Specification<T>): Specification<T> = this.and(other)!!
 
 fun <T> and(vararg specs: Specification<T>?): Specification<T> {
     return and(specs.toList())
 }
 
 fun <T> and(specs: Iterable<Specification<T>?>): Specification<T> {
-    return combineSpecification(specs, Specification<T>::and)
+    return combineSpecification<T>(specs, Specification<T>::and)
 }
 
 // Or
-infix fun <T> Specification<T>.or(other: Specification<T>): Specification<T> = this.or(other)
+infix fun <T> Specification<T>.or(other: Specification<T>): Specification<T> = this.or(other)!!
 
 fun <T> or(vararg specs: Specification<T>?): Specification<T> {
     return or(specs.toList())
 }
 
 fun <T> or(specs: Iterable<Specification<T>?>): Specification<T> {
-    return combineSpecification(specs, Specification<T>::or)
+    return combineSpecification<T>(specs, Specification<T>::or)
 }
+
 
 // Not
 operator fun <T> Specification<T>.not(): Specification<T> = Specification.not(this)
 
 // Combines Specification with an operation
-inline fun <T> combineSpecification(specs: Iterable<Specification<T>?>, operation: Specification<T>.(Specification<T>) -> Specification<T>): Specification<T> {
+inline fun <T> combineSpecification(specs: Iterable<Specification<T>?>,
+                                            operation: Specification<T>.(Specification<T>) -> Specification<T>): Specification<T> {
     return specs.filterNotNull().fold(emptySpecification()) { existing, new -> existing.operation(new) }
 }
 
 // Empty Specification
-fun <T> emptySpecification(): Specification<T> = Specifications.where<T>(null)
+fun <T> emptySpecification(): Specification<T> = Specification.where(null)!!

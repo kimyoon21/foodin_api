@@ -42,7 +42,7 @@ class EntitySpecificationBuilder<T> {
         var result: Specification<T> = EntitySpecification(params[0])
 
         for (i in 1 until params.size) {
-            result = Specification.where(result).and(EntitySpecification(params[i]))
+            result = Specification.where(result)?.and(EntitySpecification(params[i]))!!
         }
 
         return result
