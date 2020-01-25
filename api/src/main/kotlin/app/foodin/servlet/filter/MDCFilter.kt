@@ -1,10 +1,10 @@
 package app.foodin.servlet.filter
 
 import app.foodin.common.utils.MDCUtils
-import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Component
 import java.io.IOException
 import javax.servlet.*
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
 
 @Component
 @Order(value = 2)

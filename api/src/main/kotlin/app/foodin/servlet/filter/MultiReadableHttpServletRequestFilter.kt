@@ -1,11 +1,11 @@
 package app.foodin.servlet.filter
 
 import app.foodin.servlet.MultiReadableHttpServletRequest
-import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Component
 import java.io.IOException
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
 
 @Component
 @Order(value = 1)

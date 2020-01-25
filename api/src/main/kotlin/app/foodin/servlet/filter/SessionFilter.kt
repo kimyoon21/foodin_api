@@ -2,9 +2,9 @@ package app.foodin.servlet.filter
 
 import app.foodin.common.utils.MDCUtils
 import app.foodin.common.utils.MDCUtils.SESSION_ID
-import org.springframework.stereotype.Component
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
 
 @Component
 class SessionFilter : Filter {

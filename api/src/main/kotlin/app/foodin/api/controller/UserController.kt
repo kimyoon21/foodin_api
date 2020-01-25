@@ -11,6 +11,9 @@ import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
 import app.foodin.domain.user.*
 import io.swagger.annotations.ApiParam
+import java.security.Principal
+import javax.servlet.http.HttpServletRequest
+import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -18,9 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
-import java.security.Principal
-import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
 
 /***
  * 유저 로그인, 가입, 수정 등의 작업

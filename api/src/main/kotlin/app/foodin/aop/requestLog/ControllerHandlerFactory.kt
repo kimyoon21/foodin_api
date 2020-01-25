@@ -9,13 +9,13 @@ import app.foodin.common.utils.MDCUtils.REQUEST_IP
 import app.foodin.common.utils.MDCUtils.REQUEST_METHOD_MDC
 import app.foodin.common.utils.MDCUtils.REQUEST_URI_MDC
 import app.foodin.core.annotation.Loggable
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import javax.servlet.http.HttpServletRequest
 
 // TODO: local cache
 internal object ControllerHandlerFactory {
