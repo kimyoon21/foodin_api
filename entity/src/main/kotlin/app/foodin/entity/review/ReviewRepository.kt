@@ -4,8 +4,8 @@ import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.review.Review
 import app.foodin.domain.review.ReviewFilter
 import app.foodin.domain.review.ReviewInfoDto
-import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
+import app.foodin.entity.common.StatusRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Modifying
@@ -28,7 +28,7 @@ interface ReviewRepository : BaseRepositoryInterface<ReviewEntity> {
 
 @Component
 class JpaReviewRepository(private val repository: ReviewRepository) :
-        BaseRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
+        StatusRepository<Review, ReviewEntity, ReviewFilter>(repository), ReviewGateway {
     override fun addLoveCount(id: Long, count: Int) {
         repository.addLoveCount(id, count)
     }

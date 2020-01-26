@@ -1,7 +1,6 @@
 package app.foodin.domain.food
 
-import app.foodin.common.enums.Status
-import app.foodin.domain.common.BaseDomain
+import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.domain.user.User
 import app.foodin.domain.user.UserInfoDto
@@ -14,7 +13,7 @@ data class Food(
     var name: String,
     var categoryId: Long
 
-) : BaseDomain(id), UserWritable {
+) : StatusDomain(id), UserWritable {
 
     var category: FoodCategory? = null
 
@@ -56,8 +55,6 @@ data class Food(
     var recipeCount: Int = 0
 
     var ratingAvg: Float? = null
-
-    var status: Status? = null
 
     var foundUserList: List<UserInfoDto> = listOf()
 

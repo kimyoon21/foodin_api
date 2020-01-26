@@ -39,7 +39,6 @@ class RecipeController(val recipeService: RecipeService) {
 
     @DeleteMapping(value = ["/{id}"])
     fun update(@PathVariable id: Long): ResponseTypeResult<Boolean> {
-        val recipe = recipeService.findById(id)
         val result = ResponseTypeResult(recipeService.deleteById(id))
 
         return result

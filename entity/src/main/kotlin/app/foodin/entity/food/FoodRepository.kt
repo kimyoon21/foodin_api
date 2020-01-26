@@ -4,8 +4,8 @@ import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodInfoDto
-import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
+import app.foodin.entity.common.StatusRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Modifying
@@ -40,7 +40,7 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
 
 @Component
 class JpaFoodRepository(private val foodRepository: FoodRepository) :
-        BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
+        StatusRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
 
     override fun addLoveCount(id: Long, count: Int) {
         foodRepository.addLoveCount(id, count)
