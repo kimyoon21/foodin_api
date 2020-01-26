@@ -34,7 +34,6 @@ class RecipeController(val recipeService: RecipeService) {
         }
         val result = ResponseTypeResult(recipeService.save(recipeCreateReq))
 
-
         return result
     }
 
