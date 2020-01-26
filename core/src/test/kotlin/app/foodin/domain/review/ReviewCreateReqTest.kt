@@ -1,7 +1,7 @@
 package app.foodin.domain.review
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ReviewCreateReqTest {
@@ -11,7 +11,7 @@ class ReviewCreateReqTest {
 
     @Test
     fun `json marhsall`() {
-        var req = ReviewCreateReq(foodId = 1, writeUserId = 1, review = ReviewReq(rating = 4.1f, contents = "맛없어요."))
+        var req = ReviewCreateReq(foodId = 1, writeUserId = 1, reviewReq = ReviewReq(rating = 4.1f, contents = "맛없어요."))
 
         val jsonStr = mapper.writeValueAsString(req)
 
@@ -23,8 +23,8 @@ class ReviewCreateReqTest {
         with(mapper.readValue(jsonStr, ReviewCreateReq::class.java)) {
             assertEquals(req.foodId, foodId)
             assertEquals(req.writeUserId, writeUserId)
-            assertEquals(req.review.contents, review.contents)
-            assertEquals(req.review.rating, review.rating)
+            assertEquals(req.reviewReq.contents, reviewReq.contents)
+            assertEquals(req.reviewReq.rating, reviewReq.rating)
         }
     }
 }

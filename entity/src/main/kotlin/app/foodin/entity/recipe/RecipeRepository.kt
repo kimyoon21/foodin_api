@@ -15,6 +15,6 @@ interface RecipeRepository : BaseRepositoryInterface<RecipeEntity>
 class JpaRecipeRepository(private val repository: RecipeRepository) : BaseRepository<Recipe,
         RecipeEntity, RecipeFilter>(repository), RecipeGateway {
     override fun saveFrom(t: Recipe): Recipe {
-                TODO("not implemented")
+        return repository.saveAndFlush(RecipeEntity(t)).toDomain()
     }
 }
