@@ -17,6 +17,7 @@ class FoodFilterQuery(
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),
                 hasSellerNameIn(it.sellerNameList),
+                isNotNullFilter(FoodEntity::mainImageUri,it.hasImage),
                 it.query.hasValueLet { q ->
                     querysToSpecification(
                             hasNameLike(q),
