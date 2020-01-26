@@ -11,6 +11,7 @@ import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
 import javax.persistence.*
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "recipes")

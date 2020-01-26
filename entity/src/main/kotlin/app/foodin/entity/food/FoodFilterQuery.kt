@@ -13,6 +13,7 @@ class FoodFilterQuery(
 
     override fun toSpecification(): Specification<FoodEntity> = filter.let {
         and(
+                equalFilter(FoodEntity::status,it.status),
                 hasNameLike(it.name),
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),

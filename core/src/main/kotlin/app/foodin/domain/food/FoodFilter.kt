@@ -1,6 +1,6 @@
 package app.foodin.domain.food
 
-import app.foodin.domain.BaseFilter
+import app.foodin.domain.StatusFilter
 
 data class FoodFilter(
     val name: String? = null,
@@ -8,4 +8,4 @@ data class FoodFilter(
     val tag: String? = null,
     val sellerNameList: List<String> = listOf(),
     val hasImage : Boolean? = null
-) : BaseFilter()
+) : StatusFilter()
