@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable
 
 interface RecipeGateway : StatusGateway<Recipe, RecipeFilter> {
     fun findDtoBy(filter: RecipeFilter, pageable: Pageable): Page<RecipeInfoDto>
+    fun addCommentCount(id: Long, count: Int)
+    fun addLoveCount(id: Long, count: Int)
 }

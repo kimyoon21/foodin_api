@@ -41,11 +41,7 @@ data class RecipeEntity(
 
     var loveCount: Int = 0
 
-    var ratingCount: Int = 0
-
-    var reviewCount: Int = 0
-
-    var ratingAvg: Float? = null
+    var commentCount: Int = 0
 
     constructor(recipe: Recipe) : this(recipe.name) {
         setBaseFieldsFromDomain(recipe)
@@ -56,9 +52,7 @@ data class RecipeEntity(
         mainImageUri = recipe.mainImageUri
         imageUriList = recipe.imageUriList
         loveCount = recipe.loveCount
-        reviewCount = recipe.reviewCount
-        ratingCount = recipe.ratingCount
-        ratingAvg = recipe.ratingAvg
+        commentCount = recipe.commentCount
         status = recipe.status
     }
 
@@ -73,9 +67,7 @@ data class RecipeEntity(
             it.mainImageUri = this.mainImageUri
             it.imageUriList = this.imageUriList
             it.loveCount = this.loveCount
-            it.ratingCount = this.ratingCount
-            it.reviewCount = this.reviewCount
-            it.ratingAvg = this.ratingAvg
+            it.commentCount = this.commentCount
             it.writeUser = this.writeUserEntity?.toDomain()
             it.status = this.status
 

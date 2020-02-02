@@ -23,9 +23,5 @@ data class RecipeInfoDto(
 
         var loveCount: Int = 0,
 
-        var ratingCount: Int = 0,
-
-        var reviewCount: Int = 0,
-
-        var commentCount: Int? = null
+        var commentCount: Int = 0
 )

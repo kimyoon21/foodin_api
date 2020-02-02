@@ -8,8 +8,6 @@ import app.foodin.domain.recipe.Recipe
 import app.foodin.domain.recipe.RecipeCreateReq
 import app.foodin.domain.recipe.RecipeFilter
 import app.foodin.domain.recipe.RecipeInfoDto
-import app.foodin.domain.review.ReviewFilter
-import app.foodin.domain.review.ReviewInfoDto
 import app.foodin.domain.review.ReviewReq
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

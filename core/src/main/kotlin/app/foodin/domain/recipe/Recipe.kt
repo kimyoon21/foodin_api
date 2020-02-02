@@ -28,11 +28,8 @@ data class Recipe(
 
     var loveCount: Int = 0
 
-    var ratingCount: Int = 0
+    var commentCount: Int = 0
 
-    var reviewCount: Int = 0
-
-    var ratingAvg: Float? = null
 
     constructor(foodList: List<Food>, writer: User, recipeReq: RecipeReq) : this(name = recipeReq.name) {
         setFromRequest(recipeReq)
