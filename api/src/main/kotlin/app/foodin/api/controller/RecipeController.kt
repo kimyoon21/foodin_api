@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.*
 class RecipeController(val recipeService: RecipeService) {
     @GetMapping
     fun getAll(pageable: Pageable, filter: RecipeFilter): ResponseResult {
-                return ResponseResult(recipeService.findAll(filter, pageable))
+        return ResponseResult(recipeService.findAll(filter, pageable))
+    }
+
+    @GetMapping(value = ["/dto"])
+    fun getAllWithDto(pageable: Pageable, filter: RecipeFilter): ResponseResult {
+        return ResponseResult(recipeService.findDto(filter, pageable))
     }
 
     @GetMapping(value = ["/{id}"])
