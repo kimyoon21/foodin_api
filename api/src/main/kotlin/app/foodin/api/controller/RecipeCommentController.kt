@@ -12,20 +12,22 @@ import app.foodin.domain.comment.CommentCreateReq
 import app.foodin.domain.comment.CommentFilter
 import app.foodin.domain.comment.CommentUpdateReq
 import app.foodin.domain.recipeComment.RecipeComment
+import java.util.stream.Collectors
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
-import java.util.stream.Collectors
 
 @RestController
 @RequestMapping(value = ["/recipeComment"])
-class RecipeCommentController(val recipeCommentService: RecipeCommentService,
-                              val recipeService: RecipeService,
-                              val commentLoveService: CommentLoveService) {
+class RecipeCommentController(
+    val recipeCommentService: RecipeCommentService,
+    val recipeService: RecipeService,
+    val commentLoveService: CommentLoveService
+) {
     @GetMapping
     fun getAll(
-            @PathVariable rid: Long,
-            pageable: Pageable,
-            filter: CommentFilter
+        @PathVariable rid: Long,
+        pageable: Pageable,
+        filter: CommentFilter
     ): ResponseResult {
         filter.parentId = rid
         val result = recipeCommentService.findAll(filter, pageable)
@@ -45,16 +47,16 @@ class RecipeCommentController(val recipeCommentService: RecipeCommentService,
 
     @PutMapping(value = ["/{id}"])
     fun update(
-            @PathVariable id: Long,
-            @RequestBody updateReq: CommentUpdateReq
+        @PathVariable id: Long,
+        @RequestBody updateReq: CommentUpdateReq
     ): ResponseTypeResult<RecipeComment> {
         return ResponseTypeResult(recipeCommentService.update(id, updateReq))
     }
 
     @PostMapping(consumes = ["application/json"])
     fun register(
-            @PathVariable rid: Long,
-            @RequestBody commentCreateReq: CommentCreateReq
+        @PathVariable rid: Long,
+        @RequestBody commentCreateReq: CommentCreateReq
     ): ResponseTypeResult<RecipeComment> {
 
         commentCreateReq.parentId = rid
@@ -73,8 +75,8 @@ class RecipeCommentController(val recipeCommentService: RecipeCommentService,
 
     @DeleteMapping(value = ["/{id}"])
     fun delete(
-            @PathVariable rid: Long,
-            @PathVariable id: Long
+        @PathVariable rid: Long,
+        @PathVariable id: Long
     ): ResponseTypeResult<RecipeComment> {
         val result = ResponseTypeResult(recipeCommentService.deleteById(id))
         result.data?.let {
