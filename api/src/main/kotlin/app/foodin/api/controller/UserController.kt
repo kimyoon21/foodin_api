@@ -7,6 +7,7 @@ import app.foodin.common.exception.FieldErrorException
 import app.foodin.common.extension.throwNullOrEmpty
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.CustomJwtUserInfo
+import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.annotation.Loggable
 import app.foodin.core.service.UserService
 import app.foodin.domain.user.*
@@ -112,6 +113,16 @@ class UserController(
     fun getMe(authentication: Authentication, httpServletRequest: HttpServletRequest): ResponseResult {
         val userInfo = authentication.principal as CustomJwtUserInfo
         return ResponseResult(userService.findByLoginId(userInfo.username))
+    }
+
+    @GetMapping("/{id}")
+    fun getOne(@PathVariable("id") userId: Long): ResponseResult {
+        val user = userService.findById(userId)
+        return ResponseResult(if (getAuthenticatedUserInfo().hasAdminRole()) {
+            user
+        } else {
+            UserInfoDto(user)
+        })
     }
 
     @GetMapping(value = [""])
