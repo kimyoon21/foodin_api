@@ -7,4 +7,5 @@ interface CommentLoveGateway : BaseGateway<CommentLove, CommentLoveFilter> {
     fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLove?
     fun findAllByReviewCommentId(reviewCommentId: Long): List<CommentLove>
     fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLove>
+    fun findAllByUserIdAndRecipeCommentIdIn(userId: Long, recipeCommentIds: MutableList<Long>): List<CommentLove>
 }

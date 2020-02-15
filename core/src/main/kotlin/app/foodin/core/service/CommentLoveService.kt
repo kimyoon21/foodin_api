@@ -37,11 +37,11 @@ class CommentLoveService(
         }
     }
 
-    fun findAllByReviewCommentId(reviewCommentId: Long): List<CommentLove> {
-        return gateway.findAllByReviewCommentId(reviewCommentId)
-    }
-
     fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLove> {
         return gateway.findAllByUserIdAndReviewCommentIdIn(userId, reviewCommentIds)
+    }
+
+    fun findAllByUserIdAndRecipeCommentIdIn(userId: Long, recipeCommentIds: MutableList<Long>): List<CommentLove> {
+        return gateway.findAllByUserIdAndRecipeCommentIdIn(userId, recipeCommentIds)
     }
 }

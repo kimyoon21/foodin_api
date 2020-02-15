@@ -16,6 +16,7 @@ interface CommentLoveRepository : BaseRepositoryInterface<CommentLoveEntity> {
     fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLoveEntity?
     fun findAllByReviewCommentId(reviewCommentId: Long): List<CommentLoveEntity>
     fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLoveEntity>
+    fun findAllByUserIdAndRecipeCommentIdIn(userId: Long, recipeCommentIds: MutableList<Long>): List<CommentLoveEntity>
 }
 
 @Component
@@ -30,6 +31,10 @@ class JpaCommentLoveRepository(private val repository: CommentLoveRepository) :
         return repository.findAllByUserIdAndReviewCommentIdIn(userId, reviewCommentIds).toDomainList()
     }
 
+    override fun findAllByUserIdAndRecipeCommentIdIn(userId: Long, recipeCommentIds: MutableList<Long>): List<CommentLove> {
+        return repository.findAllByUserIdAndRecipeCommentIdIn(userId, recipeCommentIds).toDomainList()
+    }
+
     override fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLove? {
         return repository.findByReviewCommentIdAndUserId(reviewCommentId, userId)?.toDomain()
     }
@@ -38,7 +43,7 @@ class JpaCommentLoveRepository(private val repository: CommentLoveRepository) :
                 return findAll(CommentLoveFilterQuery(filter), pageable)
     }
 
-    override fun saveFrom(commentLove: CommentLove): CommentLove {
-                return repository.saveAndFlush(CommentLoveEntity(commentLove)).toDomain()
+    override fun saveFrom(t: CommentLove): CommentLove {
+                return repository.saveAndFlush(CommentLoveEntity(t)).toDomain()
     }
 }

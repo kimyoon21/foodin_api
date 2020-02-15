@@ -4,5 +4,7 @@ class CommentLoveReq {
 
     val reviewCommentId: Long? = null
 
+    val recipeCommentId: Long? = null
+
     val userId: Long? = null
 }

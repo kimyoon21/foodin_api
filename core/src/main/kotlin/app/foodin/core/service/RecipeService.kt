@@ -11,6 +11,7 @@ import app.foodin.domain.recipe.RecipeInfoDto
 import app.foodin.domain.review.ReviewReq
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,4 +41,8 @@ class RecipeService(override val gateway: RecipeGateway,
         return gateway.findDtoBy(filter, pageable)
     }
 
+    @Async
+    fun addCommentCount(id: Long, count: Int) {
+        gateway.addCommentCount(id, count)
+    }
 }

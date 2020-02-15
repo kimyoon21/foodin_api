@@ -3,6 +3,7 @@ package app.foodin.domain.recipe
 import app.foodin.common.enums.Status
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_INVALID_REQUEST
+import app.foodin.domain.comment.Commentable
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.User
@@ -11,7 +12,7 @@ import app.foodin.domain.writable.UserWritable
 data class Recipe(
     override var id: Long = 0L,
     val name : String
-) : StatusDomain(id), UserWritable {
+) : StatusDomain(id), UserWritable, Commentable {
     override var writeUser: User? = null
 
     override var writeUserId: Long? = null
