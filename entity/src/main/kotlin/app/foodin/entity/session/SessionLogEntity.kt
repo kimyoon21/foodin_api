@@ -14,6 +14,7 @@ data class SessionLogEntity(
     @CreationTimestamp
     val createTime: Timestamp? = null,
     val userId: Long,
+    @Column(length = 600)
     val token: String
 
 ) {

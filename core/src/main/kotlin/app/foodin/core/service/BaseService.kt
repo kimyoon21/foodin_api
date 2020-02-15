@@ -25,7 +25,7 @@ abstract class BaseService<T : BaseDomain, F : BaseFilter> {
         return gateway.saveFrom(t)
     }
 
-    fun deleteById(id: Long): Boolean {
+    open fun deleteById(id: Long): Boolean {
         return gateway.deleteById(id)
     }
 

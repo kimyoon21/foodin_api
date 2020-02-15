@@ -1,7 +1,6 @@
 group rootProject.group
 version rootProject.version
 
-
 dependencies {
     compile project(":entity")
     compile project(":core")
@@ -13,6 +12,7 @@ dependencies {
     // Swagger UI
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+    compile("io.springfox:springfox-data-rest:${swaggerVersion}")
     compile 'io.jsonwebtoken:jjwt-api:0.10.7'
     compile 'io.jsonwebtoken:jjwt-impl:0.10.7',
             'io.jsonwebtoken:jjwt-jackson:0.10.7'

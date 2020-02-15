@@ -6,7 +6,7 @@ import app.foodin.domain.review.ReviewInfoDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-interface ReviewGateway : BaseGateway<Review, ReviewFilter> {
+interface ReviewGateway : StatusGateway<Review, ReviewFilter> {
     fun findByWriteUserIdAndFoodId(writeUserId: Long, foodId: Long): Review?
     fun getByUserId(userId: Long): List<Review>
     fun addCommentCount(id: Long, count: Int)

@@ -9,10 +9,10 @@ import springfox.documentation.service.*
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
-import springfox.documentation.swagger2.annotations.EnableSwagger2
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 class SwaggerConfig {
 
     @Bean
@@ -43,7 +43,7 @@ class SwaggerConfig {
                 .contact(Contact("Yoon", "foodin.app", "foodin@foodin.app"))
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("1.0.0")
+                .version("1.1.0")
                 .build()
     }
 

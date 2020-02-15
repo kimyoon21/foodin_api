@@ -46,7 +46,7 @@ fun <E, R : Any> inListFilter(property: KProperty1<E, R?>, values: Collection<R>
     property.`in`(values)
 }
 
-fun <E, R : Any> filterIfHasValue(value: R, specification: Specification<E>): Specification<E>? = value.hasValueLet {
+fun <E, R : Any> filterIfHasValue(value: R?, specification: Specification<E>): Specification<E>? = value.hasValueLet {
    specification
 }
 

@@ -2,9 +2,9 @@ package app.foodin.aop.requestLog
 
 import app.foodin.common.utils.JsonUtils
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import org.springframework.stereotype.Component
 
 @Component
 class RequestLogObject {

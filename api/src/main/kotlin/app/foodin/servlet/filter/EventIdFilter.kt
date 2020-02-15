@@ -3,11 +3,11 @@ package app.foodin.servlet.filter
 import app.foodin.common.utils.MDCUtils
 import app.foodin.common.utils.MDCUtils.API_ID
 import app.foodin.common.utils.MDCUtils.KEY_REQUEST_UID
-import org.apache.commons.lang3.StringUtils
-import org.springframework.stereotype.Component
 import java.util.*
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
+import org.apache.commons.lang3.StringUtils
+import org.springframework.stereotype.Component
 
 @Component
 class EventIdFilter : Filter {

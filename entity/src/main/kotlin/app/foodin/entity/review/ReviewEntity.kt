@@ -82,6 +82,7 @@ data class ReviewEntity(
     fun toDto(): ReviewInfoDto {
         return ModelMapper().map(this, ReviewInfoDto::class.java).also {
             it.foodName = this.foodEntity?.name
+            it.writeUserNickName = this.writeUserEntity.nickName
         }
     }
 }

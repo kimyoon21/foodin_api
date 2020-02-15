@@ -6,7 +6,7 @@ import app.foodin.domain.food.FoodInfoDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-interface FoodGateway : BaseGateway<Food, FoodFilter> {
+interface FoodGateway : StatusGateway<Food, FoodFilter> {
     fun findByName(name: String): Food?
     fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>?
     fun addLoveCount(id: Long, count: Int)

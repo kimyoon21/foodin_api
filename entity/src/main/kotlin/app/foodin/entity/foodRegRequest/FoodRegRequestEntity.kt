@@ -26,7 +26,7 @@ data class FoodRegRequestEntity(
     var tags: String? = null
 
     var mainImageUri: String? = null
-
+    @Column(columnDefinition = "TEXT")
     var imageUris: String? = null
 
     var status: Status = Status.WAIT

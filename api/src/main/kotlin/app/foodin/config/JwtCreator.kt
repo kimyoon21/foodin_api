@@ -66,8 +66,7 @@ class JwtCreator {
                     .parseClaimsJwt(jwt).getBody()
         }
 
-        fun keyToValue(pkcs8key: ByteArray): PrivateKey
-        {
+        fun keyToValue(pkcs8key: ByteArray): PrivateKey {
 
             val spec = PKCS8EncodedKeySpec(pkcs8key)
             val factory = KeyFactory.getInstance("EC")

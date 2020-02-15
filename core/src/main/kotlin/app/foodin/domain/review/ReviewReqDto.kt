@@ -10,7 +10,6 @@ import java.io.Serializable
 data class ReviewCreateReq(
     val foodId: Long,
     val writeUserId: Long,
-
     var reviewReq: ReviewReq
 ) : Serializable
 

@@ -8,6 +8,7 @@ import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodInfoDto
 import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.foodCategory.FoodCategoryEntity
 import app.foodin.entity.user.UserEntity
 import org.modelmapper.ModelMapper
@@ -21,7 +22,7 @@ data class FoodEntity(
     @ManyToOne
     @JoinColumn(name = "category_id")
     var category: FoodCategoryEntity
-) : BaseEntity<Food>() {
+) : StatusEntity<Food>() {
     @Column(name = "category_id", updatable = false, insertable = false)
     var categoryId: Long = category.id
 
@@ -58,8 +59,6 @@ data class FoodEntity(
     @ManyToOne
     @JoinColumn(name = "write_user_id")
     var writeUser: UserEntity? = null
-
-    var status: Status? = null
 
     constructor(food: Food) : this(food.name, FoodCategoryEntity(food.category!!)) {
         setBaseFieldsFromDomain(food)

@@ -14,6 +14,7 @@ class ReviewFilterQuery(
 
     override fun toSpecification(): Specification<ReviewEntity> = filter.let { filter ->
         and(
+                equalFilter(ReviewEntity::status,filter.status),
                 hasContentsLike(filter.name),
                 hasTagLike(filter.tag),
                 // 푸드카테고리도 리뷰에 적용

@@ -1,6 +1,6 @@
 package app.foodin.domain.review
 
-import app.foodin.domain.BaseFilter
+import app.foodin.domain.StatusFilter
 
 data class ReviewFilter(
     val name: String? = null,
@@ -10,4 +10,4 @@ data class ReviewFilter(
     val writeUserId: Long? = null,
     val foodId: Long? = null,
     val hasImage: Boolean? = null
-) : BaseFilter()
+) : StatusFilter()

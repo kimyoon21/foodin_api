@@ -4,8 +4,8 @@ import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
 import app.foodin.domain.food.FoodInfoDto
-import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
+import app.foodin.entity.common.StatusRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Modifying
@@ -39,23 +39,23 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
 }
 
 @Component
-class JpaFoodRepository(private val foodRepository: FoodRepository) :
-        BaseRepository<Food, FoodEntity, FoodFilter>(foodRepository), FoodGateway {
+class JpaFoodRepository(private val repository: FoodRepository) :
+        StatusRepository<Food, FoodEntity, FoodFilter>(repository), FoodGateway {
 
     override fun addLoveCount(id: Long, count: Int) {
-        foodRepository.addLoveCount(id, count)
+        repository.addLoveCount(id, count)
     }
 
     override fun addRatingCount(id: Long, count: Int) {
-        foodRepository.addRatingCount(id, count)
+        repository.addRatingCount(id, count)
     }
 
     override fun addReviewCount(id: Long, count: Int) {
-        foodRepository.addReviewCount(id, count)
+        repository.addReviewCount(id, count)
     }
 
     override fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {
-        return foodRepository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
+        return repository.findAll(FoodFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
     }
 
     override fun findAllByFilter(filter: FoodFilter, pageable: Pageable): Page<Food> {
@@ -63,10 +63,10 @@ class JpaFoodRepository(private val foodRepository: FoodRepository) :
     }
 
     override fun findByName(name: String): Food? {
-        return foodRepository.findByName(name)?.toDomain()
+        return repository.findByName(name)?.toDomain()
     }
 
     override fun saveFrom(t: Food): Food {
-        return foodRepository.saveAndFlush(FoodEntity(t)).toDomain()
+        return repository.saveAndFlush(FoodEntity(t)).toDomain()
     }
 }

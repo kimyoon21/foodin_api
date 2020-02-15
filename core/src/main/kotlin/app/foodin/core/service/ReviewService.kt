@@ -18,7 +18,7 @@ class ReviewService(
     override val gateway: ReviewGateway,
     private val foodService: FoodService,
     private val userService: UserService
-) : BaseService<Review, ReviewFilter>(), UserWritableInterface {
+) : StatusService<Review, ReviewFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(ReviewService::class.java)
 

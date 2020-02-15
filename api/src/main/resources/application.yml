@@ -22,7 +22,7 @@ spring:
             client-secret: foodin1
             client-authentication-method: basic
             authorization-grant-type: authorization_code
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: read
           kakao:
             client-name: kakao
@@ -30,7 +30,7 @@ spring:
             client-secret: b15df9cded81983559f38f41a9229e85
             client-authentication-method: post
             authorization-grant-type: authorization_code
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: profile,account_email
           naver:
             client-name: naver
@@ -38,7 +38,7 @@ spring:
             client-secret: UHcmbtnIUI
             client-authentication-method: post
             authorization-grant-type: authorization_code
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: profile,account_email
           facebook:
             client-name: facebook
@@ -47,7 +47,7 @@ spring:
             scope: public_profile,email
             client-authentication-method: post
             authorization-grant-type: authorization_code
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         provider:
           email:
             authorization-uri: http://localhost:5000/oauth/authorize

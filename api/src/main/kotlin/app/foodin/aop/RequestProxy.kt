@@ -1,6 +1,7 @@
 package app.foodin.aop
 
 import app.foodin.aop.requestLog.RequestLog
+import javax.servlet.http.HttpServletRequest
 import kr.co.lendit.proxy.ControllerHandlerFactory
 import kr.co.lendit.proxy.SignatureProcessor
 import org.aspectj.lang.ProceedingJoinPoint
@@ -15,7 +16,6 @@ import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import javax.servlet.http.HttpServletRequest
 
 internal interface ControllerHandler {
     fun preControllerHandler(logger: Logger, request: HttpServletRequest, args: Array<Any>): RequestLog

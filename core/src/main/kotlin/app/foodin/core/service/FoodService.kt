@@ -28,7 +28,7 @@ class FoodService(
     val sellerGateway: SellerGateway,
     val userGateway: UserGateway
 
-) : BaseService<Food, FoodFilter>(), UserWritableInterface {
+) : StatusService<Food, FoodFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 

@@ -4,6 +4,7 @@ import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
 import app.foodin.core.gateway.FoodGateway
 import app.foodin.core.gateway.LoveGateway
+import app.foodin.core.gateway.RecipeGateway
 import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.love.Love
 import app.foodin.domain.love.LoveFilter
@@ -17,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class LoveService(
     override val gateway: LoveGateway,
     val foodGateway: FoodGateway,
-    val reviewGateway: ReviewGateway
+    val reviewGateway: ReviewGateway,
+    val recipeGateway: RecipeGateway
 ) : BaseService<Love,
         LoveFilter>() {
     /***
@@ -47,6 +49,8 @@ class LoveService(
             foodGateway.addLoveCount(loveReq.foodId!!, i)
         } else if (loveReq.reviewId != null) {
             reviewGateway.addLoveCount(loveReq.reviewId!!, i)
+        } else if (loveReq.recipeId != null) {
+            recipeGateway.addLoveCount(loveReq.recipeId!!, i)
         }
     }
 }
