@@ -3,6 +3,7 @@ package app.foodin.domain.foodRegRequest
 import app.foodin.common.enums.Status
 import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserInfoDto
 
 data class FoodRegRequest(
     override var id: Long = 0L,
@@ -24,4 +25,11 @@ data class FoodRegRequest(
     var status: Status = Status.WAIT
 
     var writeUser: User? = null
+
+    fun getWriteUserInfo(): UserInfoDto? {
+        return writeUser?.let {
+            UserInfoDto(it)
+        }
+    }
+
 }
