@@ -4,6 +4,7 @@ import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_REGISTERED
 import app.foodin.common.exception.FieldErrorException
+import app.foodin.common.extension.onlyAdmin
 import app.foodin.common.extension.throwNullOrEmpty
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.utils.CustomJwtUserInfo
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.validation.Errors
@@ -194,5 +196,11 @@ class UserController(
         if (!passwordRegex.containsMatchIn(password)) {
             throw CommonException("패스워드 규칙에 맞춰주세요. 영문+숫자 혼합된 8자 이상")
         }
+    }
+
+    @PreAuthorize(onlyAdmin)
+    @DeleteMapping("/{id}")
+    fun disable(@PathVariable("id") userId: Long): ResponseResult {
+        return ResponseResult(userService.disable(userId))
     }
 }

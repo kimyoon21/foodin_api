@@ -164,15 +164,16 @@ data class UserEntity(
     fun mergeFromUpdateReq(req: UserUpdateReq) {
         req.let {
             this.realName = it.realName ?: this.realName
-            this.nickName = it.nickName
+            this.nickName = it.nickName?: this.nickName
             if (it.loginPw != null && it.loginPw.equals(it.loginPwCheck)) {
                 this.loginPw = it.loginPw
             }
-            this.gender = it.gender
+            this.gender = it.gender?: this.gender
             val birthFullDay = it.birthday?.let { day -> DateHelper.parse(day) }
             this.birth = Birth(birthFullDay)
-            this.profileImageUri = it.profileImageUri
+            this.profileImageUri = it.profileImageUri ?: this.profileImageUri
             this.userFoodFilterStr = it.userFoodFilterList.listToCsv()
+            this.enabled = it.enabled ?: this.enabled
         }
     }
 }

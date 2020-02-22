@@ -78,4 +78,21 @@ class FoodController(
         foodFoundUserReq.foodId = id
         return ResponseResult(foodService.saveFoundUser(foodFoundUserReq))
     }
+
+    @PreAuthorize(onlyAdmin)
+    @PutMapping(value = ["/{id}"], consumes = ["application/json"])
+    fun update(
+        @RequestBody food: Food,
+        @PathVariable id: Long
+    ): ResponseResult {
+        return ResponseResult(foodService.update(id, food))
+    }
+
+    @PreAuthorize(onlyAdmin)
+    @DeleteMapping(value = ["/{id}"], consumes = ["application/json"])
+    fun delete(
+        @PathVariable id: Long
+    ): ResponseResult {
+        return ResponseResult(foodService.deleteById(id))
+    }
 }

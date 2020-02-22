@@ -1,5 +1,7 @@
 package app.foodin.domain.food
 
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_INVALID_REQUEST
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.domain.user.User
@@ -61,9 +63,34 @@ data class Food(
     // for my
     var hasLoved = false
     var hasReview = false
-    var hasRecipe = false
 
     fun toDto(): FoodInfoDto {
         return ModelMapper().map(this, FoodInfoDto::class.java)
+    }
+
+    override fun setFromRequest(requestDto: Any) {
+        if (requestDto is Food) {
+            requestDto.let {
+                this.name = it.name
+                this.categoryId = it.categoryId
+                this.writeUserId = it.writeUserId
+                this.companyId = it.companyId
+                this.companyName = it.companyName
+                this.sellerNameList = it.sellerNameList
+                this.minPrice = it.minPrice
+                this.maxPrice = it.maxPrice
+                this.summary = it.summary
+                this.tagList = it.tagList
+                this.mainImageUri = it.mainImageUri
+                this.imageUriList = it.imageUriList
+                this.loveCount = it.loveCount
+                this.ratingCount = it.ratingCount
+                this.reviewCount = it.reviewCount
+                this.recipeCount = it.recipeCount
+                this.ratingAvg = it.ratingAvg
+            }
+        } else {
+            throw CommonException(EX_INVALID_REQUEST)
+        }
     }
 }

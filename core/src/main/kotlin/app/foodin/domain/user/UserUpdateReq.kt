@@ -21,4 +21,6 @@ class UserUpdateReq {
     var profileImageUri: String? = null
 
     var userFoodFilterList: List<String> = listOf()
+
+    var enabled : Boolean? = null
 }

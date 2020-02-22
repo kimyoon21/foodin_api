@@ -83,4 +83,12 @@ class FoodService(
         val user = userGateway.findById(getAuthenticatedUserInfo().id)
         return foodFoundUserGateway.saveFrom(FoodFoundUser(food = food, seller = seller, user = user!!))
     }
+
+    fun update(id: Long, req: Food): Food {
+        val food = gateway.findById(id) ?: throw CommonException(EX_NOT_EXISTS, "word.entity")
+        food.setFromRequest(req)
+        food.category = food.categoryId.let{foodCategoryGateway.findById(it)}
+        food.writeUser = food.writeUserId?.let {  userGateway.findById(it) }
+        return saveFrom(food)
+    }
 }

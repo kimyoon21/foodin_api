@@ -39,6 +39,7 @@ interface UserService {
     fun snsLogin(snsTokenDto: SnsTokenDto, user: User): UserLoginResultDto
     fun checkValidUserInfo(snsTokenDto: SnsTokenDto): Boolean
     fun findById(id: Long): User
+    fun disable(userId: Long): Boolean
 }
 
 @Service
@@ -74,6 +75,11 @@ class CustomUserDetailsService(
 
     override fun findById(id: Long): User {
         return userGateway.findById(id) ?: throw NotExistsException(msgArgs = *arrayOf("유저"))
+    }
+
+    override fun disable(userId: Long): Boolean {
+        val cnt = userGateway.updateEnabled(userId,false)
+        return cnt > 0
     }
 
     override fun saveFrom(userCreateReq: UserCreateReq): User {

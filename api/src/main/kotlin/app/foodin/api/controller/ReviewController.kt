@@ -67,7 +67,7 @@ class ReviewController(
     }
 
     @DeleteMapping(value = ["/{id}"])
-    fun update(@PathVariable id: Long): ResponseTypeResult<Boolean> {
+    fun delete(@PathVariable id: Long): ResponseTypeResult<Boolean> {
         val review = reviewService.findById(id)
         val result = ResponseTypeResult(reviewService.deleteById(id))
         result.data?.let {

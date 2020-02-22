@@ -7,21 +7,31 @@ import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.user.User
 import app.foodin.domain.user.UserUpdateReq
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 import java.util.*
+
 
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findByEmail(email: String): UserEntity?
     fun findByLoginId(logindId: String): UserEntity?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): UserEntity?
+    @Modifying
+    @Query("update UserEntity ue set ue.enabled = :enabled where ue.id = :uid")
+    fun updateEnabled(uid: Long, enabled:Boolean): Int
 }
 
 @Component
 class JpaUserRepository(private val userRepository: UserRepository) : UserGateway {
     override fun findByLoginId(loginId: String): User? {
         return userRepository.findByLoginId(loginId)?.toDomain()
+    }
+
+    override fun updateEnabled(userId: Long, enabled:Boolean): Int {
+        return userRepository.updateEnabled(userId, enabled)
     }
 
     override fun findById(id: Long): User? {
