@@ -8,11 +8,11 @@ import app.foodin.domain.user.UserInfoDto
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class CommentLove(
-        override var id: Long = 0L,
-        val reviewComment: ReviewComment? = null,
-        val recipeComment: RecipeComment? = null,
-        @JsonIgnore
-    val user: User
+    override var id: Long = 0L,
+    val reviewComment: ReviewComment? = null,
+    val recipeComment: RecipeComment? = null,
+    @JsonIgnore
+val user: User
 ) : BaseDomain(id) {
 
     fun getUserInfo(): UserInfoDto {

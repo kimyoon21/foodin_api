@@ -9,8 +9,8 @@ import app.foodin.domain.review.ReviewInfoDto
 import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
-import org.modelmapper.ModelMapper
 import javax.persistence.*
+import org.modelmapper.ModelMapper
 
 @Entity
 @Table(name = "reviews")

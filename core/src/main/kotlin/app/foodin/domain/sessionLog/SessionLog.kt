@@ -1,10 +1,10 @@
 package app.foodin.domain.sessionLog
 
-import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import org.hibernate.annotations.CreationTimestamp
 
 data class SessionLog(
     @Id

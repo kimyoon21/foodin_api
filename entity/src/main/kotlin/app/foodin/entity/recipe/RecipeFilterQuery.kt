@@ -18,10 +18,10 @@ class RecipeFilterQuery(val filter: RecipeFilter) : BaseFilterQuery<Recipe, Reci
                                     likeFilter(RecipeEntity::contents, q, MatchMode.ANYWHERE)
                             )
                         },
+                        // 푸드카테고리도 리뷰에 적용
                         isNotNullFilter(RecipeEntity::mainImageUri, filter.hasImage),
                         filterIfHasValue(filter.foodId, where { equal(it.join(RecipeEntity::foodEntityList).get(FoodEntity::id), filter.foodId) })
 
                 )
-
             }
 }

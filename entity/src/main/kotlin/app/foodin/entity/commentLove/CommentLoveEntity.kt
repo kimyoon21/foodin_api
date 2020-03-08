@@ -1,7 +1,6 @@
 package app.foodin.entity.commentLove
 
 import app.foodin.domain.commentLove.CommentLove
-import app.foodin.domain.recipe.Recipe
 import app.foodin.entity.common.BaseEntity
 import app.foodin.entity.recipeComment.RecipeCommentEntity
 import app.foodin.entity.review.comment.ReviewCommentEntity
@@ -29,8 +28,8 @@ data class CommentLoveEntity(
 ) : BaseEntity<CommentLove>() {
 
     constructor(commentLove: CommentLove) : this(
-            reviewComment = commentLove.reviewComment?.let{ReviewCommentEntity(it)},
-            recipeComment = commentLove.recipeComment?.let{RecipeCommentEntity(it)},
+            reviewComment = commentLove.reviewComment?.let { ReviewCommentEntity(it) },
+            recipeComment = commentLove.recipeComment?.let { RecipeCommentEntity(it) },
             user = UserEntity(commentLove.user)) {
         setBaseFieldsFromDomain(commentLove)
     }

@@ -6,7 +6,7 @@ data class ImageInfo(
     var uri: String?
 ) {
 
-    constructor(width: Int, height: Int, ext: String?): this(null) {
+    constructor(width: Int, height: Int, ext: String?) : this(null) {
         this.width = width
         this.height = height
         this.ext = ext

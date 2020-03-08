@@ -7,8 +7,8 @@ import app.foodin.domain.recipe.Recipe
 import app.foodin.domain.user.User
 
 data class RecipeComment(
-        override var id: Long = 0,
-        var recipeId: Long
+    override var id: Long = 0,
+    var recipeId: Long
 ) : BaseComment<Recipe>(id, recipeId) {
 
     var recipe: Recipe? = null

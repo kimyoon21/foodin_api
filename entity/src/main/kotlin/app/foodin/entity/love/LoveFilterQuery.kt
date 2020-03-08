@@ -22,8 +22,7 @@ class LoveFilterQuery(
 
     companion object {
 
-        fun hasEntityType(entityType: EntityType?): Specification<LoveEntity>?
-        {
+        fun hasEntityType(entityType: EntityType?): Specification<LoveEntity>? {
             return when (entityType) {
                 EntityType.FOOD -> LoveEntity::foodId.isNotNull()
                 EntityType.REVIEW -> LoveEntity::reviewId.isNotNull()

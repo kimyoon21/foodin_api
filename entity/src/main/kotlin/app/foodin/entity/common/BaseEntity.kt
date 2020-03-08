@@ -1,10 +1,10 @@
 package app.foodin.entity.common
 
 import app.foodin.domain.common.BaseDomain
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
 import java.sql.Timestamp
 import javax.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 
 @MappedSuperclass
 abstract class BaseEntity<D : BaseDomain> {

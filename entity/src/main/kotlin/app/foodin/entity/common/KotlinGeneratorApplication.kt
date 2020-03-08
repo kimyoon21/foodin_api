@@ -8,6 +8,9 @@ import app.foodin.domain.BaseFilter
 import app.foodin.domain.common.BaseDomain
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import java.io.File
+import javax.persistence.Entity
+import javax.persistence.Table
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
@@ -16,9 +19,6 @@ import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
-import java.io.File
-import javax.persistence.Entity
-import javax.persistence.Table
 
 class KotlinGeneratorApplication
 

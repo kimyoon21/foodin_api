@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class RecipeCommentService(override val gateway: RecipeCommentGateway,
-                           val recipeService: RecipeService,
-                           val userService: UserService) : BaseService<RecipeComment,
-        CommentFilter>(){
-
-
+class RecipeCommentService(
+    override val gateway: RecipeCommentGateway,
+    val recipeService: RecipeService,
+    val userService: UserService
+) : BaseService<RecipeComment,
+        CommentFilter>() {
 
     fun save(createReq: CommentCreateReq): RecipeComment {
         // 기 데이터 확인

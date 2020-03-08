@@ -6,9 +6,9 @@ import app.foodin.domain.user.User
 import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritable
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.modelmapper.ModelMapper
 import javax.persistence.FetchType
 import javax.persistence.ManyToOne
+import org.modelmapper.ModelMapper
 
 open class BaseComment<P : Commentable>(
     override var id: Long = 0,

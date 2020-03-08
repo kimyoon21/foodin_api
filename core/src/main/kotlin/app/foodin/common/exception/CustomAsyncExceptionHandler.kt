@@ -1,8 +1,8 @@
 package app.foodin.common.exception
 
+import java.lang.reflect.Method
 import org.slf4j.LoggerFactory
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler
-import java.lang.reflect.Method
 
 class CustomAsyncExceptionHandler : AsyncUncaughtExceptionHandler {
 

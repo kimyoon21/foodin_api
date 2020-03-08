@@ -1,9 +1,9 @@
 package app.foodin.common.utils
 
+import java.util.*
 import org.hibernate.Hibernate
 import org.hibernate.collection.spi.PersistentCollection
 import org.hibernate.proxy.HibernateProxy
-import java.util.*
 
 fun getCleanUUID(): String {
     return UUID.randomUUID().toString().replace("-", "")

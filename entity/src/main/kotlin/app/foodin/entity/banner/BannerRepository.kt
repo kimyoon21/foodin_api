@@ -18,8 +18,8 @@ interface BannerRepository : BaseRepositoryInterface<BannerEntity> {
 }
 
 @Component
-class BannerJpaRepository(private val bannerRepository: BannerRepository)
-    : BaseRepository<Banner, BannerEntity, BannerFilter>(bannerRepository), BannerGateway {
+class BannerJpaRepository(private val bannerRepository: BannerRepository) :
+    BaseRepository<Banner, BannerEntity, BannerFilter>(bannerRepository), BannerGateway {
 
     override fun findAllByFilter(filter: BannerFilter, pageable: Pageable): Page<Banner> {
         return findAll(BannerFilterQuery(filter), pageable)

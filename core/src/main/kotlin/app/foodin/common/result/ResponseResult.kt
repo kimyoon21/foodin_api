@@ -9,7 +9,7 @@ open class ResponseResult(
 
     open var succeeded: Boolean = true
 
-    constructor(successData: Any?) : this(data = successData){
+    constructor(successData: Any?) : this(data = successData) {
         if (data == false) {
             message = "not affected"
             succeeded = false

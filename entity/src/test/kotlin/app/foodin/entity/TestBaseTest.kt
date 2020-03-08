@@ -6,6 +6,7 @@ import app.foodin.entity.common.search.SearchOperation
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.food.FoodRepository
 import app.foodin.entity.user.UserRepository
+import javax.transaction.Transactional
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -16,7 +17,6 @@ import org.springframework.core.env.Environment
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import javax.transaction.Transactional
 
 // @RunWith(SpringRunner::class)
 @RunWith(SpringJUnit4ClassRunner::class)

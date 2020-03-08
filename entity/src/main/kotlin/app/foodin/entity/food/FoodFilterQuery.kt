@@ -13,12 +13,12 @@ class FoodFilterQuery(
 
     override fun toSpecification(): Specification<FoodEntity> = filter.let {
         and(
-                equalFilter(FoodEntity::status,it.status),
+                equalFilter(FoodEntity::status, it.status),
                 hasNameLike(it.name),
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),
                 hasSellerNameIn(it.sellerNameList),
-                isNotNullFilter(FoodEntity::mainImageUri,it.hasImage),
+                isNotNullFilter(FoodEntity::mainImageUri, it.hasImage),
                 it.query.hasValueLet { q ->
                     querysToSpecification(
                             hasNameLike(q),

@@ -9,11 +9,11 @@ import app.foodin.domain.common.Authority
 import app.foodin.domain.common.BaseDomain
 import app.foodin.domain.foodCategory.FoodCategory
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.springframework.security.core.userdetails.UserDetails
 import java.sql.Timestamp
 import java.time.LocalDate
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import org.springframework.security.core.userdetails.UserDetails
 
 class User(
     override var id: Long = 0,

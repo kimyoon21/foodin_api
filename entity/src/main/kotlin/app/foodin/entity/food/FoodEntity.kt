@@ -1,18 +1,16 @@
 package app.foodin.entity.food
 
-import app.foodin.common.enums.Status
 import app.foodin.common.extension.csvToList
 import app.foodin.common.extension.listToCsv
 import app.foodin.common.extension.listToTags
 import app.foodin.common.extension.tagsToList
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodInfoDto
-import app.foodin.entity.common.BaseEntity
 import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.foodCategory.FoodCategoryEntity
 import app.foodin.entity.user.UserEntity
-import org.modelmapper.ModelMapper
 import javax.persistence.*
+import org.modelmapper.ModelMapper
 
 @Entity
 @Table(name = "foods")

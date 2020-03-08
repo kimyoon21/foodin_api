@@ -4,14 +4,14 @@ import app.foodin.entity.common.`in`
 import app.foodin.entity.common.equal
 import app.foodin.entity.common.like
 import app.foodin.entity.common.or
-import org.springframework.data.jpa.domain.Specification
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.stereotype.Repository
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import org.springframework.data.jpa.domain.Specification
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.stereotype.Repository
 
 @Repository
 interface TvShowRepository : JpaRepository<TvShow, Int>, JpaSpecificationExecutor<TvShow>

@@ -22,5 +22,5 @@ class UserUpdateReq {
 
     var userFoodFilterList: List<String> = listOf()
 
-    var enabled : Boolean? = null
+    var enabled: Boolean? = null
 }

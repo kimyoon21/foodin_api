@@ -23,10 +23,6 @@ import com.drew.metadata.gif.GifHeaderDirectory
 import com.drew.metadata.jpeg.JpegDirectory
 import com.drew.metadata.png.PngDirectory
 import com.drew.metadata.webp.WebpDirectory
-import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Async
-import org.springframework.scheduling.annotation.AsyncResult
-import org.springframework.stereotype.Service
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -34,6 +30,10 @@ import java.io.InputStream
 import java.net.URLConnection
 import java.util.concurrent.Future
 import javax.annotation.PostConstruct
+import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Async
+import org.springframework.scheduling.annotation.AsyncResult
+import org.springframework.stereotype.Service
 
 @Service
 class ImageUploadAsyncService {

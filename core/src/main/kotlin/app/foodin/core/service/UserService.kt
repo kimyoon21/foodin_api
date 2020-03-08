@@ -10,6 +10,8 @@ import app.foodin.core.gateway.SessionLogGateway
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
 import app.foodin.domain.user.*
+import java.sql.Timestamp
+import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -24,8 +26,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
-import java.sql.Timestamp
-import java.util.*
 
 interface UserService {
     fun findByLoginId(loginId: String): User?
@@ -78,7 +78,7 @@ class CustomUserDetailsService(
     }
 
     override fun disable(userId: Long): Boolean {
-        val cnt = userGateway.updateEnabled(userId,false)
+        val cnt = userGateway.updateEnabled(userId, false)
         return cnt > 0
     }
 

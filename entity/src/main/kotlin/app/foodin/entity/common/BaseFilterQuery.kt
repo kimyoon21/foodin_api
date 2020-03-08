@@ -3,8 +3,8 @@ package app.foodin.entity.common
 import app.foodin.common.extension.hasValueLet
 import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.domain.common.BaseDomain
-import org.springframework.data.jpa.domain.Specification
 import kotlin.reflect.KProperty1
+import org.springframework.data.jpa.domain.Specification
 
 interface BaseFilterQuery<D : BaseDomain, E : BaseEntity<D>> {
 

@@ -1,10 +1,9 @@
 package app.foodin.common.utils
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
-
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class DateHelperTest {
 

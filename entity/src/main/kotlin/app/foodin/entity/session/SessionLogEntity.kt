@@ -1,9 +1,9 @@
 package app.foodin.entity.session
 
 import app.foodin.domain.sessionLog.SessionLog
-import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
 import javax.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 
 @Entity
 @Table(name = "session_logs")

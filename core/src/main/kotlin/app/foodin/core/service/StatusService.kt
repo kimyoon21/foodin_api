@@ -12,5 +12,4 @@ abstract class StatusService<T : StatusDomain, F : StatusFilter> : BaseService<T
         val domain = findById(id)
         return gateway.deleteStatusById(id, domain)
     }
-
 }

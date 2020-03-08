@@ -1,8 +1,8 @@
 package app.foodin.common.utils
 
+import java.nio.charset.Charset
 import org.apache.commons.codec.binary.Base64
 import org.springframework.http.HttpHeaders
-import java.nio.charset.Charset
 
 fun createBasicAuthHeaders(username: String, password: String): HttpHeaders {
     return object : HttpHeaders() {

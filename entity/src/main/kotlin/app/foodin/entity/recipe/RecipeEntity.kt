@@ -8,16 +8,17 @@ import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.common.converter.ListToCsvConverter
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
+import javax.persistence.*
 import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
 import org.modelmapper.ModelMapper
-import javax.persistence.*
 
 @Entity
 @Table(name = "recipes")
 data class RecipeEntity(
-        var name: String) : StatusEntity<Recipe>() {
+    var name: String
+) : StatusEntity<Recipe>() {
 
     @ManyToOne
     @JoinColumn(name = "write_user_id")
@@ -46,7 +47,7 @@ data class RecipeEntity(
     constructor(recipe: Recipe) : this(recipe.name) {
         setBaseFieldsFromDomain(recipe)
         writeUserEntity = recipe.writeUser?.let { UserEntity(it) }
-        foodEntityList = recipe.foodList.map { FoodEntity(it)}.toMutableList()
+        foodEntityList = recipe.foodList.map { FoodEntity(it) }.toMutableList()
         contents = recipe.contents
         tags = recipe.tagList.listToTags()
         mainImageUri = recipe.mainImageUri
@@ -61,7 +62,7 @@ data class RecipeEntity(
             setDomainBaseFieldsFromEntity(it)
             it.writeUser = this.writeUserEntity?.toDomain()
             it.writeUserId = this.writeUserEntity?.id
-            it.foodList = this.foodEntityList.map { foodEntity ->  foodEntity.toDomain() }.toMutableList()
+            it.foodList = this.foodEntityList.map { foodEntity -> foodEntity.toDomain() }.toMutableList()
             it.contents = this.contents
             it.tagList = this.tags.tagsToList()
             it.mainImageUri = this.mainImageUri
@@ -70,7 +71,6 @@ data class RecipeEntity(
             it.commentCount = this.commentCount
             it.writeUser = this.writeUserEntity?.toDomain()
             it.status = this.status
-
         }
     }
 

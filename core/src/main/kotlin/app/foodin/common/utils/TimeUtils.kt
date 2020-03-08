@@ -54,7 +54,7 @@ fun now(): Timestamp {
  * @작성일 : 2016. 5. 29.
  * @작성자 : kimyoon
  * @설명 : 지정된 포맷을 이용해서 스트링 값을 timestamp 로 변환해준다. format 없을기 기본값은 yyyyMMddHHmmss (Constants.DEFAULT_DATE_FORMAT)
- * @변경이력: 
+ * @변경이력:
  */
 fun strToTimestamp(timeStr: String): Timestamp {
     return strToTimestamp(timeStr, DEFAULT_DATE_FORMAT)

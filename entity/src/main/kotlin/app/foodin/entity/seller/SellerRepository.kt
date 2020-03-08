@@ -14,8 +14,8 @@ interface SellerRepository : BaseRepositoryInterface<SellerEntity> {
 }
 
 @Component
-class JpaSellerRepository(private val sellerRepository: SellerRepository)
-    : BaseRepository<Seller, SellerEntity, SellerFilter>(sellerRepository), SellerGateway {
+class JpaSellerRepository(private val sellerRepository: SellerRepository) :
+    BaseRepository<Seller, SellerEntity, SellerFilter>(sellerRepository), SellerGateway {
 
     override fun findByName(name: String): Seller? {
         return sellerRepository.findByName(name)?.toDomain()

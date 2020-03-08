@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.GsonBuilder
-import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
+import org.slf4j.LoggerFactory
 
 object JsonUtils {
     private val logger = LoggerFactory.getLogger(JsonUtils::class.java)

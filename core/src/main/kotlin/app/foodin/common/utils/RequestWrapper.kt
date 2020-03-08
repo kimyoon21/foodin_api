@@ -1,12 +1,12 @@
 package app.foodin.common.utils
 
 import com.fasterxml.jackson.core.type.TypeReference
-import org.apache.commons.io.IOUtils
-import org.apache.commons.lang3.StringUtils
-import org.slf4j.LoggerFactory
 import java.util.*
 import javax.servlet.ServletRequest
 import javax.servlet.http.HttpServletRequest
+import org.apache.commons.io.IOUtils
+import org.apache.commons.lang3.StringUtils
+import org.slf4j.LoggerFactory
 
 class RequestWrapper private constructor(val request: HttpServletRequest) {
 
@@ -30,7 +30,7 @@ class RequestWrapper private constructor(val request: HttpServletRequest) {
      * @작성일 : 2016. 3. 16.
      * @작성자 : kimyoon
      * @설명 : parameter map 생성.(파라미터가 어레이라면 list 생성). 만약 비어있는 경우에는 인풋스트림을 읽는다. (그래도 없는 경우는 data none exist case)
-     * @변경이력: 
+     * @변경이력:
      * @return
      */
     // inputStreaming => String : logging

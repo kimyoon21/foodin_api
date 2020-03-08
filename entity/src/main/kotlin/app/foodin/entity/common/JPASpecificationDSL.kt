@@ -1,8 +1,8 @@
 package app.foodin.entity.common
 
-import org.springframework.data.jpa.domain.Specification
 import javax.persistence.criteria.*
 import kotlin.reflect.KProperty1
+import org.springframework.data.jpa.domain.Specification
 
 // Helper to allow joining to Properties
 fun <Z, T, R> From<Z, T>.join(prop: KProperty1<T, R?>): Join<T, R> = this.join<T, R>(prop.name)
@@ -87,13 +87,14 @@ fun <T> or(specs: Iterable<Specification<T>?>): Specification<T> {
     return combineSpecification<T>(specs, Specification<T>::or)
 }
 
-
 // Not
 operator fun <T> Specification<T>.not(): Specification<T> = Specification.not(this)
 
 // Combines Specification with an operation
-inline fun <T> combineSpecification(specs: Iterable<Specification<T>?>,
-                                            operation: Specification<T>.(Specification<T>) -> Specification<T>): Specification<T> {
+inline fun <T> combineSpecification(
+    specs: Iterable<Specification<T>?>,
+    operation: Specification<T>.(Specification<T>) -> Specification<T>
+): Specification<T> {
     return specs.filterNotNull().fold(emptySpecification()) { existing, new -> existing.operation(new) }
 }
 

@@ -9,13 +9,13 @@ import app.foodin.domain.common.EntityType
 import app.foodin.domain.food.*
 import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritableInterface
+import java.util.stream.Collectors
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.stream.Collectors
 
 @Service
 @Transactional
@@ -87,8 +87,8 @@ class FoodService(
     fun update(id: Long, req: Food): Food {
         val food = gateway.findById(id) ?: throw CommonException(EX_NOT_EXISTS, "word.entity")
         food.setFromRequest(req)
-        food.category = food.categoryId.let{foodCategoryGateway.findById(it)}
-        food.writeUser = food.writeUserId?.let {  userGateway.findById(it) }
+        food.category = food.categoryId.let { foodCategoryGateway.findById(it) }
+        food.writeUser = food.writeUserId?.let { userGateway.findById(it) }
         return saveFrom(food)
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RecipeRepository : BaseRepositoryInterface<RecipeEntity>{
+interface RecipeRepository : BaseRepositoryInterface<RecipeEntity> {
 
     @Modifying
     @Query("UPDATE RecipeEntity set loveCount = loveCount + :count where id = :id")

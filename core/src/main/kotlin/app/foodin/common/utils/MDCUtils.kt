@@ -1,11 +1,11 @@
 package app.foodin.common.utils
 
 import app.foodin.common.extension.hasValue
+import javax.servlet.ServletRequest
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import javax.servlet.ServletRequest
 
 object MDCUtils {
 

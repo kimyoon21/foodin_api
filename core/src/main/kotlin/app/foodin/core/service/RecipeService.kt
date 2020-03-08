@@ -17,9 +17,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class RecipeService(override val gateway: RecipeGateway,
-                    val foodService: FoodService,
-                    val userService: UserService) : StatusService<Recipe, RecipeFilter>() {
+class RecipeService(
+    override val gateway: RecipeGateway,
+    val foodService: FoodService,
+    val userService: UserService
+) : StatusService<Recipe, RecipeFilter>() {
 
     fun update(reviewId: Long, req: ReviewReq): Recipe {
         val review = gateway.findById(reviewId) ?: throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
@@ -28,7 +30,7 @@ class RecipeService(override val gateway: RecipeGateway,
 
     fun save(createReq: RecipeCreateReq): Recipe {
         if (createReq.recipeReq.foodIdList.isEmpty()) {
-            throw CommonException(EX_NEED,"food id")
+            throw CommonException(EX_NEED, "food id")
         }
         val foodList = createReq.recipeReq.foodIdList.map { foodService.findById(it) }
 

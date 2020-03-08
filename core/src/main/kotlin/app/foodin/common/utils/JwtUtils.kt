@@ -1,10 +1,10 @@
 package app.foodin.common.utils
 
 import app.foodin.common.exception.CommonException
-import org.slf4j.LoggerFactory
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.util.*
+import org.slf4j.LoggerFactory
 
 class JwtUtils {
 

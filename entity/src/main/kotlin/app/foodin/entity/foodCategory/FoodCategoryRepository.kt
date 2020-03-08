@@ -17,8 +17,8 @@ interface FoodCategoryRepository : BaseRepositoryInterface<FoodCategoryEntity> {
 }
 
 @Component
-class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategoryRepository)
-    : BaseRepository<FoodCategory, FoodCategoryEntity, BaseFilter>(foodCategoryRepository), FoodCategoryGateway {
+class JpaFoodCategoryRepository(private val foodCategoryRepository: FoodCategoryRepository) :
+    BaseRepository<FoodCategory, FoodCategoryEntity, BaseFilter>(foodCategoryRepository), FoodCategoryGateway {
 
     override fun findByFilterName(filterName: String): Page<FoodCategory> {
         return foodCategoryRepository.findByFilterName(

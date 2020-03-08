@@ -11,7 +11,7 @@ import app.foodin.domain.writable.UserWritable
 
 data class Recipe(
     override var id: Long = 0L,
-    val name : String
+    val name: String
 ) : StatusDomain(id), UserWritable, Commentable {
     override var writeUser: User? = null
 
@@ -30,7 +30,6 @@ data class Recipe(
     var loveCount: Int = 0
 
     var commentCount: Int = 0
-
 
     constructor(foodList: List<Food>, writer: User, recipeReq: RecipeReq) : this(name = recipeReq.name) {
         setFromRequest(recipeReq)
