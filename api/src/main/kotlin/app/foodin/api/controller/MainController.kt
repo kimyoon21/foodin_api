@@ -7,6 +7,7 @@ import app.foodin.core.service.RecipeService
 import app.foodin.core.service.ReviewService
 import app.foodin.core.service.UserService
 import app.foodin.domain.food.FoodFilter
+import app.foodin.domain.recipe.RecipeFilter
 import app.foodin.domain.review.ReviewFilter
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -38,7 +39,9 @@ class MainController(
         resultData["food/all"] = getAllFoodOrderByRating(PageRequest.of(0, 10))
         resultData["food/reviewCount"] = getFoodOrderByReviewCount(PageRequest.of(0, 10), userFoodCategoryIdList)
         resultData["food/loveCount"] = getFoodOrderByLoveCount(PageRequest.of(0, 10), userFoodCategoryIdList)
+        resultData["review/my"] = getReviewOfLoveCount(PageRequest.of(0, 10), userFoodCategoryIdList)
         resultData["review/loveCount"] = getReviewOfMyTaste(PageRequest.of(0, 10), userFoodCategoryIdList)
+        resultData["recipe/my"] = getRecipeOfMyTaste(PageRequest.of(0, 10))
 
         result.data = resultData
         result.succeeded = true
@@ -53,7 +56,7 @@ class MainController(
     @GetMapping(value = ["/food/all"])
     fun getAllFoodOrderByRating(pageable: Pageable): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("ratingAvg").descending())
-        return ResponseResult(foodService.findAll(FoodFilter(), pr)).also { it.message = "평점이 훌륭한 푸드" }
+        return ResponseResult(foodService.findDto(FoodFilter(), pr)).also { it.message = "평점이 좋은 푸드" }
     }
     @GetMapping(value = ["/food/reviewCount"])
     fun getFoodOrderByReviewCount(
@@ -62,7 +65,7 @@ class MainController(
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("reviewCount").descending())
         val foodFilter = FoodFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
-        return ResponseResult(foodService.findAll(foodFilter, pr)).also { it.message = "사람들이 많이 먹는 푸드" }
+        return ResponseResult(foodService.findDto(foodFilter, pr)).also { it.message = "많이 먹는 푸드" }
     }
     @GetMapping(value = ["/food/loveCount"])
     fun getFoodOrderByLoveCount(
@@ -71,16 +74,43 @@ class MainController(
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val foodFilter = FoodFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
-        return ResponseResult(foodService.findAll(foodFilter, pr)).also { it.message = "모두가 기대하는 푸드" }
+        return ResponseResult(foodService.findDto(foodFilter, pr)).also { it.message = "모두가 기대하는 푸드" }
     }
 
     @GetMapping(value = ["/review/loveCount"])
-    fun getReviewOfMyTaste(
+    fun getReviewOfLoveCount(
         pageable: Pageable,
         @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val reviewFilter = ReviewFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
-        return ResponseResult(reviewService.findAll(reviewFilter, pr)).also { it.message = "당신이 궁금해할 리뷰" }
+        var result = reviewService.findDto(reviewFilter, pr)
+        if (result.isEmpty) {
+            result = reviewService.findDto(ReviewFilter(), pr)
+        }
+        return ResponseResult(result).also { it.message = "인기 많은 리뷰" }
+    }
+
+    @GetMapping(value = ["/review/my"])
+    fun getReviewOfMyTaste(
+        pageable: Pageable,
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
+    ): ResponseResult {
+        val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("createdTime").descending())
+        val reviewFilter = ReviewFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
+        var result = reviewService.findDto(reviewFilter, pr)
+        if (result.isEmpty) {
+            result = reviewService.findDto(ReviewFilter(), pr)
+        }
+        return ResponseResult(result).also { it.message = "당신이 궁금해할 리뷰" }
+    }
+
+    @GetMapping(value = ["/recipe/my"])
+    fun getRecipeOfMyTaste(
+        pageable: Pageable
+    ): ResponseResult {
+        val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("createdTime").descending())
+        val recipeFilter = RecipeFilter()
+        return ResponseResult(recipeService.findDto(recipeFilter, pr)).also { it.message = "새롭게 등장한 레시피" }
     }
 }
