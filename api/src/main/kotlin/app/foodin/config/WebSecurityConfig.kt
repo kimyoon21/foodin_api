@@ -47,7 +47,7 @@ class WebSecurityConfig(
 
     // 로그인 URL 등록
     override fun configure(http: HttpSecurity) {
-        http.authorizeRequests().anyRequest().authenticated().and().oauth2Login().and().csrf().disable()
+        http.authorizeRequests().anyRequest().authenticated().and().oauth2Login()
     }
 
     override fun configure(web: WebSecurity) {

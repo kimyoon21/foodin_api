@@ -3,6 +3,7 @@ package app.foodin.config
 import app.foodin.common.enums.UserAuthority
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
@@ -22,7 +23,15 @@ class ResourceServerConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
+        val conf = CorsConfiguration()
+        conf.allowedMethods = listOf(
+                HttpMethod.GET.name,
+                HttpMethod.HEAD.name,
+                HttpMethod.POST.name,
+                HttpMethod.PUT.name,
+                HttpMethod.DELETE.name)
+        conf.applyPermitDefaultValues()
+        source.registerCorsConfiguration("/**", conf)
         return source
     }
 
