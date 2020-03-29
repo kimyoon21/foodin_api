@@ -7,15 +7,20 @@ import app.foodin.domain.comment.Commentable
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
 import app.foodin.domain.user.User
+import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritable
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class Recipe(
     override var id: Long = 0L,
     val name: String
 ) : StatusDomain(id), UserWritable, Commentable {
+    @JsonIgnore
     override var writeUser: User? = null
 
     override var writeUserId: Long? = null
+
+    fun getWriteUserInfo() = writeUser?.let { UserInfoDto(it) }
 
     var foodList: MutableList<Food> = mutableListOf()
 
