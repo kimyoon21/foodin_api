@@ -2,6 +2,7 @@ package app.foodin.api.controller
 
 import app.foodin.common.result.ResponseResult
 import app.foodin.core.service.CommentLoveService
+import app.foodin.core.service.RecipeCommentService
 import app.foodin.core.service.ReviewCommentService
 import app.foodin.domain.commentLove.CommentLoveFilter
 import app.foodin.domain.commentLove.CommentLoveReq
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(value = ["/comment-love"])
 class CommentLoveController(
     val commentLoveService: CommentLoveService,
-    val reviewCommentService: ReviewCommentService
+    val reviewCommentService: ReviewCommentService,
+    val recipeCommentService: RecipeCommentService
 ) {
     @GetMapping
     fun getAll(pageable: Pageable, filter: CommentLoveFilter): ResponseResult {
@@ -32,6 +34,12 @@ class CommentLoveController(
             reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, 1)
         } else {
             reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, -1)
+        }
+
+        if (commentLove?.recipeComment != null) {
+            recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, 1)
+        } else {
+            recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, -1)
         }
         return ResponseResult(commentLove)
     }
