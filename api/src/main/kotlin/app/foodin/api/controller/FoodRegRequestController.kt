@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 class FoodRegRequestController(val foodRegRequestService: FoodRegRequestService) {
     @GetMapping
     fun getAll(pageable: Pageable, filter: FoodRegRequestFilter): ResponseResult {
-        if(getAuthenticatedUserInfo().hasOnlyUserRole()){
+        if (getAuthenticatedUserInfo().hasOnlyUserRole()) {
             filter.writeUserId = getAuthenticatedUserInfo().id
         }
                 return ResponseResult(foodRegRequestService.findAll(filter, pageable))
