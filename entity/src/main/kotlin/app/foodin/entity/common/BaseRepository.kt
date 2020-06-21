@@ -31,7 +31,7 @@ abstract class BaseRepository<D : BaseDomain, E : BaseEntity<D>, F : BaseFilter>
      * BaseFilter 가 아닌 도메인 필터를 활용하고자 하면 이 메소드를 override 해서 FilterQuery 활용
      */
     override fun findAllByFilter(filter: F, pageable: Pageable): Page<D> {
-        return baseJpaRepository.findAll(null, pageable).toDomainList()
+        throw NotImplementedError()
     }
 
     fun findAll(filterQuery: BaseFilterQuery<D, E>, pageable: Pageable): Page<D> {

@@ -5,6 +5,8 @@ import app.foodin.domain.foodRegRequest.FoodRegRequest
 import app.foodin.domain.foodRegRequest.FoodRegRequestFilter
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
@@ -17,5 +19,8 @@ class JpaFoodRegRequestRepository(private val repository: FoodRegRequestReposito
         FoodRegRequestGateway {
     override fun saveFrom(t: FoodRegRequest): FoodRegRequest {
         return repository.saveAndFlush(FoodRegRequestEntity(t)).toDomain()
+    }
+    override fun findAllByFilter(filter: FoodRegRequestFilter, pageable: Pageable): Page<FoodRegRequest> {
+        return findAll(FoodRegRequestFilterQuery(filter), pageable)
     }
 }
