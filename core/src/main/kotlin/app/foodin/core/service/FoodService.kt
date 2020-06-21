@@ -9,13 +9,12 @@ import app.foodin.domain.common.EntityType
 import app.foodin.domain.food.*
 import app.foodin.domain.user.UserInfoDto
 import app.foodin.domain.writable.UserWritableInterface
-import java.util.stream.Collectors
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
 
 @Service
 @Transactional
@@ -32,12 +31,12 @@ class FoodService(
 
     private val logger = LoggerFactory.getLogger(FoodService::class.java)
 
-    @Async
-    fun addReviewAndRatingCount(id: Long, hasContents: Boolean, count: Int) {
+    fun addReviewAndRatingInfo(id: Long, hasContents: Boolean, count: Int) {
         gateway.addRatingCount(id, count)
         if (hasContents) {
             gateway.addReviewCount(id, count)
         }
+        gateway.updateRatingAvg(id)
     }
 
     fun findDto(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {

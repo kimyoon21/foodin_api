@@ -1,5 +1,6 @@
 package app.foodin.entity.food
 
+import app.foodin.common.enums.Status
 import app.foodin.core.gateway.FoodGateway
 import app.foodin.domain.food.Food
 import app.foodin.domain.food.FoodFilter
@@ -36,6 +37,10 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
     @Modifying
     @Query("UPDATE FoodEntity f set f.reviewCount = f.reviewCount + :count where f.id = :id")
     fun addReviewCount(@Param("id") id: Long, @Param("count") count: Int)
+    @Modifying
+    @Query("UPDATE FoodEntity f " +
+            " set f.reviewCount = ( SELECT AVG(e.rating) FROM ReviewEntity e WHERE e.foodEntity.id = :id AND e.status = :approved ) where f.id = :id")
+    fun updateRatingAvg(@Param("id") id: Long, @Param("approved") approved : Status)
 }
 
 @Component
@@ -52,6 +57,10 @@ class JpaFoodRepository(private val repository: FoodRepository) :
 
     override fun addReviewCount(id: Long, count: Int) {
         repository.addReviewCount(id, count)
+    }
+
+    override fun updateRatingAvg(id: Long) {
+        repository.updateRatingAvg(id, Status.APPROVED)
     }
 
     override fun findDtoBy(filter: FoodFilter, pageable: Pageable): Page<FoodInfoDto>? {

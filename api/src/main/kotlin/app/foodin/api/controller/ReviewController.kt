@@ -1,7 +1,7 @@
 package app.foodin.api.controller
 
 import app.foodin.common.exception.CommonException
-import app.foodin.common.exception.EX_INVALID_FIELD
+import app.foodin.common.exception.EX_ACCESS_DENIED
 import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
 import app.foodin.common.utils.getAuthenticatedUserInfo
@@ -55,12 +55,12 @@ class ReviewController(
 
         val userInfo = getAuthenticatedUserInfo()
         if (userInfo.id != reviewCreateReq.writeUserId) {
-            throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = *arrayOf("유저"))
+            throw CommonException(msgCode = EX_ACCESS_DENIED)
         }
         val result = ResponseTypeResult(reviewService.save(reviewCreateReq))
         result.data?.also {
             // count 증가 async
-            foodService.addReviewAndRatingCount(it.foodId, !it.contents.isNullOrBlank(), 1)
+            foodService.addReviewAndRatingInfo(it.foodId, !it.contents.isNullOrBlank(), 1)
         }
 
         return result
@@ -72,7 +72,7 @@ class ReviewController(
         val result = ResponseTypeResult(reviewService.deleteById(id))
         result.data?.let {
             // count 증가 async
-            foodService.addReviewAndRatingCount(review.foodId, !review.contents.isNullOrBlank(), -1)
+            foodService.addReviewAndRatingInfo(review.foodId, !review.contents.isNullOrBlank(), -1)
         }
         return result
     }

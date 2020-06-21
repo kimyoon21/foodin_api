@@ -12,4 +12,5 @@ interface FoodGateway : StatusGateway<Food, FoodFilter> {
     fun addLoveCount(id: Long, count: Int)
     fun addRatingCount(id: Long, count: Int)
     fun addReviewCount(id: Long, count: Int)
+    fun updateRatingAvg(id: Long)
 }
