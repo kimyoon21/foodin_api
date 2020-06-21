@@ -39,7 +39,7 @@ interface FoodRepository : BaseRepositoryInterface<FoodEntity> {
     fun addReviewCount(@Param("id") id: Long, @Param("count") count: Int)
     @Modifying
     @Query("UPDATE FoodEntity f " +
-            " set f.reviewCount = ( SELECT AVG(e.rating) FROM ReviewEntity e WHERE e.foodEntity.id = :id AND e.status = :approved ) where f.id = :id")
+            " set f.ratingAvg = ( SELECT AVG(e.rating) FROM ReviewEntity e WHERE e.foodEntity.id = :id AND e.status = :approved ) where f.id = :id")
     fun updateRatingAvg(@Param("id") id: Long, @Param("approved") approved : Status)
 }
 
