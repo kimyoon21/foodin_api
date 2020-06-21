@@ -17,6 +17,11 @@ class FoodFilterQuery(
                 hasNameLike(it.name),
                 hasTagLike(it.tag),
                 inListFilter(FoodEntity::categoryId, it.categoryIdList),
+                it.filterNameList.hasValueLet { filterNameList ->
+                    querysToSpecification(
+                            where { `in`(it.join(FoodEntity::category).get(FoodCategoryEntity::filterName)).apply { filterNameList.forEach { this.value(it) } } }
+                    )
+                },
                 hasSellerNameIn(it.sellerNameList),
                 isNotNullFilter(FoodEntity::mainImageUri, it.hasImage),
                 it.query.hasValueLet { q ->

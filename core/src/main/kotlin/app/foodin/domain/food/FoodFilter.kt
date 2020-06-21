@@ -5,6 +5,7 @@ import app.foodin.domain.StatusFilter
 data class FoodFilter(
     val name: String? = null,
     val categoryIdList: List<Long> = listOf(),
+    val filterNameList: List<String> = listOf(),
     val tag: String? = null,
     val sellerNameList: List<String> = listOf(),
     val hasImage: Boolean? = null
