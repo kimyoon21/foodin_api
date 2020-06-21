@@ -43,6 +43,8 @@ data class Review(
 
     var rating: Float = 0F
 
+    var updated: Boolean = false
+
     constructor(food: Food, writer: User, reviewReq: ReviewReq) : this(foodId = food.id) {
         setFromRequest(reviewReq)
         this.writeUserId = writer.id

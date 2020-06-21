@@ -41,6 +41,7 @@ class ReviewService(
             Review(food, writer, reviewReq = createReq.reviewReq)
         } else {
             oldReview.setFromRequest(createReq.reviewReq)
+            oldReview.updated = true
             oldReview
         }
 

@@ -36,6 +36,9 @@ class FoodService(
         if (hasContents) {
             gateway.addReviewCount(id, count)
         }
+    }
+
+    fun updateFoodRatingAvg(id: Long) {
         gateway.updateRatingAvg(id)
     }
 

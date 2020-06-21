@@ -59,8 +59,11 @@ class ReviewController(
         }
         val result = ResponseTypeResult(reviewService.save(reviewCreateReq))
         result.data?.also {
-            // count 증가 async
-            foodService.addReviewAndRatingInfo(it.foodId, !it.contents.isNullOrBlank(), 1)
+            foodService.updateFoodRatingAvg(it.foodId)
+            if(!it.updated) {
+                // count 증가 async
+                foodService.addReviewAndRatingInfo(it.foodId, !it.contents.isNullOrBlank(), 1)
+            }
         }
 
         return result
@@ -73,6 +76,7 @@ class ReviewController(
         result.data?.let {
             // count 증가 async
             foodService.addReviewAndRatingInfo(review.foodId, !review.contents.isNullOrBlank(), -1)
+            foodService.updateFoodRatingAvg(review.foodId)
         }
         return result
     }
