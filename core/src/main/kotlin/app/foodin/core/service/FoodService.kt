@@ -70,10 +70,6 @@ class FoodService(
         return foodFoundUserGateway.findAllByFoodId(foodId).stream().map { x -> UserInfoDto(x.user) }.distinct().collect(Collectors.toList())
     }
 
-    fun findUserFoundFoods(userId: Long): List<FoodInfoDto> {
-        return foodFoundUserGateway.findAllByUserId(userId).stream().map { x -> FoodInfoDto(x.food) }.distinct().collect(Collectors.toList())
-    }
-
     fun saveFoundUser(foodFoundUserReq: FoodFoundUserReq): FoodFoundUser {
 
         val food = findById(foodFoundUserReq.foodId)

@@ -40,6 +40,7 @@ data class UserEntity(
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
 
+    @Column(unique = true)
     var nickName: String? = null
 
     var profileImageUri: String? = null

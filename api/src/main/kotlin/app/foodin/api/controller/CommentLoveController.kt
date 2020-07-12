@@ -18,28 +18,31 @@ class CommentLoveController(
 ) {
     @GetMapping
     fun getAll(pageable: Pageable, filter: CommentLoveFilter): ResponseResult {
-                return ResponseResult(commentLoveService.findAll(filter, pageable))
+        return ResponseResult(commentLoveService.findAll(filter, pageable))
     }
 
     @GetMapping(value = ["/{id}"])
     fun getOne(@PathVariable id: Long): ResponseResult {
-                return ResponseResult(commentLoveService.findById(id))
+        return ResponseResult(commentLoveService.findById(id))
     }
 
     @PostMapping(consumes = ["application/json"])
     fun createOrDelete(@RequestBody commentLoveReq: CommentLoveReq): ResponseResult {
 
         val commentLove = commentLoveService.addOrDelete(commentLoveReq)
-        if (commentLove?.reviewComment != null) {
-            reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, 1)
-        } else {
-            reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, -1)
+        if (commentLoveReq.reviewCommentId != null) {
+            if (commentLove?.reviewComment != null) {
+                reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, 1)
+            } else {
+                reviewCommentService.addLoveCount(commentLoveReq.reviewCommentId!!, -1)
+            }
         }
-
-        if (commentLove?.recipeComment != null) {
-            recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, 1)
-        } else {
-            recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, -1)
+        if (commentLoveReq.recipeCommentId != null) {
+            if (commentLove?.recipeComment != null) {
+                recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, 1)
+            } else {
+                recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, -1)
+            }
         }
         return ResponseResult(commentLove)
     }

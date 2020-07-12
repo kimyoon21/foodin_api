@@ -6,16 +6,17 @@ import app.foodin.common.exception.EX_NOT_EXISTS
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.user.User
 import app.foodin.domain.user.UserUpdateReq
-import java.util.*
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findByEmail(email: String): UserEntity?
+    fun findByNickName(nickName: String): UserEntity?
     fun findByLoginId(logindId: String): UserEntity?
     fun findBySnsTypeAndSnsUserId(snsType: SnsType, uid: String): UserEntity?
     @Modifying
@@ -35,6 +36,10 @@ class JpaUserRepository(private val userRepository: UserRepository) : UserGatewa
 
     override fun findById(id: Long): User? {
         return userRepository.findById(id).orElse(null)?.toDomain()
+    }
+
+    override fun findByNickName(nickName: String): User? {
+        return userRepository.findByNickName(nickName)?.toDomain()
     }
 
     override fun findAll(): List<User> {

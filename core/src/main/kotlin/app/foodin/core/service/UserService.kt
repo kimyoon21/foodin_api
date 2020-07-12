@@ -4,14 +4,13 @@ import app.foodin.common.enums.SnsType
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
 import app.foodin.common.exception.NotExistsException
+import app.foodin.common.extension.orElseThrow
 import app.foodin.common.utils.USERNAME_SEPERATOR
 import app.foodin.common.utils.createBasicAuthHeaders
 import app.foodin.core.gateway.SessionLogGateway
 import app.foodin.core.gateway.UserGateway
 import app.foodin.domain.sessionLog.SessionLog
 import app.foodin.domain.user.*
-import java.sql.Timestamp
-import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -26,6 +25,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
+import java.sql.Timestamp
+import java.util.*
 
 interface UserService {
     fun findByLoginId(loginId: String): User?
@@ -87,6 +88,15 @@ class CustomUserDetailsService(
     }
 
     override fun update(userId: Long, userUpdateReq: UserUpdateReq): User {
+
+        val user = userGateway.findById(userId).orElseThrow { NotExistsException() }
+        if (userUpdateReq.nickName != null && user.nickName != userUpdateReq.nickName) {
+            val nickNameUser = userGateway.findByNickName(userUpdateReq.nickName!!)
+            if (nickNameUser != null) {
+                throw CommonException("이미 사용 중인 닉네임입니다.")
+            }
+        }
+
         return userGateway.updateFrom(userId, userUpdateReq)
     }
 

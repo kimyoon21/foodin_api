@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CommentLoveRepository : BaseRepositoryInterface<CommentLoveEntity> {
     fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLoveEntity?
+    fun findByRecipeCommentIdAndUserId(recipeCommentId: Long, userId: Long): CommentLoveEntity?
     fun findAllByReviewCommentId(reviewCommentId: Long): List<CommentLoveEntity>
     fun findAllByUserIdAndReviewCommentIdIn(userId: Long, reviewCommentIds: MutableList<Long>): List<CommentLoveEntity>
     fun findAllByUserIdAndRecipeCommentIdIn(userId: Long, recipeCommentIds: MutableList<Long>): List<CommentLoveEntity>
@@ -37,6 +38,10 @@ class JpaCommentLoveRepository(private val repository: CommentLoveRepository) :
 
     override fun findByReviewCommentIdAndUserId(reviewCommentId: Long, userId: Long): CommentLove? {
         return repository.findByReviewCommentIdAndUserId(reviewCommentId, userId)?.toDomain()
+    }
+
+    override fun findByRecipeCommentIdAndUserId(recipeCommentId: Long, userId: Long): CommentLove? {
+        return repository.findByRecipeCommentIdAndUserId(recipeCommentId, userId)?.toDomain()
     }
 
     override fun findAllByFilter(filter: CommentLoveFilter, pageable: Pageable): Page<CommentLove> {

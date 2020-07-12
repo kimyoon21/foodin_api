@@ -60,7 +60,7 @@ class ReviewController(
         val result = ResponseTypeResult(reviewService.save(reviewCreateReq))
         result.data?.also {
             foodService.updateFoodRatingAvg(it.foodId)
-            if(!it.updated) {
+            if (!it.updated) {
                 // count 증가 async
                 foodService.addReviewAndRatingInfo(it.foodId, !it.contents.isNullOrBlank(), 1)
             }

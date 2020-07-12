@@ -25,8 +25,8 @@ class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiEndPointsInfo())
-                .securityContexts(mutableListOf(securityContext()))
-                .securitySchemes(mutableListOf(apiKey()))
+                .securityContexts(listOf(securityContext()))
+                .securitySchemes(listOf(apiKey()))
     }
 
     private fun apiKey(): ApiKey {
