@@ -32,6 +32,7 @@ class ReviewService(
         // 기 데이터 확인
         // 이미 작성한 리뷰(평점)이 있으면 무조건 update
         val oldReview = gateway.findByWriteUserIdAndFoodId(createReq.writeUserId, createReq.foodId)
+        var updated = false;
         val review = if (oldReview == null) {
             // 푸드 주입
             val food = foodService.findById(createReq.foodId)
@@ -41,11 +42,13 @@ class ReviewService(
             Review(food, writer, reviewReq = createReq.reviewReq)
         } else {
             oldReview.setFromRequest(createReq.reviewReq)
-            oldReview.updated = true
+            updated = true
             oldReview
         }
 
-        return saveFrom(review)
+        val savedReview = saveFrom(review)
+        savedReview.updated = updated
+        return savedReview
     }
 
     @Async
