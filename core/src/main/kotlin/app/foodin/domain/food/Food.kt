@@ -2,6 +2,7 @@ package app.foodin.domain.food
 
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_INVALID_REQUEST
+import app.foodin.common.extension.hasValueLet
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.domain.user.User
@@ -81,7 +82,7 @@ data class Food(
                 this.maxPrice = it.maxPrice
                 this.summary = it.summary
                 this.tagList = it.tagList
-                this.mainImageUri = it.mainImageUri
+                it.mainImageUri.hasValueLet { image -> this.mainImageUri = image }
                 this.imageUriList = it.imageUriList
                 this.loveCount = it.loveCount
                 this.ratingCount = it.ratingCount

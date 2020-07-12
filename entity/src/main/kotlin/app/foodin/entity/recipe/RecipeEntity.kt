@@ -8,6 +8,7 @@ import app.foodin.entity.common.StatusEntity
 import app.foodin.entity.common.converter.ListToCsvConverter
 import app.foodin.entity.food.FoodEntity
 import app.foodin.entity.user.UserEntity
+import org.hibernate.Hibernate
 import javax.persistence.*
 import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.Fetch
@@ -33,6 +34,10 @@ data class RecipeEntity(
     var contents: String? = null
 
     var mainImageUri: String? = null
+
+    fun loadFoods(){
+        Hibernate.initialize(foodEntityList)
+    }
 
     @Column(name = "image_uris", columnDefinition = "TEXT")
     @Convert(converter = ListToCsvConverter::class)

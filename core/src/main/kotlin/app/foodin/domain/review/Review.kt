@@ -3,6 +3,7 @@ package app.foodin.domain.review
 import app.foodin.common.enums.Status
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_INVALID_REQUEST
+import app.foodin.common.extension.hasValueLet
 import app.foodin.domain.comment.Commentable
 import app.foodin.domain.common.StatusDomain
 import app.foodin.domain.food.Food
@@ -60,7 +61,7 @@ data class Review(
                 this.imageUriList = it.imageUriList
                 this.tagList = it.tagList
                 this.contents = it.contents
-                this.mainImageUri = it.mainImageUri
+                it.mainImageUri.hasValueLet { image -> this.mainImageUri = image }
                 this.rating = it.rating
                 this.price = it.price
             }

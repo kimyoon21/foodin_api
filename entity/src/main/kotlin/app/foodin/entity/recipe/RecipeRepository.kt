@@ -33,7 +33,7 @@ class JpaRecipeRepository(private val repository: RecipeRepository) : StatusRepo
     }
 
     override fun findDtoBy(filter: RecipeFilter, pageable: Pageable): Page<RecipeInfoDto> {
-        return repository.findAll(RecipeFilterQuery(filter).toSpecification(), pageable).map { e -> e.toDto() }
+        return repository.findAll(RecipeFilterQuery(filter).toSpecification(), pageable).map { e -> e.loadFoods(); e.toDto() }
     }
 
     override fun addLoveCount(id: Long, count: Int) {

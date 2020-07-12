@@ -9,6 +9,8 @@ data class ReviewInfoDto(
 
     var foodName: String? = null,
 
+    var foodMainImageUri : String? = null,
+
     var writeUserId: Long? = null,
 
     var writeUserNickName: String? = null,
