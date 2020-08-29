@@ -13,7 +13,7 @@ abstract class BaseService<T : BaseDomain, F : BaseFilter> {
 
     abstract val gateway: BaseGateway<T, F>
 
-    fun findAll(filter: F, pageable: Pageable): Page<T> {
+    open fun findAll(filter: F, pageable: Pageable): Page<T> {
         return gateway.findAllByFilter(filter, pageable)
     }
 

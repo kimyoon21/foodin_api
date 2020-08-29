@@ -2,7 +2,10 @@ package app.foodin.core.service
 
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NOT_EXISTS
+import app.foodin.common.extension.hasValueLet
 import app.foodin.core.gateway.ReviewGateway
+import app.foodin.domain.foodCategory.FoodCategory
+import app.foodin.domain.foodCategory.FoodCategoryFilter
 import app.foodin.domain.review.*
 import app.foodin.domain.writable.UserWritableInterface
 import org.slf4j.LoggerFactory
@@ -11,13 +14,15 @@ import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors.toList
 
 @Service
 @Transactional
 class ReviewService(
     override val gateway: ReviewGateway,
     private val foodService: FoodService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val foodCategoryService: FoodCategoryService
 ) : StatusService<Review, ReviewFilter>(), UserWritableInterface {
 
     private val logger = LoggerFactory.getLogger(ReviewService::class.java)
@@ -56,7 +61,22 @@ class ReviewService(
         gateway.addCommentCount(id, count)
     }
 
+    override fun findAll(filter: ReviewFilter, pageable: Pageable): Page<Review> {
+        setCategoryIdFilterWhenFilterNameExist(filter)
+        return gateway.findAllByFilter(filter, pageable)
+    }
+
     fun findDto(filter: ReviewFilter, pageable: Pageable): Page<ReviewInfoDto> {
+        setCategoryIdFilterWhenFilterNameExist(filter)
         return gateway.findDtoBy(filter, pageable)
+    }
+
+    fun setCategoryIdFilterWhenFilterNameExist(filter: ReviewFilter) {
+        if(filter.filterNameList.isEmpty())
+            return
+        val categoryFilter = FoodCategoryFilter(filterName = filter.filterNameList[0])
+        foodCategoryService.findAll(categoryFilter, Pageable.unpaged()).get().map(FoodCategory::id).collect(toList()).hasValueLet {
+            filter.categoryIdList = it
+        }
     }
 }

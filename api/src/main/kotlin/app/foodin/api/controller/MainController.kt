@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/main")
 class MainController(
-        private val userService: UserService,
-        private val foodService: FoodService,
-        private val reviewService: ReviewService,
-        private val recipeService: RecipeService
+    private val userService: UserService,
+    private val foodService: FoodService,
+    private val reviewService: ReviewService,
+    private val recipeService: RecipeService
 ) {
 
     @GetMapping
@@ -61,8 +61,8 @@ class MainController(
 
     @GetMapping(value = ["/food/reviewCount"])
     fun getFoodOrderByReviewCount(
-            pageable: Pageable,
-            @RequestParam(required = false) foodCategoryIdList: List<Long>?
+        pageable: Pageable,
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("reviewCount").descending())
         val foodFilter = FoodFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
@@ -71,8 +71,8 @@ class MainController(
 
     @GetMapping(value = ["/food/loveCount"])
     fun getFoodOrderByLoveCount(
-            pageable: Pageable,
-            @RequestParam(required = false) foodCategoryIdList: List<Long>?
+        pageable: Pageable,
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val foodFilter = FoodFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList())
@@ -81,13 +81,12 @@ class MainController(
 
     @GetMapping(value = ["/review/loveCount"])
     fun getReviewOfLoveCount(
-            pageable: Pageable,
-            @RequestParam(required = false) foodCategoryIdList: List<Long>?
+        pageable: Pageable,
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("loveCount").descending())
         val reviewFilter = ReviewFilter(
-                categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList()
-                , hasImage = true)
+                categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList(), hasImage = true)
         var result = reviewService.findDto(reviewFilter, pr)
         if (result.isEmpty) {
             result = reviewService.findDto(ReviewFilter(), pr)
@@ -97,8 +96,8 @@ class MainController(
 
     @GetMapping(value = ["/review/my"])
     fun getReviewOfMyTaste(
-            pageable: Pageable,
-            @RequestParam(required = false) foodCategoryIdList: List<Long>?
+        pageable: Pageable,
+        @RequestParam(required = false) foodCategoryIdList: List<Long>?
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("createdTime").descending())
         val reviewFilter = ReviewFilter(categoryIdList = foodCategoryIdList ?: getUserFoodCategoryIdList(),
@@ -112,7 +111,7 @@ class MainController(
 
     @GetMapping(value = ["/recipe/my"])
     fun getRecipeOfMyTaste(
-            pageable: Pageable
+        pageable: Pageable
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("createdTime").descending())
         val recipeFilter = RecipeFilter()

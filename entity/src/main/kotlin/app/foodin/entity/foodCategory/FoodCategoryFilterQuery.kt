@@ -9,6 +9,10 @@ import org.springframework.data.jpa.domain.Specification
 
 class FoodCategoryFilterQuery(val filter: FoodCategoryFilter) : BaseFilterQuery<FoodCategory, FoodCategoryEntity> {
     override fun toSpecification(): Specification<FoodCategoryEntity> =
-            filter.let { filter -> and(equalFilter(FoodCategoryEntity::detailName, filter.detailName)) }
+            filter.let { filter -> and(
+                    equalFilter(FoodCategoryEntity::detailName, filter.detailName),
+                    equalFilter(FoodCategoryEntity::filterName, filter.filterName)
+
+            ) }
 
 }

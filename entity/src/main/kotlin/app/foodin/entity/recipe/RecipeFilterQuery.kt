@@ -19,6 +19,7 @@ class RecipeFilterQuery(val filter: RecipeFilter) : BaseFilterQuery<Recipe, Reci
                             )
                         },
                         // 푸드카테고리도 리뷰에 적용
+                        filterIfHasValue(filter.categoryIdList, where { it.join(RecipeEntity::foodEntityList).get(FoodEntity::categoryId).`in`(filter.categoryIdList) }),
                         isNotNullFilter(RecipeEntity::mainImageUri, filter.hasImage),
                         filterIfHasValue(filter.foodId, where { equal(it.join(RecipeEntity::foodEntityList).get(FoodEntity::id), filter.foodId) })
 
