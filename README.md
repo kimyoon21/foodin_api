@@ -42,3 +42,9 @@ core -> entity -> api
 #### 최초 설치시
 - spring, kotlin 버전등을 IDE 에서 알맞게 세팅
 - 로컬 Database 세팅 후 schema.sql 쿼리 실행해서 테이블추가하고 기본 클라이언트 추가
+
+### 배포시
+- gradle clean 으로 청소
+- gradle assemble 로 jar 파일 생
+- 터미널을 통해 make_zip_for_beastalk.sh 를 수행해서 .ebextension 과 같이 묶어서 zip 생성
+- 해당 zip 파일을 aws beanstalk 에 업로
