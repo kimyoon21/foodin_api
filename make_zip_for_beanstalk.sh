@@ -1,4 +1,4 @@
-mv api/build/libs/api-*.jar application.jar
 rm application.zip
-rm application.jar
+mv api/build/libs/api-*.jar application.jar
 zip -r application.zip application.jar .ebextensions
+rm application.jar
