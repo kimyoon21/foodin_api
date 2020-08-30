@@ -8,8 +8,7 @@ data class FoodInfoDto(
     var name: String,
     var mainImageUri: String?,
     var ratingAvg: Float?,
-    var tagList: List<String> = listOf(),
-    var categoryId: Long
+    var tagList: List<String> = listOf()
 ) {
-    constructor(food: Food) : this(food.id, food.name, food.mainImageUri, food.ratingAvg, food.tagList, food.categoryId)
+    constructor(food: Food) : this(food.id, food.name, food.mainImageUri, food.ratingAvg, food.tagList)
 }
