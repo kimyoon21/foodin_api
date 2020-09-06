@@ -39,9 +39,8 @@ class BannerController(
     }
 
     @PreAuthorize(onlyAdmin)
-    @PutMapping(consumes = ["application/json"])
-    fun update(@RequestBody banner: Banner): ResponseTypeResult<Banner> {
-        // TODO
-        return ResponseTypeResult(bannerService.saveFrom(banner))
+    @PutMapping(consumes = ["application/json"], value = ["/{id}"])
+    fun update(@RequestBody banner: Banner, @PathVariable id: Long): ResponseTypeResult<Banner> {
+        return ResponseTypeResult(bannerService.update(id, banner))
     }
 }

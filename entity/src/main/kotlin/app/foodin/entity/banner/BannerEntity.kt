@@ -3,6 +3,7 @@ package app.foodin.entity.banner
 import app.foodin.domain.banner.Banner
 import app.foodin.domain.banner.BannerType
 import app.foodin.entity.common.BaseEntity
+import app.foodin.entity.common.StatusEntity
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -16,11 +17,13 @@ data class BannerEntity(
     var bannerType: BannerType,
     var actionUri: String
 
-) : BaseEntity<Banner>() {
+) : StatusEntity<Banner>() {
     var seq: Int = Integer.MAX_VALUE
 
     constructor(banner: Banner) : this(banner.imageUri, banner.bannerType, banner.actionUri) {
+        setBaseFieldsFromDomain(banner)
         this.seq = banner.seq
+        this.status = banner.status
     }
 
     override fun toDomain(): Banner {
@@ -31,6 +34,7 @@ data class BannerEntity(
             it.createdTime = this.createdTime
             it.updatedTime = this.updatedTime
             it.seq = this.seq
+            it.status = this.status
         }
     }
 }

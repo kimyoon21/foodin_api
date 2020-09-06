@@ -1,6 +1,8 @@
 package app.foodin.domain.banner
 
-import app.foodin.domain.common.BaseDomain
+import app.foodin.common.exception.CommonException
+import app.foodin.common.exception.EX_INVALID_REQUEST
+import app.foodin.domain.common.StatusDomain
 
 data class Banner(
     override var id: Long = 0,
@@ -8,6 +10,20 @@ data class Banner(
     var bannerType: BannerType,
     var actionUri: String
 
-) : BaseDomain(id) {
+) : StatusDomain(id) {
     var seq: Int = Integer.MAX_VALUE
+
+    override fun setFromRequest(requestDto: Any) {
+        if (requestDto is Banner) {
+            requestDto.let {
+                this.imageUri = it.imageUri
+                this.bannerType = it.bannerType
+                this.actionUri = it.actionUri
+                this.status = it.status
+            }
+        } else {
+            throw CommonException(EX_INVALID_REQUEST)
+        }
+    }
 }
+
