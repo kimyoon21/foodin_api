@@ -12,6 +12,7 @@ data class BannerFilterQuery(
 ) : BaseFilterQuery<Banner, BannerEntity> {
 
     override fun toSpecification(): Specification<BannerEntity> = filter.let { and(
-            equalFilter(BannerEntity::bannerType, it.bannerType)
+            equalFilter(BannerEntity::bannerType, it.bannerType),
+            equalFilter(BannerEntity::status,it.status)
     ) }
 }

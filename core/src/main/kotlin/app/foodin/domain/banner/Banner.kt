@@ -20,6 +20,7 @@ data class Banner(
                 this.bannerType = it.bannerType
                 this.actionUri = it.actionUri
                 this.status = it.status
+                this.seq = it.seq
             }
         } else {
             throw CommonException(EX_INVALID_REQUEST)
