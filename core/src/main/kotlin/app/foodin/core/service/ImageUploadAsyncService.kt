@@ -23,6 +23,10 @@ import com.drew.metadata.gif.GifHeaderDirectory
 import com.drew.metadata.jpeg.JpegDirectory
 import com.drew.metadata.png.PngDirectory
 import com.drew.metadata.webp.WebpDirectory
+import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Async
+import org.springframework.scheduling.annotation.AsyncResult
+import org.springframework.stereotype.Service
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -30,10 +34,6 @@ import java.io.InputStream
 import java.net.URLConnection
 import java.util.concurrent.Future
 import javax.annotation.PostConstruct
-import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Async
-import org.springframework.scheduling.annotation.AsyncResult
-import org.springframework.stereotype.Service
 
 @Service
 class ImageUploadAsyncService {
@@ -45,8 +45,8 @@ class ImageUploadAsyncService {
 
     private val clientRegion = Regions.AP_NORTHEAST_2
     private val bucketName = "app.foodin.images"
-    private val accessKey = "AKIAW3KMOVYZAEDPFG5O"
-    private val secretKey = "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"
+    private val accessKey = "{accessKey}"
+    private val secretKey = "{secretKey}"
     private val cfDomain = "https://image.foodin.app"
 
     private lateinit var s3Client: AmazonS3
