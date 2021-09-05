@@ -1,4 +1,4 @@
-package app.foodin.domain.comment
+package app.foodin.domain.recipeComment
 
 import app.foodin.core.annotation.KotlinNoArgConstructor
 import java.io.Serializable

@@ -8,10 +8,10 @@ import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.CommentLoveService
 import app.foodin.core.service.RecipeCommentService
 import app.foodin.core.service.RecipeService
-import app.foodin.domain.comment.CommentCreateReq
-import app.foodin.domain.comment.CommentFilter
-import app.foodin.domain.comment.CommentUpdateReq
-import app.foodin.domain.recipeComment.RecipeComment
+import app.foodin.domain.recipeComment.CommentCreateReq
+import app.foodin.domain.recipeComment.PostCommentFilter
+import app.foodin.domain.recipeComment.CommentUpdateReq
+import app.foodin.domain.recipeComment.PostComment
 import java.util.stream.Collectors
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
@@ -27,7 +27,7 @@ class RecipeCommentController(
     fun getAll(
         @PathVariable rid: Long,
         pageable: Pageable,
-        filter: CommentFilter
+        filter: PostCommentFilter
     ): ResponseResult {
         filter.parentId = rid
         val result = recipeCommentService.findAll(filter, pageable)
@@ -36,7 +36,7 @@ class RecipeCommentController(
             val lovedList = commentLoveService.findAllByUserIdAndRecipeCommentIdIn(getAuthenticatedUserInfo().id, idList)
             result.get().forEach { comment ->
                 run {
-                    if (lovedList.stream().filter { x -> comment.id == x.recipeComment?.id }.findFirst().isPresent) {
+                    if (lovedList.stream().filter { x -> comment.id == x.postComment?.id }.findFirst().isPresent) {
                         comment.hasLoved = true
                     }
                 }
@@ -49,7 +49,7 @@ class RecipeCommentController(
     fun update(
         @PathVariable id: Long,
         @RequestBody updateReq: CommentUpdateReq
-    ): ResponseTypeResult<RecipeComment> {
+    ): ResponseTypeResult<PostComment> {
         return ResponseTypeResult(recipeCommentService.update(id, updateReq))
     }
 
@@ -57,7 +57,7 @@ class RecipeCommentController(
     fun register(
         @PathVariable rid: Long,
         @RequestBody commentCreateReq: CommentCreateReq
-    ): ResponseTypeResult<RecipeComment> {
+    ): ResponseTypeResult<PostComment> {
 
         commentCreateReq.parentId = rid
         val userInfo = getAuthenticatedUserInfo()
@@ -77,7 +77,7 @@ class RecipeCommentController(
     fun delete(
         @PathVariable rid: Long,
         @PathVariable id: Long
-    ): ResponseTypeResult<RecipeComment> {
+    ): ResponseTypeResult<PostComment> {
         val result = ResponseTypeResult(recipeCommentService.deleteById(id))
         result.data?.let {
             // count 증가 async

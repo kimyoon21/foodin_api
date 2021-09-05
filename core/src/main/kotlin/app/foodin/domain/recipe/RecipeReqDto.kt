@@ -4,19 +4,18 @@ import app.foodin.core.annotation.KotlinNoArgConstructor
 import java.io.Serializable
 
 @KotlinNoArgConstructor
-data class RecipeCreateReq(
+data class PostCreateReq(
     val writeUserId: Long,
-    var recipeReq: RecipeReq
+    var postReq: PostReq
 ) : Serializable
 
 @KotlinNoArgConstructor
-data class ReviewUpdateReq(
-
-    var recipeReq: RecipeReq
+data class PostUpdateReq(
+    var postReq: PostReq
 ) : Serializable
 
 @KotlinNoArgConstructor
-data class RecipeReq(
+data class PostReq(
     val name: String,
     val foodIdList: MutableList<Long> = mutableListOf(),
     val contents: String,

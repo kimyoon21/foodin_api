@@ -38,7 +38,7 @@ class CommentLoveController(
             }
         }
         if (commentLoveReq.recipeCommentId != null) {
-            if (commentLove?.recipeComment != null) {
+            if (commentLove?.postComment != null) {
                 recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, 1)
             } else {
                 recipeCommentService.addLoveCount(commentLoveReq.recipeCommentId!!, -1)

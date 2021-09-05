@@ -44,7 +44,7 @@ class CommentLoveService(
             return if (oldCommentLove == null) {
                 val recipeComment = recipeCommentGateway.findById(commentLoveReq.recipeCommentId)
                         ?: throw NotExistsException("word.reviewComment")
-                val commentLove = CommentLove(recipeComment = recipeComment, user = getAuthenticatedUserInfo().toUser())
+                val commentLove = CommentLove(postComment = recipeComment, user = getAuthenticatedUserInfo().toUser())
                 saveFrom(commentLove)
             } else {
                 deleteById(oldCommentLove.id)

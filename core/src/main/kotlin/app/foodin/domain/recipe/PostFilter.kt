@@ -2,7 +2,7 @@ package app.foodin.domain.recipe
 
 import app.foodin.domain.StatusFilter
 
-data class RecipeFilter(
+data class PostFilter(
     val writerId: Long? = null,
     val foodId: Long? = null,
     val filterNameList: List<String> = listOf(),

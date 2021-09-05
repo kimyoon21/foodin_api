@@ -7,7 +7,7 @@ import app.foodin.core.service.RecipeService
 import app.foodin.core.service.ReviewService
 import app.foodin.core.service.UserService
 import app.foodin.domain.food.FoodFilter
-import app.foodin.domain.recipe.RecipeFilter
+import app.foodin.domain.recipe.PostFilter
 import app.foodin.domain.review.ReviewFilter
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -114,7 +114,7 @@ class MainController(
         pageable: Pageable
     ): ResponseResult {
         val pr = PageRequest.of(pageable.pageNumber, 10, Sort.by("createdTime").descending())
-        val recipeFilter = RecipeFilter()
+        val recipeFilter = PostFilter()
         return ResponseResult(recipeService.findDto(recipeFilter, pr)).also { it.message = "새롭게 등장한 레시피" }
     }
 }

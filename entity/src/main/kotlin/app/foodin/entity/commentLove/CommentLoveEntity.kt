@@ -2,7 +2,7 @@ package app.foodin.entity.commentLove
 
 import app.foodin.domain.commentLove.CommentLove
 import app.foodin.entity.common.BaseEntity
-import app.foodin.entity.recipeComment.RecipeCommentEntity
+import app.foodin.entity.recipeComment.PostCommentEntity
 import app.foodin.entity.review.comment.ReviewCommentEntity
 import app.foodin.entity.user.UserEntity
 import javax.persistence.Entity
@@ -20,7 +20,7 @@ data class CommentLoveEntity(
 
     @ManyToOne
     @JoinColumn(name = "recipe_comment_id")
-    var recipeComment: RecipeCommentEntity?,
+    var postComment: PostCommentEntity?,
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -29,14 +29,14 @@ data class CommentLoveEntity(
 
     constructor(commentLove: CommentLove) : this(
             reviewComment = commentLove.reviewComment?.let { ReviewCommentEntity(it) },
-            recipeComment = commentLove.recipeComment?.let { RecipeCommentEntity(it) },
+            postComment = commentLove.postComment?.let { PostCommentEntity(it) },
             user = UserEntity(commentLove.user)) {
         setBaseFieldsFromDomain(commentLove)
     }
 
     override fun toDomain(): CommentLove = CommentLove(id,
             reviewComment = reviewComment?.toDomain(),
-            recipeComment = recipeComment?.toDomain(),
+            postComment = postComment?.toDomain(),
             user = user.toDomain()).also {
         setDomainBaseFieldsFromEntity(it)
     }

@@ -4,7 +4,7 @@ import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_NEED
 import app.foodin.core.gateway.FoodGateway
 import app.foodin.core.gateway.LoveGateway
-import app.foodin.core.gateway.RecipeGateway
+import app.foodin.core.gateway.PostGateway
 import app.foodin.core.gateway.ReviewGateway
 import app.foodin.domain.love.Love
 import app.foodin.domain.love.LoveFilter
@@ -19,7 +19,7 @@ class LoveService(
     override val gateway: LoveGateway,
     val foodGateway: FoodGateway,
     val reviewGateway: ReviewGateway,
-    val recipeGateway: RecipeGateway
+    val postGateway: PostGateway
 ) : BaseService<Love,
         LoveFilter>() {
     /***
@@ -50,7 +50,7 @@ class LoveService(
         } else if (loveReq.reviewId != null) {
             reviewGateway.addLoveCount(loveReq.reviewId!!, i)
         } else if (loveReq.recipeId != null) {
-            recipeGateway.addLoveCount(loveReq.recipeId!!, i)
+            postGateway.addLoveCount(loveReq.recipeId!!, i)
         }
     }
 }

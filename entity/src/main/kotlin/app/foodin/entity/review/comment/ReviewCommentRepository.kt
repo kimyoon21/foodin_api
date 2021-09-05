@@ -1,7 +1,7 @@
 package app.foodin.entity.review.comment
 
 import app.foodin.core.gateway.ReviewCommentGateway
-import app.foodin.domain.comment.CommentFilter
+import app.foodin.domain.recipeComment.PostCommentFilter
 import app.foodin.domain.review.ReviewComment
 import app.foodin.entity.common.BaseRepository
 import app.foodin.entity.common.BaseRepositoryInterface
@@ -22,7 +22,7 @@ interface ReviewCommentRepository : BaseRepositoryInterface<ReviewCommentEntity>
 
 @Component
 class JpaReviewCommentRepository(private val repository: ReviewCommentRepository) :
-        BaseRepository<ReviewComment, ReviewCommentEntity, CommentFilter>(repository), ReviewCommentGateway {
+        BaseRepository<ReviewComment, ReviewCommentEntity, PostCommentFilter>(repository), ReviewCommentGateway {
     override fun addLoveCount(id: Long, count: Int) {
         repository.addLoveCount(id, count)
     }
@@ -31,7 +31,7 @@ class JpaReviewCommentRepository(private val repository: ReviewCommentRepository
         return repository.saveAndFlush(ReviewCommentEntity(t)).toDomain()
     }
 
-    override fun findAllByFilter(filter: CommentFilter, pageable: Pageable): Page<ReviewComment> {
+    override fun findAllByFilter(filter: PostCommentFilter, pageable: Pageable): Page<ReviewComment> {
         return findAll(ReviewCommentFilterQuery(filter), pageable)
     }
 }

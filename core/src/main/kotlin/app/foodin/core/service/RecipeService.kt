@@ -3,14 +3,13 @@ package app.foodin.core.service
 import app.foodin.common.exception.CommonException
 import app.foodin.common.exception.EX_ALREADY_EXISTS_WHAT
 import app.foodin.common.exception.EX_NEED
-import app.foodin.common.extension.hasValueLet
-import app.foodin.core.gateway.RecipeGateway
+import app.foodin.core.gateway.PostGateway
 import app.foodin.domain.foodCategory.FoodCategory
 import app.foodin.domain.foodCategory.FoodCategoryFilter
-import app.foodin.domain.recipe.Recipe
-import app.foodin.domain.recipe.RecipeCreateReq
-import app.foodin.domain.recipe.RecipeFilter
-import app.foodin.domain.recipe.RecipeInfoDto
+import app.foodin.domain.recipe.Post
+import app.foodin.domain.recipe.PostCreateReq
+import app.foodin.domain.recipe.PostFilter
+import app.foodin.domain.recipe.PostUserDto
 import app.foodin.domain.review.ReviewReq
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -22,34 +21,34 @@ import java.util.stream.Collectors
 @Service
 @Transactional
 class RecipeService(
-    override val gateway: RecipeGateway,
+    override val gateway: PostGateway,
     val foodService: FoodService,
     val userService: UserService,
     val foodCategoryService: FoodCategoryService
-) : StatusService<Recipe, RecipeFilter>() {
+) : StatusService<Post, PostFilter>() {
 
-    fun update(reviewId: Long, req: ReviewReq): Recipe {
+    fun update(reviewId: Long, req: ReviewReq): Post {
         val review = gateway.findById(reviewId) ?: throw CommonException(EX_ALREADY_EXISTS_WHAT, "word.review")
         return saveFrom(review)
     }
 
-    fun save(createReq: RecipeCreateReq): Recipe {
-        if (createReq.recipeReq.foodIdList.isEmpty()) {
+    fun save(createReq: PostCreateReq): Post {
+        if (createReq.postReq.foodIdList.isEmpty()) {
             throw CommonException(EX_NEED, "food id")
         }
-        val foodList = createReq.recipeReq.foodIdList.map { foodService.findById(it) }
+        val foodList = createReq.postReq.foodIdList.map { foodService.findById(it) }
 
         val writer = userService.findById(createReq.writeUserId)
 
-        return saveFrom(Recipe(foodList, writer, recipeReq = createReq.recipeReq))
+        return saveFrom(Post(foodList, writer, recipeReq = createReq.postReq))
     }
 
-    fun findDto(filter: RecipeFilter, pageable: Pageable): Page<RecipeInfoDto> {
+    fun findDto(filter: PostFilter, pageable: Pageable): Page<PostUserDto> {
         setCategoryIdFilterWhenFilterNameExist(filter)
         return gateway.findDtoBy(filter, pageable)
     }
 
-    fun setCategoryIdFilterWhenFilterNameExist(filter: RecipeFilter) {
+    fun setCategoryIdFilterWhenFilterNameExist(filter: PostFilter) {
         if(filter.filterNameList.isEmpty())
             return
         val categoryFilter = FoodCategoryFilter(filterName = filter.filterNameList[0])

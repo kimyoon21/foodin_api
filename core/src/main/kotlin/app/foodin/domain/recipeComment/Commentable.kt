@@ -1,4 +1,4 @@
-package app.foodin.domain.comment
+package app.foodin.domain.recipeComment
 
 interface Commentable {
     var id: Long

@@ -6,9 +6,9 @@ import app.foodin.common.result.ResponseResult
 import app.foodin.common.result.ResponseTypeResult
 import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.RecipeService
-import app.foodin.domain.recipe.Recipe
-import app.foodin.domain.recipe.RecipeCreateReq
-import app.foodin.domain.recipe.RecipeFilter
+import app.foodin.domain.recipe.Post
+import app.foodin.domain.recipe.PostCreateReq
+import app.foodin.domain.recipe.PostFilter
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(value = ["/recipe"])
 class RecipeController(val recipeService: RecipeService) {
     @GetMapping
-    fun getAll(pageable: Pageable, filter: RecipeFilter): ResponseResult {
+    fun getAll(pageable: Pageable, filter: PostFilter): ResponseResult {
         return ResponseResult(recipeService.findAll(filter, pageable))
     }
 
     @GetMapping(value = ["/dto"])
-    fun getAllWithDto(pageable: Pageable, filter: RecipeFilter): ResponseResult {
+    fun getAllWithDto(pageable: Pageable, filter: PostFilter): ResponseResult {
         return ResponseResult(recipeService.findDto(filter, pageable))
     }
 
@@ -31,13 +31,13 @@ class RecipeController(val recipeService: RecipeService) {
     }
 
     @PostMapping(consumes = ["application/json"])
-    fun register(@RequestBody recipeCreateReq: RecipeCreateReq): ResponseTypeResult<Recipe> {
+    fun register(@RequestBody postCreateReq: PostCreateReq): ResponseTypeResult<Post> {
 
         val userInfo = getAuthenticatedUserInfo()
-        if (userInfo.id != recipeCreateReq.writeUserId) {
+        if (userInfo.id != postCreateReq.writeUserId) {
             throw CommonException(msgCode = EX_INVALID_FIELD, msgArgs = *arrayOf("유저"))
         }
-        val result = ResponseTypeResult(recipeService.save(recipeCreateReq))
+        val result = ResponseTypeResult(recipeService.save(postCreateReq))
 
         return result
     }

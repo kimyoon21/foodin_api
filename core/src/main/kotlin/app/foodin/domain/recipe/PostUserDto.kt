@@ -1,13 +1,10 @@
 package app.foodin.domain.recipe
 
 import app.foodin.common.enums.Status
-import app.foodin.domain.food.FoodInfoDto
 
-data class RecipeInfoDto(
+data class PostUserDto(
 
     var id: Long = 0,
-
-    var foodList: List<FoodInfoDto> = listOf(),
 
     var writeUserId: Long? = null,
 

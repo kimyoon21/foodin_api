@@ -8,9 +8,9 @@ import app.foodin.common.utils.getAuthenticatedUserInfo
 import app.foodin.core.service.CommentLoveService
 import app.foodin.core.service.ReviewCommentService
 import app.foodin.core.service.ReviewService
-import app.foodin.domain.comment.CommentCreateReq
-import app.foodin.domain.comment.CommentFilter
-import app.foodin.domain.comment.CommentUpdateReq
+import app.foodin.domain.recipeComment.CommentCreateReq
+import app.foodin.domain.recipeComment.PostCommentFilter
+import app.foodin.domain.recipeComment.CommentUpdateReq
 import app.foodin.domain.review.ReviewComment
 import java.util.stream.Collectors
 import org.springframework.data.domain.Pageable
@@ -28,7 +28,7 @@ class ReviewCommentController(
     fun getAll(
         @PathVariable rid: Long,
         pageable: Pageable,
-        filter: CommentFilter
+        filter: PostCommentFilter
     ): ResponseResult {
         filter.parentId = rid
         val result = reviewCommentService.findAll(filter, pageable)
